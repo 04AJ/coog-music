@@ -1,6 +1,16 @@
 import Image from 'next/image'
+import mysql from "mysql2"
+
+const dbconnection = mysql.createConnection({
+  host: process.env.MYSQL_HOST,
+  database: process.env.MYSQL_DATABASE,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+});
 
 export default function Home() {
+
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
