@@ -1,12 +1,25 @@
 import Image from 'next/image'
-import mysql from "mysql2"
+import mysql, { ConnectionOptions, RowDataPacket } from 'mysql2';
 
-const dbconnection = mysql.createConnection({
+/*
+Won't need this for prisma
+const access: ConnectionOptions = {
   host: process.env.MYSQL_HOST,
   database: process.env.MYSQL_DATABASE,
   user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
+  password: process.env.MYSQL_PASSWORD
+};
+
+const conn = mysql.createConnection(access);
+
+
+conn.query<RowDataPacket[]>('SELECT * FROM GENDER;', (_err, rows) => {
+  console.log(rows);
 });
+
+*/
+
+
 
 export default function Home() {
 
