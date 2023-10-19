@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import mysql, { ConnectionOptions, RowDataPacket } from 'mysql2';
+
 
 /*
 Won't need this for prisma
@@ -22,6 +25,12 @@ conn.query<RowDataPacket[]>('SELECT * FROM GENDER;', (_err, rows) => {
 
 
 export default function Home() {
+
+  const makeApiCall = async () => {
+    await fetch('/api/query', {
+      method: 'GET'
+    })
+  }
 
 
   return (
@@ -55,7 +64,7 @@ export default function Home() {
         aaaaa
       </div>
 
-
+      <button onClick={makeApiCall}>Click Here</button>
 
 
     </main>
