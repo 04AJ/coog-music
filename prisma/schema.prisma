@@ -153,6 +153,7 @@ model track {
   created_at        DateTime            @db.DateTime(0)
   updated_at        DateTime            @db.DateTime(0)
   streams           BigInt?
+  track_img_path    String?             @db.VarChar(255)
   liked_tracks      liked_tracks[]
   rating            rating[]
   artist            artist?             @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "track_ibfk_1")

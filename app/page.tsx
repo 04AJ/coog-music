@@ -2,6 +2,9 @@
 
 import Image from 'next/image'
 import mysql, { ConnectionOptions, RowDataPacket } from 'mysql2';
+import Link from 'next/link';
+import useUploadTrackModal from '@/hooks/useUploadTrackModal';
+import Library from '@/components/Library';
 
 
 /*
@@ -26,6 +29,7 @@ conn.query<RowDataPacket[]>('SELECT * FROM GENDER;', (_err, rows) => {
 
 export default function Home() {
 
+  const uploadModal = useUploadTrackModal();
   const makeApiCall = async () => {
     await fetch('/api/query', {
       method: 'GET'
@@ -35,38 +39,31 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+
+
+      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-red-700 before:dark:opacity-10 after:dark:from-red-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
+        Coog Music Home
+      </div>
+      {/* <div>
+        Testing audio
+        <audio controls src="https://utfs.io/f/ed52bb5e-4bd6-4f1c-9016-c30b5a80a955-i9eury.mp3" />
+
+      </div> */}
+
+      <button className="border p-2 hover:bg-red-700"
+        onClick={makeApiCall}>GET Request</button>
+
+      <div className='border p-2'>
+        <Link href='/upload-btn'>Upload Images</Link>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        aaaaa
+      <div className='border p-2'>
+        <Link href='/upload-audio-btn'>Upload Audio</Link>
       </div>
 
-      <button onClick={makeApiCall}>Click Here</button>
+      <Library />
 
 
-    </main>
+    </main >
   )
 }
