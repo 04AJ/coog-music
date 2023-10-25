@@ -15,14 +15,14 @@ const Header: React.FC<HeaderProps> = ({
     children,
 }) => {
     return (
-        <>
+        <div className="text-center">
             <h1 className="
             text-white
             text-3xl
             font-semibold">{title}</h1>
             <h2>{description}</h2>
             {children}
-        </>
+        </div>
 
     )
 }

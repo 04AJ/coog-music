@@ -18,15 +18,15 @@ const UploadTrackButton: React.FC = () => {
     }
 
     return (
-        <div className="flex flex-col">
-            <div className="flex items-center justify-between px-5 pt-4">
-                <Button onClick={onClick}>
-                    Upload Track
-                </Button>
 
-            </div>
+        <div className="flex justify-center px-5 pt-4">
+            <Button onClick={onClick} className="w-1/4">
+                Upload Track
+            </Button>
 
         </div>
+
+
     );
 }
 
