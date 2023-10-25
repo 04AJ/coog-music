@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Toaster, toast } from "react-hot-toast";
+import { useRouter } from 'next/navigation';
 
 import useUploadTrackModal from '@/hooks/useUploadTrackModal'
 
@@ -12,7 +13,6 @@ import Button from './Button';
 import { PrismaClient } from '@prisma/client';
 import { UploadButton } from '@uploadthing/react';
 import { OurFileRouter } from '@/app/api/uploadthing/core';
-import { error } from 'console';
 
 const axios = require('axios');
 
@@ -30,14 +30,8 @@ const UploadTrackModal = () => {
     //calling custom hook (allows us to change modal state)
     const uploadModal = useUploadTrackModal();
 
-    // const makeApiCall = async () => {
-    //     await fetch('/api/upload', {
-    //         method: 'POST'
-    //     })
-    // }
+    const router = useRouter();
 
-
-    //react hook form
     const { register,
         handleSubmit,
         reset } = useForm<FieldValues>({
@@ -85,7 +79,11 @@ const UploadTrackModal = () => {
                 image_url: image[0].fileUrl
             }
             ).then(() => {
-                toast.success('Successfully uploaded!')
+                router.refresh();
+                setIsLoading(false);
+                toast.success('Track Successfully uploaded!')
+                reset();
+                uploadModal.onClose();
 
             })
 
@@ -119,13 +117,13 @@ const UploadTrackModal = () => {
                         id="title"
                         disabled={isLoading}
                         {...register('title', { required: true })}
-                        placeholder="Song title"
+                        placeholder="Track title"
                     />
                     <Input
                         id="author"
                         disabled={isLoading}
                         {...register('author', { required: true })}
-                        placeholder="Song author"
+                        placeholder="Track author"
                     />
                     {/* <div>
             <div className="pb-1">

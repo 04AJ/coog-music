@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     const prisma = new PrismaClient();
     let curDate = new Date();
 
-    const result = await prisma.$executeRaw`INSERT INTO track (track_path, track_name, created_at, updated_at, streams, track_img_path ) VALUES (${data.audio_url}, ${data.title}, ${curDate},${curDate}, 0, ${data.image_url} );`;
+    const result = await prisma.$executeRaw`INSERT INTO track (artist_id, track_path, track_name, created_at, updated_at, streams, track_img_path ) VALUES (1, ${data.audio_url}, ${data.title}, ${curDate},${curDate}, 0, ${data.image_url} );`;
     console.log(result);
     return new Response(JSON.stringify(result));
 }
