@@ -108,17 +108,15 @@ export default function login() {
       <div className="login-container">
         <div className="switch-container">
           <p
-            className={`switch-container-child ${
-              switchToLogin ? "active" : ""
-            }`}
+            className={`switch-container-child ${switchToLogin ? "active" : ""
+              }`}
             onClick={showLogin}
           >
             login
           </p>
           <p
-            className={`switch-container-child ${
-              switchToSignUp ? "active" : ""
-            }`}
+            className={`switch-container-child ${switchToSignUp ? "active" : ""
+              }`}
             onClick={showSignup}
           >
             signup
