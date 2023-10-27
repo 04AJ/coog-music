@@ -8,7 +8,7 @@ datasource db {
 }
 
 model admin {
-  admin_id Int   @id
+  admin_id Int   @id @default(autoincrement())
   user_id  Int?
   user     user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "admin_ibfk_1")
 
@@ -21,14 +21,14 @@ model album {
   artist_id          Int?
   album_created_at   DateTime  @db.DateTime(0)
   album_release_date DateTime? @db.Date
-  album_cover        Bytes?    @db.Blob
+  album_cover_path   String?   @db.VarChar(255)
   artist             artist?   @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "album_ibfk_1")
 
   @@index([artist_id], map: "artist_id")
 }
 
 model artist {
-  artist_id                Int                        @id
+  artist_id                Int                        @id @default(autoincrement())
   user_id                  Int?
   artist_name              String?                    @db.VarChar(255)
   artist_join_date         DateTime?                  @db.Date
@@ -71,7 +71,7 @@ model liked_tracks {
 }
 
 model listener {
-  listener_id                                                               Int                         @id
+  listener_id                                                               Int                         @id @default(autoincrement())
   user_id                                                                   Int?
   followers                                                                 BigInt?
   user                                                                      user?                       @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_ibfk_1")
@@ -148,8 +148,7 @@ model track {
   artist_id         Int?
   track_path        String?             @db.VarChar(255)
   track_name        String              @db.VarChar(100)
-  track_length      DateTime            @db.Time(0)
-  track_mp3         Bytes?
+  track_length      BigInt?
   created_at        DateTime            @db.DateTime(0)
   updated_at        DateTime            @db.DateTime(0)
   streams           BigInt?
@@ -185,7 +184,7 @@ model track_to_playlist {
 }
 
 model user {
-  user_id           Int                 @id
+  user_id           Int                 @id @default(autoincrement())
   user_name         String?             @db.VarChar(255)
   password          String?             @db.VarChar(20)
   birth_date        DateTime?           @db.Date
