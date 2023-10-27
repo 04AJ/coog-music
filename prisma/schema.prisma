@@ -1,0 +1,212 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model admin {
+  admin_id Int   @id
+  user_id  Int?
+  user     user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "admin_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
+
+model album {
+  album_id           Int       @id @default(autoincrement())
+  album_name         String?   @db.VarChar(100)
+  artist_id          Int?
+  album_created_at   DateTime  @db.DateTime(0)
+  album_release_date DateTime? @db.Date
+  album_cover        Bytes?    @db.Blob
+  artist             artist?   @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "album_ibfk_1")
+
+  @@index([artist_id], map: "artist_id")
+}
+
+model artist {
+  artist_id                Int                        @id
+  user_id                  Int?
+  artist_name              String?                    @db.VarChar(255)
+  artist_join_date         DateTime?                  @db.Date
+  artist_email             String                     @db.VarChar(255)
+  album                    album[]
+  user                     user?                      @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "artist_ibfk_1")
+  listener_follows_artists listener_follows_artists[]
+  track                    track[]
+
+  @@index([user_id], map: "user_id")
+}
+
+model ethnicity {
+  ethnicity_id   Int     @id @default(autoincrement())
+  ethnicity_name String? @db.VarChar(40)
+  user           user[]
+}
+
+model gender {
+  gender_id   Int     @id @default(autoincrement())
+  gender_name String? @db.VarChar(10)
+  user        user[]
+}
+
+model genre {
+  genre_id          Int                 @id @default(autoincrement())
+  genre_name        String?             @db.VarChar(20)
+  listener_to_genre listener_to_genre[]
+  track_to_genre    track_to_genre[]
+}
+
+model liked_tracks {
+  user_id  Int
+  track_id Int
+  user     user  @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "liked_tracks_ibfk_1")
+  track    track @relation(fields: [track_id], references: [track_id], onDelete: NoAction, onUpdate: NoAction, map: "liked_tracks_ibfk_2")
+
+  @@id([user_id, track_id])
+  @@index([track_id], map: "track_id")
+}
+
+model listener {
+  listener_id                                                               Int                         @id
+  user_id                                                                   Int?
+  followers                                                                 BigInt?
+  user                                                                      user?                       @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_ibfk_1")
+  listener_follows_artists                                                  listener_follows_artists[]
+  listener_follows_listener_listener_follows_listener_listener_idTolistener listener_follows_listener[] @relation("listener_follows_listener_listener_idTolistener")
+  listener_follows_listener_listener_follows_listener_follower_idTolistener listener_follows_listener[] @relation("listener_follows_listener_follower_idTolistener")
+  playlist                                                                  playlist[]
+
+  @@index([user_id], map: "user_id")
+}
+
+model listener_follows_artists {
+  listener_id Int
+  artist_id   Int
+  listener    listener @relation(fields: [listener_id], references: [listener_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_follows_artists_ibfk_1")
+  artist      artist   @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_follows_artists_ibfk_2")
+
+  @@id([listener_id, artist_id])
+  @@index([artist_id], map: "artist_id")
+}
+
+model listener_follows_listener {
+  listener_id                                              Int
+  follower_id                                              Int
+  listener_listener_follows_listener_listener_idTolistener listener @relation("listener_follows_listener_listener_idTolistener", fields: [listener_id], references: [listener_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_follows_listener_ibfk_1")
+  listener_listener_follows_listener_follower_idTolistener listener @relation("listener_follows_listener_follower_idTolistener", fields: [follower_id], references: [listener_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_follows_listener_ibfk_2")
+
+  @@id([listener_id, follower_id])
+  @@index([follower_id], map: "follower_id")
+}
+
+model listener_to_genre {
+  user_id  Int
+  genre_id Int
+  user     user  @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_to_genre_ibfk_1")
+  genre    genre @relation(fields: [genre_id], references: [genre_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_to_genre_ibfk_2")
+
+  @@id([user_id, genre_id])
+  @@index([genre_id], map: "genre_id")
+}
+
+model playlist {
+  playlist_id         Int                 @id @default(autoincrement())
+  playlist_name       String?             @db.VarChar(100)
+  listener_id         Int?
+  playlist_created_at DateTime            @db.DateTime(0)
+  playlist_updated_at DateTime            @db.DateTime(0)
+  listener            listener?           @relation(fields: [listener_id], references: [listener_id], onDelete: NoAction, onUpdate: NoAction, map: "playlist_ibfk_1")
+  track_to_playlist   track_to_playlist[]
+
+  @@index([listener_id], map: "listener_id")
+}
+
+model race {
+  race_id   Int     @id @default(autoincrement())
+  race_name String? @db.VarChar(10)
+  user      user[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model rating {
+  user_id  Int
+  track_id Int
+  rating   Int?
+  user     user  @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "rating_ibfk_1")
+  track    track @relation(fields: [track_id], references: [track_id], onDelete: NoAction, onUpdate: NoAction, map: "rating_ibfk_2")
+
+  @@id([user_id, track_id])
+  @@index([track_id], map: "track_id")
+}
+
+model track {
+  track_id          Int                 @id @default(autoincrement())
+  artist_id         Int?
+  track_path        String?             @db.VarChar(255)
+  track_name        String              @db.VarChar(100)
+  track_length      DateTime            @db.Time(0)
+  track_mp3         Bytes?
+  created_at        DateTime            @db.DateTime(0)
+  updated_at        DateTime            @db.DateTime(0)
+  streams           BigInt?
+  track_img_path    String?             @db.VarChar(255)
+  liked_tracks      liked_tracks[]
+  rating            rating[]
+  artist            artist?             @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "track_ibfk_1")
+  track_to_genre    track_to_genre[]
+  track_to_playlist track_to_playlist[]
+
+  @@index([artist_id], map: "artist_id")
+}
+
+model track_to_genre {
+  track_id Int
+  genre_id Int
+  track    track @relation(fields: [track_id], references: [track_id], onDelete: NoAction, onUpdate: NoAction, map: "track_to_genre_ibfk_1")
+  genre    genre @relation(fields: [genre_id], references: [genre_id], onDelete: NoAction, onUpdate: NoAction, map: "track_to_genre_ibfk_2")
+
+  @@id([track_id, genre_id])
+  @@index([genre_id], map: "genre_id")
+}
+
+model track_to_playlist {
+  track_id          Int
+  playlist_id       Int
+  track_inserted_at DateTime? @db.DateTime(0)
+  track             track     @relation(fields: [track_id], references: [track_id], onDelete: NoAction, onUpdate: NoAction, map: "track_to_playlist_ibfk_1")
+  playlist          playlist  @relation(fields: [playlist_id], references: [playlist_id], onDelete: NoAction, onUpdate: NoAction, map: "track_to_playlist_ibfk_2")
+
+  @@id([track_id, playlist_id])
+  @@index([playlist_id], map: "playlist_id")
+}
+
+model user {
+  user_id           Int                 @id
+  user_name         String?             @db.VarChar(255)
+  password          String?             @db.VarChar(20)
+  birth_date        DateTime?           @db.Date
+  join_date         DateTime?           @db.Date
+  email             String              @unique(map: "email") @db.VarChar(255)
+  race_id           Int?
+  ethnicity_id      Int?
+  gender_id         Int?
+  is_artist         Int?                @db.TinyInt
+  is_admin          Int?                @db.TinyInt
+  admin             admin[]
+  artist            artist[]
+  liked_tracks      liked_tracks[]
+  listener          listener[]
+  listener_to_genre listener_to_genre[]
+  rating            rating[]
+  race              race?               @relation(fields: [race_id], references: [race_id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_1")
+  ethnicity         ethnicity?          @relation(fields: [ethnicity_id], references: [ethnicity_id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_2")
+  gender            gender?             @relation(fields: [gender_id], references: [gender_id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_3")
+
+  @@index([ethnicity_id], map: "ethnicity_id")
+  @@index([gender_id], map: "gender_id")
+  @@index([race_id], map: "race_id")
+}

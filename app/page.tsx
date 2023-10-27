@@ -1,45 +1,73 @@
-import Image from "next/image";
-import mysql from "mysql2";
 
-const dbconnection = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  database: process.env.MYSQL_DATABASE,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-});
+import Image from 'next/image'
+import mysql, { ConnectionOptions, RowDataPacket } from 'mysql2';
+import Link from 'next/link';
+import useUploadTrackModal from '@/hooks/useUploadTrackModal';
+import Library from '@/components/Library';
+import { toast, Toaster } from "react-hot-toast";
+import UploadTrackButton from '@/components/UploadTrackButton';
+import Header from '@/components/Header';
+import { useEffect, useState } from 'react';
+import { Track } from '@/types';
+import { getTracks } from '@/db'
+import Carousel from '@/components/Carousel';
 
-export default function Home() {
+//this means page will not be cached
+export const revalidate = 0;
+
+let count = 0;
+
+
+export default async function Home() {
+
+  const tracks = await getTracks();
+  // const uploadModal = useUploadTrackModal();
+  // useEffect(() => {
+  //   const apiCall = async () => {
+  //     const tracks = await fetch('/api/query', {
+  //       method: 'GET'
+  //     })
+  //   }
+
+  // })
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <div className="bg-neutral-900/80 flex min-h-screen flex-col before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-red-500 before:dark:opacity-10 after:dark:from-red-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
+      <div><Toaster /></div>
+
+
+      <Header
+        title="Coog Music Library" description="Welcome back"
+      >
+      </Header>
+
+      <UploadTrackButton />
+
+      {/* <button className="border p-2 hover:bg-red-700"
+        onClick={makeApiCall}>GET Request</button>
+
+      <div className='border p-2'>
+        <Link href='/upload-btn'>Upload Images</Link>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        123 testing
-        burger
+      <div className='border p-2'>
+        <Link href='/upload-audio-btn'>Upload Audio</Link>
+      </div> */}
+
+      <div className='pl-5'> Complete List of Tracks</div>
+      <div className='pl-5'>
+        {/* {tracks.map((track) =>
+          <div key={count++} >
+            {track.track_name}
+            <img src={track.track_img_path} alt="" width="100vw" />
+            <audio controls src={track.track_path} />
+          </div>)} */}
+        <Carousel tracks={tracks} />
       </div>
-    </main>
-  );
+
+
+    </div >
+  )
+
 }
