@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from '@prisma/client';
-
+import prisma from '@/client'
 
 interface reqFormat {
     title: string,
@@ -11,7 +10,6 @@ interface reqFormat {
 
 export async function POST(req: Request) {
     const data: reqFormat = await req.json();
-    const prisma = new PrismaClient();
     let curDate = new Date();
 
     const result = await prisma.$executeRaw`INSERT INTO track (artist_id, track_path, track_name, created_at, updated_at, streams, track_img_path ) VALUES (1, ${data.audio_url}, ${data.title}, ${curDate},${curDate}, 0, ${data.image_url} );`;

@@ -6,6 +6,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from 'next/navigation';
 
 import useUploadTrackModal from '@/hooks/useUploadTrackModal'
+// import { postTracks } from '@/db'
 
 import Modal from './Modal';
 import Input from './Input';
@@ -14,7 +15,16 @@ import { PrismaClient } from '@prisma/client';
 import { UploadButton } from '@uploadthing/react';
 import { OurFileRouter } from '@/app/api/uploadthing/core';
 
+
 const axios = require('axios');
+
+interface trackRequest {
+    title: string,
+    artist: string,
+    audio_url: string,
+    image_url: string
+}
+
 
 const UploadTrackModal = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +46,7 @@ const UploadTrackModal = () => {
         handleSubmit,
         reset } = useForm<FieldValues>({
             defaultValues: {
-                author: '',
+                artist: '',
                 title: '',
                 song: null,
                 image: null,
@@ -60,18 +70,20 @@ const UploadTrackModal = () => {
             setIsLoading(true);
 
             const title = values.title;
-            const author = values.author;
+            const artist = values.artist;
             const imageFile = values.image?.[0];
             const songFile = values.song?.[0];
 
-            if (!title || !author || !audio[0] || !image[0]) {
+            // console.log(title, author, image[0], audio[0]);
+
+            if (!title || !artist || !audio[0] || !image[0]) {
                 alert("Failed")
                 toast.error('Missing fields');
                 return;
             }
 
 
-            //POST REQUEST
+            // POST REQUEST
             axios.post('/api/upload', {
                 title: values.title,
                 artist: values.artist,
@@ -88,12 +100,21 @@ const UploadTrackModal = () => {
             })
 
 
+            // const tracks = postTracks(input);
+
+            // router.refresh();
+            // setIsLoading(false);
+            // toast.success('Track Successfully uploaded!')
+            // reset();
+            // uploadModal.onClose();
+
+
         } catch (error) {
             toast.error("Something went wrong")
         } finally {
             setIsLoading(false);
-            setImage([]);
-            setAudio([]);
+            // setImage([]);
+            // setAudio([]);
         }
 
     }
@@ -120,10 +141,10 @@ const UploadTrackModal = () => {
                         placeholder="Track title"
                     />
                     <Input
-                        id="author"
+                        id="artist"
                         disabled={isLoading}
-                        {...register('author', { required: true })}
-                        placeholder="Track author"
+                        {...register('artist', { required: true })}
+                        placeholder="Track artist"
                     />
                     {/* <div>
             <div className="pb-1">

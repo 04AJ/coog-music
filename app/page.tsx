@@ -9,7 +9,8 @@ import UploadTrackButton from '@/components/UploadTrackButton';
 import Header from '@/components/Header';
 import { useEffect, useState } from 'react';
 import { Track } from '@/types';
-import getTracks from '@/db'
+import { getTracks } from '@/db'
+import Carousel from '@/components/Carousel';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -55,12 +56,13 @@ export default async function Home() {
 
       <div className='pl-5'> Complete List of Tracks</div>
       <div className='pl-5'>
-        {tracks.map((track) =>
+        {/* {tracks.map((track) =>
           <div key={count++} >
             {track.track_name}
             <img src={track.track_img_path} alt="" width="100vw" />
             <audio controls src={track.track_path} />
-          </div>)}
+          </div>)} */}
+        <Carousel tracks={tracks} />
       </div>
 
 
