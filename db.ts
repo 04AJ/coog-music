@@ -33,6 +33,8 @@ interface trackRequest {
     image_url: string
 }
 
+/* NOT WORKING
+
 export async function postTracks(req: trackRequest) {
     const data: trackRequest = req;
     console.log(data);
@@ -42,5 +44,5 @@ export async function postTracks(req: trackRequest) {
     // console.log(result);
 
 }
-
+*/
 
