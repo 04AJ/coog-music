@@ -17,6 +17,7 @@ export const revalidate = 0;
 
 let count = 0;
 
+
 export default async function Home() {
 
   const tracks = await getTracks();
@@ -68,4 +69,5 @@ export default async function Home() {
 
     </div >
   )
+
 }
