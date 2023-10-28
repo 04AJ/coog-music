@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 const prisma = new PrismaClient();
 
-export async function createUser() {
+export async function createUser(userData: any) {
   const newUser = await prisma.$executeRaw`
     INSERT INTO user (user_name,password,birth_date,join_date,email,ethnicity_id,gender_id)
     VALUES ('myusername','mypassword','2001-01-02','2001-01-02','cruz.danielss@icloud.com',1,1)

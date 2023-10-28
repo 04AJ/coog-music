@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
-import "./login.css";
 import { PrismaClient } from "@prisma/client";
+import { createUser } from "@/db";
+import { useRouter } from "next/router";
+import "./login.css";
 
 interface RadioProps {
   label: string;
@@ -80,8 +82,13 @@ export default function login() {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSignUp = (event: any) => {
+  const handleSignUp = async (event: any) => {
     event.preventDefault;
+    // (user_name,password,birth_date,join_date,email,ethnicity_id,gender_id)
+    const newUser = await createUser(formData);
+
+    if (newUser) {
+    }
     alert(`role: ${formData.role}, email: ${formData.email}, 
     passoword: ${formData.password}, race: ${formData.race}, ethnicity: ${formData.ethnicity}, gender: ${formData.gender}`);
   };
@@ -108,15 +115,17 @@ export default function login() {
       <div className="login-container">
         <div className="switch-container">
           <p
-            className={`switch-container-child ${switchToLogin ? "active" : ""
-              }`}
+            className={`switch-container-child ${
+              switchToLogin ? "active" : ""
+            }`}
             onClick={showLogin}
           >
             login
           </p>
           <p
-            className={`switch-container-child ${switchToSignUp ? "active" : ""
-              }`}
+            className={`switch-container-child ${
+              switchToSignUp ? "active" : ""
+            }`}
             onClick={showSignup}
           >
             signup
