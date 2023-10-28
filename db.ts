@@ -16,9 +16,10 @@ export async function getTracks(): Promise<Track[]> {
     return (tracks as any) || [];
 };
 
-export async function getTracksById(artist_id: number): Promise<Track[]> {
-    const tracks = await prisma.$queryRaw`SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name FROM track, artist WHERE track.artist_id = artist.artist_id AND artist.artist_id = ${artist_id};`
-    // console.log(tracks);
+export async function getTrackById(id?: number): Promise<Track[]> {
+
+    const tracks = await prisma.$queryRaw`SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name FROM track, artist WHERE track.artist_id = artist.artist_id AND track_id = ${id};`
+    console.log(tracks);
     // return new Response(JSON.stringify(tracks))
 
 

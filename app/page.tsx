@@ -15,7 +15,6 @@ import Carousel from '@/components/Carousel';
 //this means page will not be cached
 export const revalidate = 0;
 
-let count = 0;
 
 
 export default async function Home() {
@@ -44,16 +43,7 @@ export default async function Home() {
 
       <UploadTrackButton />
 
-      {/* <button className="border p-2 hover:bg-red-700"
-        onClick={makeApiCall}>GET Request</button>
 
-      <div className='border p-2'>
-        <Link href='/upload-btn'>Upload Images</Link>
-      </div>
-
-      <div className='border p-2'>
-        <Link href='/upload-audio-btn'>Upload Audio</Link>
-      </div> */}
 
       <div className='pl-5'> Complete List of Tracks</div>
       <div className='pl-5'>

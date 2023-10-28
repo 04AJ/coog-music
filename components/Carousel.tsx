@@ -2,6 +2,7 @@
 
 import { Track } from "@/types"
 import TrackItem from "./TrackItem";
+import useOnPlay from "@/hooks/useOnPlay";
 
 interface CarouselProps {
     tracks: Track[];
@@ -12,6 +13,7 @@ const Carousel: React.FC<CarouselProps> = ({
     tracks
 
 }) => {
+    const onPlay = useOnPlay(tracks);
     if (tracks.length === 0) {
         return (
             <div className="mt-4 text-neutral-400">No songs available.</div>
@@ -33,8 +35,8 @@ const Carousel: React.FC<CarouselProps> = ({
         >
             {tracks.map((item) => (
                 <TrackItem
-                    onClick={() => { }}
                     key={item.track_id}
+                    onClick={(id: number) => onPlay(id)}
                     data={item}
                 />
             ))}
