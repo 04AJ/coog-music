@@ -38,6 +38,11 @@ export async function getTracksByTitle(title: string): Promise<Track[]> {
     return (tracks as any) || [];
 };
 
+export async function getUserId(email: string, password: string): Promise<number> {
+    return 1;
+}
+
+
 
 interface trackRequest {
     title: string,

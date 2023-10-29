@@ -10,6 +10,7 @@ import { twMerge } from "tailwind-merge";
 import Library from "./Library";
 import Box from "./Box";
 import NavBarItem from "./NavBarItem";
+import { useUser } from "@/hooks/useUser";
 
 interface NavBarProps {
     children: React.ReactNode;
@@ -19,6 +20,8 @@ const NavBar: React.FC<NavBarProps> = ({
 }) => {
     //nextjs hook
     const pathname = usePathname();
+
+    const user = useUser();
 
     const routes = useMemo(() => [
         {
@@ -57,7 +60,7 @@ const NavBar: React.FC<NavBarProps> = ({
             label: 'Admin',
             active: pathname === '/admin',
             href: '/admin',
-            visible: true
+            visible: (user.userRole === 'admin') ? true : false
 
         }
     ], [pathname]);
@@ -86,7 +89,9 @@ const NavBar: React.FC<NavBarProps> = ({
                 <Box>
                     <div className="flex flex-col gap-y-4 px-5 py-4">
                         {routes.map((item) => (
+
                             <NavBarItem key={item.label} {...item} />
+
                         ))}
                     </div>
                 </Box>
