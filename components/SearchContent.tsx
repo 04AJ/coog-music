@@ -1,7 +1,7 @@
-"use client";
-
+"use client"
 import { Track } from "@/types";
 import MediaItem from "./MediaItem";
+import LikeButton from "./LikeButton";
 
 
 
@@ -44,6 +44,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
                             data={track}
                         />
                     </div>
+                    <LikeButton trackId={track.track_id} />
                 </div>
             ))}
         </div>

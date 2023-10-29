@@ -22,6 +22,7 @@ const NavBarItem: React.FC<NavBarItemProps> = ({
             href={href}
             className={twMerge(`
         ${(visible) ? 'visible' : 'invisible'}
+        z-50
         flex 
         flex-row 
         h-auto 

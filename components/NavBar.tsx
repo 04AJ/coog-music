@@ -70,12 +70,14 @@ const NavBar: React.FC<NavBarProps> = ({
             className={twMerge(`
             flex 
             h-full
+            z-50
             `,
 
             )}
         >
             <div
                 className="
+                
               hidden 
               md:flex 
               flex-col 
@@ -84,6 +86,8 @@ const NavBar: React.FC<NavBarProps> = ({
               min-h-full 
               w-[300px] 
               p-2
+              z-50
+
             "
             >
                 <Box>
