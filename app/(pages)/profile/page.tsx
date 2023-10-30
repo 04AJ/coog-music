@@ -14,7 +14,7 @@ export default function ProfilePage() {
             <div>UserID: {user.userId}</div>
             <UserDetails user={null} />
 
-            <button className="border" onClick={() => user.setUserId(1)
+            <button className="border" onClick={() => { user.setUserId(1); user.setUserRole("admin") }
             }>Click me</button>
         </div >
     )
