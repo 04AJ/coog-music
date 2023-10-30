@@ -1,9 +1,8 @@
-
-import Image from 'next/image'
-import mysql, { ConnectionOptions, RowDataPacket } from 'mysql2';
-import Link from 'next/link';
-import useUploadTrackModal from '@/hooks/useUploadTrackModal';
-import Library from '@/components/Library';
+import Image from "next/image";
+import mysql, { ConnectionOptions, RowDataPacket } from "mysql2";
+import Link from "next/link";
+import useUploadTrackModal from "@/hooks/useUploadTrackModal";
+import Library from "@/components/Library";
 import { toast, Toaster } from "react-hot-toast";
 import UploadTrackButton from '@/components/UploadTrackButton';
 import Header from '@/components/Header';
@@ -13,13 +12,13 @@ import { getTracks } from '@/db'
 import Carousel from '@/components/Carousel';
 import LikedTracks from '@/components/LikedTracks';
 
+
 //this means page will not be cached
 export const revalidate = 0;
 
 
 
 export default async function Home() {
-
 
   const tracks = await getTracks();
 
@@ -31,13 +30,10 @@ export default async function Home() {
       <div><Toaster /></div>
 
 
-      <Header
-        title="Coog Music Library" description="Welcome back"
-      >
-      </Header>
+
+      <Header title="Coog Music Library" description="Welcome back"></Header>
 
       <UploadTrackButton />
-
 
 
       <div className='pl-5'> Complete List of Tracks</div>
@@ -56,5 +52,6 @@ export default async function Home() {
 
     </div >
   )
+
 
 }
