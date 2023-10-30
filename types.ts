@@ -1,5 +1,6 @@
 export interface Track {
-    track_id?: number;
+    track_id: number;
+    artist_name: string;
     artist_id: number;
     track_path: string;
     track_name: string;
@@ -9,3 +10,20 @@ export interface Track {
     track_img_path: string
 
 };
+
+export interface User {
+    user_id: number;
+    user_name: string;
+    birth_date: Date;
+    join_daet: Date;
+    email: string;
+    race: string;
+    ethnicity: string;
+    gender: string;
+    artist_id?: number;
+    artist_name?: string;
+    artist_join_date?: Date;
+    artist_email?: string;
+
+
+}

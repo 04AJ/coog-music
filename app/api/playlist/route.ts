@@ -1,10 +1,9 @@
-
 import prisma from '@/client'
 import { Track } from '@/types';
 import { NextRequest } from "next/server";
 
 
-//TRACK_ID is parameter
+//FIX REQUEST
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const track_id = searchParams.get('track_id');
