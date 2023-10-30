@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import UserDetails from "@/components/UserDetails";
 import { getUserId } from "@/db";
-import usePlayer from "@/hooks/usePlayer";
 
 export default async function LoginPage() {
 
