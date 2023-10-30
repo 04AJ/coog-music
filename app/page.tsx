@@ -20,7 +20,6 @@ export const revalidate = 0;
 
 export default async function Home() {
 
-
   const tracks = await getTracks();
 
 
@@ -31,10 +30,7 @@ export default async function Home() {
       <div><Toaster /></div>
 
 
-      <Header
-        title="Coog Music Library" description="Welcome back"
-      >
-      </Header>
+      <Header title="Coog Music Library" description="Welcome back"></Header>
 
       <div className="
       
@@ -62,5 +58,6 @@ export default async function Home() {
 
     </div >
   )
+
 
 }

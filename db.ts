@@ -1,19 +1,33 @@
 import { PrismaClient } from "@prisma/client";
+import { Track } from "@/types";
 import { cookies } from "next/headers";
 
-import { Track } from "@/types";
-
-
 const prisma = new PrismaClient();
+
+
 
 export async function getTracks(): Promise<Track[]> {
     const tracks = await prisma.$queryRaw`SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name FROM track, artist WHERE track.artist_id = artist.artist_id;`
     // console.log(tracks);
     // return new Response(JSON.stringify(tracks))
 
+export async function createUser() {
+  const newUser = await prisma.$executeRaw`
+    INSERT INTO user (user_name,password,birth_date,join_date,email,ethnicity_id,gender_id)
+    VALUES ('myusername1234','mypassword','2001-01-02','2001-01-02','testuser2@icloud.com',1,1)
+    `;
+  return (newUser as any) || [];
+}
 
 
-    return (tracks as any) || [];
+
+export const getTracks = async (): Promise<Track[]> => {
+  const tracks =
+    await prisma.$queryRaw`SELECT track_name, track_path, track_img_path, artist_id FROM track`;
+  // console.log(tracks);
+  // return new Response(JSON.stringify(tracks))
+
+  return (tracks as any) || [];
 };
 
 export async function getTrackById(id?: number): Promise<Track[]> {
@@ -71,4 +85,5 @@ export async function postTracks(req: trackRequest) {
 
 }
 */
+
 
