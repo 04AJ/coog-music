@@ -12,6 +12,7 @@ import Box from "./Box";
 import NavBarItem from "./NavBarItem";
 import { useUser } from "@/hooks/useUser";
 
+
 interface NavBarProps {
     children: React.ReactNode;
 }
@@ -22,6 +23,8 @@ const NavBar: React.FC<NavBarProps> = ({
     const pathname = usePathname();
 
     const user = useUser();
+
+
 
     const routes = useMemo(() => [
         {

@@ -9,7 +9,9 @@ interface SearchProps {
     }
 }
 const SearchPage = async ({ searchParams }: SearchProps) => {
+
     const tracks = await getTracksByTitle(searchParams.title);
+
 
     return (
         <>
