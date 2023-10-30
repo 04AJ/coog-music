@@ -4,13 +4,17 @@ import { cookies } from "next/headers";
 
 const prisma = new PrismaClient();
 
-export async function createUser(userData: any) {
+export async function createUser() {
   const newUser = await prisma.$executeRaw`
     INSERT INTO user (user_name,password,birth_date,join_date,email,ethnicity_id,gender_id)
-    VALUES ('myusername','mypassword','2001-01-02','2001-01-02','cruz.danielss@icloud.com',1,1)
+    VALUES ('myusername1234','mypassword','2001-01-02','2001-01-02','testuser2@icloud.com',1,1)
     `;
   return (newUser as any) || [];
 }
+
+// export async function loginUser(){
+//     c
+// }
 
 export const getTracks = async (): Promise<Track[]> => {
   const tracks =

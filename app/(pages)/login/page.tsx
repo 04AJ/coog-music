@@ -3,6 +3,7 @@ import { useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import { createUser } from "@/db";
 import { useRouter } from "next/router";
+import axios from "axios";
 import "./login.css";
 
 interface RadioProps {
@@ -84,12 +85,24 @@ export default function login() {
 
   const handleSignUp = async (event: any) => {
     event.preventDefault;
-    // (user_name,password,birth_date,join_date,email,ethnicity_id,gender_id)
-    const newUser = await createUser(formData);
 
-    if (newUser) {
-    }
-    alert(`role: ${formData.role}, email: ${formData.email}, 
+    //post user in database
+    axios
+      .post("/api/signup", formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error("this is an error ", err);
+      });
+
+    axios.get("/api/signup").then((res) => {
+      if (res.data) {
+        //logic to set user_id
+      }
+    });
+
+    console.log(`role: ${formData.role}, email: ${formData.email}, 
     passoword: ${formData.password}, race: ${formData.race}, ethnicity: ${formData.ethnicity}, gender: ${formData.gender}`);
   };
 
