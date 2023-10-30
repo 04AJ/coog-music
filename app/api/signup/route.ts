@@ -1,32 +1,44 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest } from "next/server";
 import prisma from "@/client";
 
 interface reqFormat {
+  username: string;
   role: string;
   email: string;
   password: string;
+  birthdate: string;
   race: string;
   ethnicity: string;
   gender: string;
 }
 
-export async function POST(req: reqFormat) {
-  const data: reqFormat = req;
+interface resFormat {
+  user_id: number;
+}
+
+export async function POST(req: Request) {
+  const data: reqFormat = await req.json();
   let curDate = new Date();
+
+  console.log(data.email);
 
   const result = await prisma.$executeRaw`
     INSERT INTO user (user_name,password,birth_date,join_date,email,ethnicity_id,gender_id)
-    VALUES ('myusername1234','mypassword','2001-01-02','2001-01-02','testuser2@icloud.com',1,1)
+    VALUES (${data.username},${data.password},${data.birthdate},${curDate},${data.email},1,1)
     `;
 
-  return new Response(JSON.stringify("cruz"));
+  return new Response(JSON.stringify(result));
 }
 
-export async function GET() {
-  //WIP
-  const result = await prisma.$queryRaw`
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const userEmail = searchParams.get("email");
+  console.log(userEmail);
+  const result: resFormat[] = await prisma.$queryRaw`
     SELECT user_id
     FROM user
-    WHERE 
+    WHERE email = ${userEmail}
     `;
+  console.log(result[0].user_id);
+  return new Response(JSON.stringify(result));
 }

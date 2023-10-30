@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { PrismaClient } from "@prisma/client";
-import { createUser } from "@/db";
 import { useRouter } from "next/router";
+import { useUser } from "@/hooks/useUser";
 import axios from "axios";
 import "./login.css";
 
@@ -15,14 +15,18 @@ interface RadioProps {
 }
 
 interface FormData {
+  username: string;
   role: string;
   email: string;
   password: string;
+  birthdate: string;
   race: string;
   ethnicity: string;
+  gender: string;
 }
 
 export default function login() {
+  const user = useUser();
   const [switchToLogin, setSwitchToLogin] = useState(true);
   const [switchToSignUp, setSwitchToSignUp] = useState(false);
   const [role, setRole] = useState("");
@@ -30,9 +34,11 @@ export default function login() {
   const [race, setRace] = useState("");
   const [ethnicity, setEthnicity] = useState("");
   const [formData, setFormData] = useState({
+    username: "",
     role: "",
     email: "",
     password: "",
+    birthdate: "",
     race: "",
     ethnicity: "",
     gender: "",
@@ -84,25 +90,26 @@ export default function login() {
   };
 
   const handleSignUp = async (event: any) => {
-    event.preventDefault;
+    event.preventDefault();
 
     //post user in database
     axios
       .post("/api/signup", formData)
       .then((res) => {
         console.log(res);
+        axios.get(`/api/signup?email=${formData.email}`).then((res) => {
+          if (res.data[0]) {
+            console.log(res.data[0]);
+            user.setUserId(res.data[0]);
+            //logic to set user_id
+          }
+        });
       })
       .catch((err) => {
         console.error("this is an error ", err);
       });
 
-    axios.get("/api/signup").then((res) => {
-      if (res.data) {
-        //logic to set user_id
-      }
-    });
-
-    console.log(`role: ${formData.role}, email: ${formData.email}, 
+    alert(`username: ${formData.username} role: ${formData.role}, email: ${formData.email}, birthdate ${formData.birthdate} 
     passoword: ${formData.password}, race: ${formData.race}, ethnicity: ${formData.ethnicity}, gender: ${formData.gender}`);
   };
 
@@ -114,14 +121,6 @@ export default function login() {
     call database to get id
     change pages with router
   */
-  // const handleFormSumbit = async (e) => {
-
-  //   const primsa = new PrismaClient();
-  //   await primsa.$executeRaw`
-  //   INSERT INTO user (user_name,email,password,...)
-  //   VALUES ()
-  //   `
-  // }
 
   return (
     <>
@@ -178,12 +177,13 @@ export default function login() {
               </div>
               {role != "" && (
                 <label>
-                  {role === "listener" ? "user" : "artist "}name
+                  username
                   <input
                     type="text"
-                    name=""
-                    id=""
-                    placeholder={role + " name"}
+                    name="username"
+                    id="username"
+                    placeholder="your username"
+                    onChange={handleChange}
                   />
                 </label>
               )}
@@ -205,7 +205,15 @@ export default function login() {
                 value={formData.password}
                 onChange={handleChange}
               />
-
+              <label>
+                Birth Date
+                <input
+                  type="date"
+                  name="birthdate"
+                  defaultValue={formData.birthdate}
+                  onChange={handleChange}
+                />
+              </label>
               <label>
                 Race
                 <select
@@ -260,4 +268,3 @@ export default function login() {
     </>
   );
 }
-
