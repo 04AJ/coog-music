@@ -26,6 +26,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
         if (!user?.userId) {
             return;
         }
+        //WONT WORK - since this is a client-side component
         // const fetchData = async () => {
         //     const data = await getLiked(trackId, user.userId);
 

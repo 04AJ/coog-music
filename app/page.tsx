@@ -20,15 +20,7 @@ export const revalidate = 0;
 export default async function Home() {
 
   const tracks = await getTracks();
-  // const uploadModal = useUploadTrackModal();
-  // useEffect(() => {
-  //   const apiCall = async () => {
-  //     const tracks = await fetch('/api/query', {
-  //       method: 'GET'
-  //     })
-  //   }
 
-  // })
 
 
   return (

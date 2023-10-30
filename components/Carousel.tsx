@@ -3,6 +3,7 @@
 import { Track } from "@/types"
 import TrackItem from "./TrackItem";
 import useOnPlay from "@/hooks/useOnPlay";
+import usePlayer from "@/hooks/usePlayer";
 
 interface CarouselProps {
     tracks: Track[];
@@ -13,6 +14,7 @@ const Carousel: React.FC<CarouselProps> = ({
     tracks
 
 }) => {
+    const player = usePlayer();
     const onPlay = useOnPlay(tracks);
     if (tracks.length === 0) {
         return (
@@ -36,7 +38,7 @@ const Carousel: React.FC<CarouselProps> = ({
             {tracks.map((item) => (
                 <TrackItem
                     key={item.track_id}
-                    onClick={(id: number) => onPlay(id)}
+                    onClick={(id: number) => { onPlay(id); player.setPath(item.track_path) }}
                     data={item}
                 />
             ))}

@@ -86,7 +86,7 @@ const NavBar: React.FC<NavBarProps> = ({
               min-h-full 
               w-[300px] 
               p-2
-              z-50
+              z-1
 
             "
             >

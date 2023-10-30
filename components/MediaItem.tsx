@@ -3,29 +3,31 @@
 import Image from "next/image";
 
 import { Track } from "@/types";
+import usePlayer from "@/hooks/usePlayer";
 
 interface MediaItemProps {
     data: Track;
-    onClick?: (id: string) => void;
+    onClick?: (id: number) => void;
 }
 
 const MediaItem: React.FC<MediaItemProps> = ({
     data,
     onClick,
 }) => {
+    const player = usePlayer();
     const imageUrl = data.track_img_path;
 
-    // const handleClick = () => {
-    //     if (onClick) {
-    //         return onClick(data.track_id);
-    //     }
+    const handleClick = () => {
+        if (onClick) {
+            return onClick(data.track_id);
+        }
 
-    //     return player.setId(data.track_id);
-    // };
+        return player.setId(data.track_id);
+    };
 
     return (
         <div
-            onClick={() => { }}
+            onClick={handleClick}
             className="
         flex 
         items-center 

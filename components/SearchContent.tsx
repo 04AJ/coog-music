@@ -2,6 +2,8 @@
 import { Track } from "@/types";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
+import usePlayer from "@/hooks/usePlayer";
+import useOnPlay from "@/hooks/useOnPlay";
 
 
 
@@ -13,6 +15,8 @@ const SearchContent: React.FC<SearchContentProps> = ({
     tracks
 }) => {
 
+    const onPlay = useOnPlay(tracks);
+    const player = usePlayer();
 
     if (tracks.length === 0) {
         return (
@@ -40,7 +44,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
                 >
                     <div className="flex-1">
                         <MediaItem
-                            onClick={() => { }}
+                            onClick={(id: number) => { onPlay(id); player.setPath(track.track_path) }}
                             data={track}
                         />
                     </div>

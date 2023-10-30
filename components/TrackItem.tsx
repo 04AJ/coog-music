@@ -78,7 +78,6 @@ const TrackItem: React.FC<TrackItemProps> = ({
             truncate
           "
                 >
-                    <audio controls src={data.track_path} className="w-full"></audio>
                 </div>
             </div>
             <div
