@@ -19,3 +19,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+* {
+  color: #b6b6b6
+}
