@@ -12,7 +12,8 @@ export default function ProfilePage() {
             <div>UserID: {user.userId}</div>
             <UserDetails user={null} />
 
-
-        </div>
+            <button onClick={() => user.setUserId(1)
+            }>Click me</button>
+        </div >
     )
 }

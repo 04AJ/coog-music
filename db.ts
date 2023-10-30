@@ -42,30 +42,9 @@ export async function getUserId(email: string, password: string): Promise<number
     return 1;
 }
 
-export async function getLiked(track_id: number, user_id?: number): Promise<string> {
-
-    const track = await prisma.$queryRaw`SELECT track_id FROM liked_tracks WHERE user_id = ${user_id} AND track_id = ${track_id}`
-    // console.log(tracks);
-    // return new Response(JSON.stringify(tracks))
 
 
 
-    return (track as any) || null;
-};
-
-export async function unlikeTrack(track_id: number, user_id?: number): Promise<number> {
-
-    const affected = await prisma.$executeRaw`DELETE FROM liked_tracks WHERE user_id = ${user_id} AND track_id = ${track_id}`
-
-    return affected;
-}
-
-export async function likeTrack(track_id: number, user_id?: number): Promise<number> {
-
-    const affected = await prisma.$executeRaw`INSERT INTO liked_tracks(user_id, track_id) VALUES (${user_id}, ${track_id})`
-
-    return affected;
-}
 
 interface trackRequest {
     title: string,

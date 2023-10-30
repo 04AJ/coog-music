@@ -1,14 +1,17 @@
 "use client"
 import { useUser } from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
-import { getLiked, likeTrack, unlikeTrack } from '@/db';
 import React, { useEffect, useState } from 'react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import toast from 'react-hot-toast';
+import prisma from '@/client';
+import axios from 'axios';
 
 interface LikeButtonProps {
     trackId: number;
 }
+
+
 
 const LikeButton: React.FC<LikeButtonProps> = ({
     trackId
@@ -23,14 +26,25 @@ const LikeButton: React.FC<LikeButtonProps> = ({
         if (!user?.userId) {
             return;
         }
-        const fetchData = async () => {
-            const data = await getLiked(trackId, user.userId);
+        // const fetchData = async () => {
+        //     const data = await getLiked(trackId, user.userId);
 
-            if (data) {
-                setIsLiked(true);
-            }
-        };
-        fetchData();
+
+        //     if (data) {
+        //         setIsLiked(true);
+        //     }
+        // };
+        // fetchData();
+
+        axios.get<boolean>(`/api/like?user_id=${user.userId}&track_id=${trackId}`)
+            .then(response => {
+
+                if (response.data) {
+                    setIsLiked(true);
+
+                }
+            })
+            .catch(Error => console.error(Error))
     },
         //dependency array in useEffect: when these values change, useEffect is reexecuted
         [trackId, user?.userId]);
@@ -43,20 +57,25 @@ const LikeButton: React.FC<LikeButtonProps> = ({
             return;
         }
         if (isLiked) {
-            const affected = await unlikeTrack(trackId, user.userId);
+            // const affected = await unlikeTrack(trackId, user.userId);
+            axios.delete(`/api/like?user_id=${user.userId}&track_id=${trackId}`)
+                .then(() => {
 
-            if (affected) {
-                setIsLiked(false);
-                toast.success("Liked!")
-            }
+                    setIsLiked(false);
+                })
+                .catch(Error => console.error(Error))
 
 
         }
         else {
-            const affected = await likeTrack(trackId, user.userId);
-            if (affected) {
-                setIsLiked(true);
-            }
+            axios.post(`/api/like?user_id=${user.userId}&track_id=${trackId}`)
+                .then(() => {
+
+                    toast.success("Liked!");
+
+                    setIsLiked(true);
+                })
+                .catch(Error => console.error(Error))
         }
 
         router.refresh();
