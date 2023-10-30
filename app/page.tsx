@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { Track } from '@/types';
 import { getTracks } from '@/db'
 import Carousel from '@/components/Carousel';
+import LikedTracks from '@/components/LikedTracks';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -21,6 +22,7 @@ export default async function Home() {
 
 
   const tracks = await getTracks();
+
 
 
 
@@ -47,6 +49,8 @@ export default async function Home() {
             <audio controls src={track.track_path} />
           </div>)} */}
         <Carousel tracks={tracks} />
+
+        <LikedTracks />
       </div>
 
 
