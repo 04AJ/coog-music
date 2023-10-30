@@ -2,7 +2,6 @@
 import Image from 'next/image'
 import mysql, { ConnectionOptions, RowDataPacket } from 'mysql2';
 import Link from 'next/link';
-import useUploadTrackModal from '@/hooks/useUploadTrackModal';
 import Library from '@/components/Library';
 import { toast, Toaster } from "react-hot-toast";
 import UploadTrackButton from '@/components/UploadTrackButton';
@@ -12,6 +11,7 @@ import { Track } from '@/types';
 import { getTracks } from '@/db'
 import Carousel from '@/components/Carousel';
 import LikedTracks from '@/components/LikedTracks';
+import CreatePlaylistButton from '@/components/CreatePlaylistButton';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -36,9 +36,15 @@ export default async function Home() {
       >
       </Header>
 
-      <UploadTrackButton />
+      <div className="
+      
+      ">
+        <UploadTrackButton />
+        <CreatePlaylistButton />
 
 
+
+      </div>
 
       <div className='pl-5'> Complete List of Tracks</div>
       <div className='pl-5'>

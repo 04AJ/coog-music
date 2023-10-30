@@ -12,9 +12,11 @@ export default function ProfilePage() {
 
             <Header title="Profile" description="User Details"></Header>
             <div>UserID: {user.userId}</div>
+            <div>UserRole: {user.userRole}</div>
+            {(user.listenerId) ? <p>ListenerID: {user.listenerId}</p> : <p>ListenerID: null</p>}
             <UserDetails user={null} />
 
-            <button className="border" onClick={() => { user.setUserId(1); user.setUserRole("admin") }
+            <button className="border" onClick={() => { user.setUserId(4); user.setListenerId(3); user.setUserRole("listener") }
             }>Click me</button>
         </div >
     )
