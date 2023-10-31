@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { PrismaClient } from "@prisma/client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import axios from "axios";
 import "./login.css";
@@ -27,6 +27,7 @@ interface FormData {
 
 export default function LoginPage() {
   const user = useUser();
+  const router = useRouter();
   const [switchToLogin, setSwitchToLogin] = useState(true);
   const [switchToSignUp, setSwitchToSignUp] = useState(false);
   const [role, setRole] = useState("");
@@ -112,6 +113,7 @@ export default function LoginPage() {
           const res = await axios.post('/api/signupListener',{...formData, userID: userID});
           console.log("success signing up listener", res)
         }
+        router.push('/');
       }
     } catch (err) {
       console.error("Error signing up USER", err);
