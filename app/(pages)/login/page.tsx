@@ -22,7 +22,7 @@ interface FormData {
   ethnicity: string;
 }
 
-export default function login() {
+export default function LoginPage() {
   const [switchToLogin, setSwitchToLogin] = useState(true);
   const [switchToSignUp, setSwitchToSignUp] = useState(false);
   const [role, setRole] = useState("");
@@ -128,17 +128,15 @@ export default function login() {
       <div className="login-container">
         <div className="switch-container">
           <p
-            className={`switch-container-child ${
-              switchToLogin ? "active" : ""
-            }`}
+            className={`switch-container-child ${switchToLogin ? "active" : ""
+              }`}
             onClick={showLogin}
           >
             login
           </p>
           <p
-            className={`switch-container-child ${
-              switchToSignUp ? "active" : ""
-            }`}
+            className={`switch-container-child ${switchToSignUp ? "active" : ""
+              }`}
             onClick={showSignup}
           >
             signup

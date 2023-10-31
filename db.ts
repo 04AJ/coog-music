@@ -69,17 +69,6 @@ interface trackRequest {
   image_url: string
 }
 
-/* NOT WORKING
 
-export async function postTracks(req: trackRequest) {
-    const data: trackRequest = req;
-    console.log(data);
-    let curDate = new Date();
-
-    // const result = await prisma.$executeRaw`INSERT INTO track (artist_id, track_path, track_name, created_at, updated_at, streams, track_img_path ) VALUES (1, ${data.audio_url}, ${data.title}, ${curDate},${curDate}, 0, ${data.image_url} );`;
-    // console.log(result);
-
-}
-*/
 
 

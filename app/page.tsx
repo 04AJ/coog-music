@@ -6,8 +6,6 @@ import Library from '@/components/Library';
 import { toast, Toaster } from "react-hot-toast";
 import UploadTrackButton from '@/components/UploadTrackButton';
 import Header from '@/components/Header';
-import { useEffect, useState } from 'react';
-import { Track } from '@/types';
 import { getTracks } from '@/db'
 import Carousel from '@/components/Carousel';
 import LikedTracks from '@/components/LikedTracks';
