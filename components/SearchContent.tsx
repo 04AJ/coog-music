@@ -45,7 +45,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
 
         }
 
-    }, [user.userId])
+    }, [user.userId, user.listenerId, user.userRole])
 
 
 
