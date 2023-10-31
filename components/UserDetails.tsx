@@ -95,7 +95,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                     </h1>
 
                     {playlists?.map((playlist) =>
-                        <div>
+                        <div key={playlist.playlist_id}>
                             <li>{playlist.playlist_name}</li>
                             <PlaylistTracks playlist_id={playlist.playlist_id} />
                         </div>
