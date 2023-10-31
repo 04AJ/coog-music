@@ -33,7 +33,7 @@ const Player = () => {
 
     }, [player.activeId]);
 
-    console.log(track?.track_name);
+    // console.log(track?.track_name);
 
     if (!track || !player.activeId) {
         return null;

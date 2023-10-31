@@ -22,5 +22,12 @@ export interface User {
     ethnicity_name: string;
     gender_name: string;
 
+}
+
+export interface Playlist {
+    playlist_id: number;
+    playlist_name: string;
+    playlist_created_at: Date;
+    playlist_updated_at: Date;
 
 }

@@ -5,11 +5,12 @@ import { cookies } from "next/headers";
 const prisma = new PrismaClient();
 
 
-export const getTracks = async (): Promise<Track[]> => {
-  const tracks =
-    await prisma.$queryRaw`SELECT track_name, track_path, track_img_path, artist_id FROM track`;
+export async function getTracks(): Promise<Track[]> {
+  const tracks = await prisma.$queryRaw`SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name FROM track, artist WHERE track.artist_id = artist.artist_id;`
   // console.log(tracks);
   // return new Response(JSON.stringify(tracks))
+
+
 
   return (tracks as any) || [];
 };
