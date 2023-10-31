@@ -66,7 +66,7 @@ const NavBar: React.FC<NavBarProps> = ({
             visible: (user.userRole === 'admin') ? true : false
 
         }
-    ], [pathname]);
+    ], [pathname, user.userRole]);
 
     return (
         <div

@@ -25,7 +25,7 @@ interface FormData {
   gender: string;
 }
 
-export default function login() {
+export default function LoginPage() {
   const user = useUser();
   const [switchToLogin, setSwitchToLogin] = useState(true);
   const [switchToSignUp, setSwitchToSignUp] = useState(false);
@@ -91,23 +91,60 @@ export default function login() {
 
   const handleSignUp = async (event: any) => {
     event.preventDefault();
-
     //post user in database
-    axios
-      .post("/api/signup", formData)
-      .then((res) => {
-        console.log(res);
-        axios.get(`/api/signup?email=${formData.email}`).then((res) => {
-          if (res.data[0]) {
-            console.log(res.data[0]);
-            user.setUserId(res.data[0]);
-            //logic to set user_id
-          }
-        });
-      })
-      .catch((err) => {
-        console.error("this is an error ", err);
-      });
+    try {
+      const sigupResponse = await axios.post("/api/signup", formData);
+      console.log(sigupResponse);
+
+      const userResponse = await axios.get(`/api/signup?email=${formData.email}`);
+      console.log("userresponse: ",userResponse);
+      const userID: number = userResponse.data[0].user_id;
+      if(userID){
+        user.setUserId(userID);
+        console.log(typeof user.userId);
+        console.log(formData.role);
+        if(formData.role === "artist"){
+          user.setUserRole("artist");
+          const res = await axios.post('/api/signupArtist',{...formData, userID: userID});
+          console.log("success signing up artist", res)
+        } else {
+          user.setUserRole("listener");
+          const res = await axios.post('/api/signupListener',{...formData, userID: userID});
+          console.log("success signing up listener", res)
+        }
+      }
+    } catch (err) {
+      console.error("Error signing up USER", err);
+    }
+
+    // axios
+    //   .post("/api/signup", formData)
+    //   .then((res) => {
+    //     console.log(res);
+    //     axios.get(`/api/signup?email=${formData.email}`)
+    //       .then((res) => {
+    //         if (res.data[0]) {
+    //           console.log(res.data[0]);
+    //           user.setUserId(res.data[0]);
+    //           if(formData.role === "artist"){
+    //             //intersing into artist table
+    //             axios.post('api/sigupRole',formData)
+    //               .then((res) => {
+    //                 console.log(res);
+    //               })
+    //           } else if (formData.role === "listener"){
+    //             //inserting into listener table
+    //             axios.post('api/sigupRole',formData)
+    //               .then((res) => {
+    //                 console.log(res);
+    //               })
+    //           }
+    //         }
+    //       });
+    //   })
+    //   .catch((err) => {
+    //     console.error("error signing up user", err);
+    //   });
 
     alert(`username: ${formData.username} role: ${formData.role}, email: ${formData.email}, birthdate ${formData.birthdate} 
     passoword: ${formData.password}, race: ${formData.race}, ethnicity: ${formData.ethnicity}, gender: ${formData.gender}`);
