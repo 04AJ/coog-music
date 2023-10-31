@@ -14,16 +14,13 @@ export interface Track {
 export interface User {
     user_id: number;
     user_name: string;
+    password: string;
     birth_date: Date;
-    join_daet: Date;
+    join_date: Date;
     email: string;
-    race: string;
-    ethnicity: string;
-    gender: string;
-    artist_id?: number;
-    artist_name?: string;
-    artist_join_date?: Date;
-    artist_email?: string;
+    race_name: string;
+    ethnicity_name: string;
+    gender_name: string;
 
 
 }

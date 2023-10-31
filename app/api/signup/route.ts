@@ -10,8 +10,8 @@ interface reqFormat {
   gender: string;
 }
 
-export async function POST(req: reqFormat) {
-  const data: reqFormat = req;
+export async function POST(req: Request) {
+  const data: reqFormat = await req.json();
   let curDate = new Date();
 
   const result = await prisma.$executeRaw`
@@ -22,11 +22,3 @@ export async function POST(req: reqFormat) {
   return new Response(JSON.stringify("cruz"));
 }
 
-export async function GET() {
-  //WIP
-  const result = await prisma.$queryRaw`
-    SELECT user_id
-    FROM user
-    WHERE 
-    `;
-}
