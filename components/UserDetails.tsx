@@ -16,11 +16,16 @@ const UserDetails: React.FC<UserDetailsProps> = ({
     const [playlists, setPlaylists] = useState<Playlist[]>();
 
 
-    //get trackId or albumId's
-    if (user.userRole === 'listener') {
-        useEffect(() => {
+    //get playlistIds or albumId's
+    useEffect(() => {
+
+        if (user.userRole === 'listener') {
+            //get playList or albumId's
+
             axios.get<Playlist[]>(`/api/playlist?listener_id=${user.listenerId}`)
                 .then(response => {
+
+                    console.log("testing user content")
 
                     if (response.data) {
                         setPlaylists(response.data);
@@ -31,8 +36,10 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                     alert("error fetching data");
                 })
 
-        }, [user.userId]);
-    }
+        }
+
+    }, [user.userId])
+
 
     return (
         <div className="w-full flex-col">

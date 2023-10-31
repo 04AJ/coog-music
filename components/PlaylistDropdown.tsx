@@ -14,7 +14,6 @@ const PlaylistDropdown: React.FC<PlaylistDropdownProps> = ({
     playlists,
     track_id
 }) => {
-    let [text, setText] = useState("Select an item");
 
     const handleSubmit = async (track_id: number, playlist_id: number) => {
 
@@ -24,7 +23,7 @@ const PlaylistDropdown: React.FC<PlaylistDropdownProps> = ({
                 toast.success("Added to playlist!");
 
             })
-            .catch(Error => console.error(Error))
+            .catch(error => toast.error("Track already exists in playlist"))
     }
 
     return (

@@ -24,12 +24,15 @@ const SearchContent: React.FC<SearchContentProps> = ({
     const user = useUser();
     const [playlists, setPlaylists] = useState<Playlist[]>();
 
+    useEffect(() => {
 
-    //get trackId or albumId's
-    if (user.userRole === 'listener') {
-        useEffect(() => {
+        if (user.userRole === 'listener') {
+            //get playList or albumId's
+
             axios.get<Playlist[]>(`/api/playlist?listener_id=${user.listenerId}`)
                 .then(response => {
+
+                    console.log("testing search content")
 
                     if (response.data) {
                         setPlaylists(response.data);
@@ -40,8 +43,13 @@ const SearchContent: React.FC<SearchContentProps> = ({
                     alert("error fetching data");
                 })
 
-        }, [user.userId]);
-    }
+        }
+
+    }, [user.userId])
+
+
+
+
 
     if (tracks.length === 0) {
         return (
