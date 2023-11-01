@@ -46,7 +46,7 @@ const UserSearchContent: React.FC<UserSearchContentProps> = ({
         <div className="flex flex-col gap-y-2 w-full px-6 cursor-poniter">
             {artists.length > 0 ? <h1 className="text-2xl font-bold">Artists</h1> : null}
             {artists.map((artist: SuperUser) => (
-                <div>
+                <div key={artist.artist_id}>
                     {(artist.user_id !== user.userId) ?
                         <div
                             key={artist.artist_id}
@@ -67,7 +67,7 @@ const UserSearchContent: React.FC<UserSearchContentProps> = ({
             {listeners.length > 0 ? <h1 className="text-2xl font-bold">Listeners</h1> : null}
             {listeners.map((listener: SuperUser) => (
 
-                <div>
+                <div key={listener.listener_id}>
                     {(listener.user_id !== user.userId) ?
 
                         <div

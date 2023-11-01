@@ -12,6 +12,7 @@ import LikedTracks from '@/components/LikedTracks';
 import CreatePlaylistButton from '@/components/CreatePlaylistButton';
 import PlaylistDropdown from '@/components/PlaylistDropdown';
 import CreateAlbumButton from '@/components/CreateAlbumButton';
+import CreatedTracks from '@/components/CreatedTracks';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -45,21 +46,26 @@ export default async function Home() {
 
       </div>
 
+      <CreatedTracks />
+      <LikedTracks />
       <div className='pl-5'> Complete List of Tracks</div>
       <div className='pl-5'>
         {/* {tracks.map((track) =>
-          <div key={count++} >
-            {track.track_name}
-            <img src={track.track_img_path} alt="" width="100vw" />
-            <audio controls src={track.track_path} />
-          </div>)} */}
+            <div key={count++} >
+              {track.track_name}
+              <img src={track.track_img_path} alt="" width="100vw" />
+              <audio controls src={track.track_path} />
+            </div>)} */}
+
         <Carousel tracks={tracks} />
 
-        <LikedTracks />
       </div>
 
 
+
     </div >
+
+
   )
 
 
