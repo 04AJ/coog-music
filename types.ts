@@ -35,7 +35,6 @@ export interface Playlist {
 export interface SuperUser {
     user_id: number;
     user_name: string;
-    password: string;
     birth_date: Date;
     join_date: Date;
     email: string;

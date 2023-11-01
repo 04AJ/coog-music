@@ -56,7 +56,7 @@ export default function ProfilePage() {
                 {(user.userRole === 'listener') ? <p>ListenerID: {user.listenerId}</p> : <p>ArtistID: {user.artistId}</p>}
 
 
-                {userDetails ? <UserDetails userDetails={userDetails[0]} /> : null}
+                {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={true} /> : null}
 
 
             </div >

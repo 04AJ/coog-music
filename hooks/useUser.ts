@@ -41,7 +41,6 @@ export const useUser = create<User>()(
             activeUser: {
                 user_id: -1,
                 user_name: "",
-                password: "",
                 birth_date: new Date(),
                 join_date: new Date(),
                 email: "",
