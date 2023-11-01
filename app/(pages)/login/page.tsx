@@ -173,18 +173,11 @@ export default function LoginPage() {
       
       router.push('/');
     } catch (err) {
-
+      console.error("Error logging in USER", err);
+      user.setUserRole("na");
+      
     }
   }
-
-  /*
-    TODO:
-    send form data to database
-      check if its listener or artist
-        either way gotta be sent to user 
-    call database to get id
-    change pages with router
-  */
 
   return (
     <>
@@ -209,28 +202,28 @@ export default function LoginPage() {
         </div>
         {switchToLogin && (
           <>
-            <form onSubmit={handleLogin}>
-              <label>email:</label>
+            <form onSubmit={handleLogin} className="login-form">
+              <label className="form-label">Email</label>
               <input type="text" 
                      name="name"
                      value={formData.email}
                      placeholder="your email" 
                      onChange={handleChange} />
 
-              <label>password:</label>
+              <label className="form-label">Password</label>
               <input type="password"
                      name="password" 
                      value={formData.password}
                      placeholder="password" 
                      onChange={handleChange}/>
 
-              <input type="submit" value="Submit" />
+              <input className="login-button" type="submit" value="Log In" />
             </form>
           </>
         )}
         {switchToSignUp && (
           <>
-            <form onSubmit={handleSignUp}>
+            <form className="signup-form" onSubmit={handleSignUp}>
               <div>
                 <RadioInput
                   label="role"
@@ -248,8 +241,8 @@ export default function LoginPage() {
                 />
               </div>
               {role != "" && (
-                <label>
-                  username
+                <label className="form-label">
+                  Username
                   <input
                     type="text"
                     name="username"
@@ -260,7 +253,7 @@ export default function LoginPage() {
                 </label>
               )}
 
-              <label>sign up email:</label>
+              <label className="form-label">Email</label>
               <input
                 type="email"
                 id="email"
@@ -269,7 +262,7 @@ export default function LoginPage() {
                 onChange={handleChange}
               />
 
-              <label>sign up password:</label>
+              <label className="form-label">Password</label>
               <input
                 type="text"
                 name="password"
@@ -277,17 +270,15 @@ export default function LoginPage() {
                 value={formData.password}
                 onChange={handleChange}
               />
-              <label>
-                Birth Date
+              <label className="form-label">Birth Date</label>
                 <input
                   type="date"
                   name="birthdate"
                   defaultValue={formData.birthdate}
                   onChange={handleChange}
                 />
-              </label>
-              <label>
-                Race
+              
+              <label className="form-label">Race</label>
                 <select
                   name="race"
                   defaultValue={formData.race}
@@ -299,9 +290,7 @@ export default function LoginPage() {
                   <option value="asian">asian</option>
                   <option value="me">middle eastern</option>
                 </select>
-              </label>
-              <label>
-                Ethicity
+              <label className="form-label">Ethicity</label>
                 <select
                   name="ethnicity"
                   defaultValue={formData.ethnicity}
@@ -313,9 +302,9 @@ export default function LoginPage() {
                   <option value="asian">asian</option>
                   <option value="me">middle eastern</option>
                 </select>
-              </label>
-              <label>
-                Gender:
+              
+              <label className="form-label">
+                Gender
                 <RadioInput
                   label="gender"
                   value="male"
@@ -332,7 +321,7 @@ export default function LoginPage() {
                 />
               </label>
 
-              <button type="submit">Submit</button>
+              <button className="signup-button" type="submit">Submit</button>
             </form>
           </>
         )}
