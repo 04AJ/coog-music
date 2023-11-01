@@ -50,7 +50,7 @@ export default function UserProfilePage() {
 
         }
 
-    }, [user.userId])
+    }, [user.userId, user.activeUser, user.activeUser.is_artist, user.activeUser.listener_id, user.listenerId, user.userRole])
 
     const handleFollow = async () => {
         //if !isFollow

@@ -66,7 +66,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
         }
 
-    }, [user.userId, user.listenerId, user.userRole])
+    }, [user.userId, user.listenerId, user.userRole, profilePage, user.activeUser.is_artist, user.activeUser.listener_id])
 
 
     return (

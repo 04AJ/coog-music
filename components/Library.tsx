@@ -18,9 +18,6 @@ const Library: React.FC = () => {
     const user = useUser();
     const router = useRouter();
 
-    if (!user.userId) {
-        return null;
-    }
 
     useEffect(() => {
         if (user.userRole === 'listener') {
@@ -51,7 +48,7 @@ const Library: React.FC = () => {
 
 
 
-    }, [user.userId]);
+    }, [user.userId, user.artistId, user.listenerId, user.userRole]);
 
     const onClick = () => {
 
