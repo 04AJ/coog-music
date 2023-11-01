@@ -25,6 +25,14 @@ export default function UserProfilePage() {
     useEffect(() => {
         //listener follows listener
         if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
+            axios.get<boolean>(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
+                .then(response => {
+                    if (response.data) {
+                        setIsFollowing(true);
+
+                    }
+                })
+                .catch(Error => console.error(Error))
 
         }
         //listener forllows artist
@@ -49,7 +57,14 @@ export default function UserProfilePage() {
         //call post request
         if (!isFollowing) {
             if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
+                axios.post(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
+                    .then(() => {
 
+                        toast.success("Following!");
+
+                        setIsFollowing(true);
+                    })
+                    .catch(Error => console.error(Error))
             }
             //listener forllows artist
             else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
@@ -68,7 +83,14 @@ export default function UserProfilePage() {
         //call DELETE request
         else {
             if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
+                axios.delete(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
+                    .then(() => {
 
+                        toast.success("Unfollowed");
+
+                        setIsFollowing(false);
+                    })
+                    .catch(Error => console.error(Error))
             }
             //listener forllows artist
             else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
@@ -92,7 +114,7 @@ export default function UserProfilePage() {
             className={twMerge(`
             h-fit 
         bg-gradient-to-b 
-        from-red-800 
+        from-purple-800 to-30%
         p-6
           `,
                 player.activeId && 'h-[calc(100%-80px)]'

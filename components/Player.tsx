@@ -62,7 +62,15 @@ const Player = () => {
             self-start
             ">{track.track_name}</p>
 
-
+            <p className="
+            font-light
+            bottom-5
+            left-10 
+            fixed
+            text-base
+            self-start
+            text-red-400
+            ">{track.artist_name}</p>
 
 
             <div className="
