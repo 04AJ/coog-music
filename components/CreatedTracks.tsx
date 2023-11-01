@@ -18,6 +18,9 @@ const CreatedTracks = () => {
     const [createdTracks, setCreatedTracks] = useState<Track[]>();
     //CAREFUL: setting state inside useEffect = infinite loop. Need to use dependency array[]
 
+    if (user.userRole !== 'artist') {
+        return null;
+    }
 
     //consume likedTracks api endpoint
     useEffect(() => {
