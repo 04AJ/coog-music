@@ -1,6 +1,8 @@
+"use client"
 
 import Button from "@/components/Button";
 import Header from "@/components/Header";
+import ArtistSearchForm from './ArtistSearchForm';
 import './admin.css';
 
 export default function AdminPage() {
@@ -8,13 +10,7 @@ export default function AdminPage() {
     return (
         <div>
             <Header title="Admin Center" description="Data reports"></Header>
-            <div>
-                <h1 className="text-3xl text-white font-semibold mt-5">going to blow my brains out </h1>
-                <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 my-10">
-                    Artist Activity
-                </button>
-
-            </div>
+            <ArtistSearchForm/>
         </div>
     )
 }
@@ -28,3 +24,37 @@ export default function AdminPage() {
              before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-red-500
               before:dark:opacity-10 after:dark:from-red-900 after:dark:via-[#0141ff] 
               after:dark:opacity-40 before:lg:h-[360px] z-[-1]"*/
+              
+//"use client"
+
+// import Header from "@/components/Header";
+// import ReactDOM from "react-dom"
+// import { useForm, SubmitHandler } from "react-hook-form"
+// import DataForm from './DataForm';
+
+
+// import "./styles.css";
+
+// interface IFormInput {
+//     firstName: string;
+//     lastName: string;
+//     age: number;
+//     example: string;
+// }
+
+// export default function AdminPage() {
+//     return (
+
+//         <div className="">
+
+//             <Header title="Admin Center" description="For admins only"></Header>
+//             <div className="my-10">
+//                 <DataForm inputOne='swag'/>
+//             </div>
+//             <div className="my-10">
+//                 <DataForm inputOne='idiot name'/>
+//             </div>
+
+//         </div>
+//     );
+// }
