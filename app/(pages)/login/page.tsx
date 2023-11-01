@@ -72,10 +72,31 @@ export default function LoginPage() {
 
   const showLogin = () => {
     setSwitchToLogin(true);
+    setFormData({
+      username: "",
+      role: "",
+      email: "",
+      password: "",
+      birthdate: "",
+      race: "",
+      ethnicity: "",
+      gender: "",
+    });
     setSwitchToSignUp(false);
   };
+
   const showSignup = () => {
     setSwitchToSignUp(true);
+    setFormData({
+      username: "",
+      role: "",
+      email: "",
+      password: "",
+      birthdate: "",
+      race: "",
+      ethnicity: "",
+      gender: "",
+    });
     setSwitchToLogin(false);
   };
 
@@ -119,38 +140,42 @@ export default function LoginPage() {
       console.error("Error signing up USER", err);
     }
 
-    // axios
-    //   .post("/api/signup", formData)
-    //   .then((res) => {
-    //     console.log(res);
-    //     axios.get(`/api/signup?email=${formData.email}`)
-    //       .then((res) => {
-    //         if (res.data[0]) {
-    //           console.log(res.data[0]);
-    //           user.setUserId(res.data[0]);
-    //           if(formData.role === "artist"){
-    //             //intersing into artist table
-    //             axios.post('api/sigupRole',formData)
-    //               .then((res) => {
-    //                 console.log(res);
-    //               })
-    //           } else if (formData.role === "listener"){
-    //             //inserting into listener table
-    //             axios.post('api/sigupRole',formData)
-    //               .then((res) => {
-    //                 console.log(res);
-    //               })
-    //           }
-    //         }
-    //       });
-    //   })
-    //   .catch((err) => {
-    //     console.error("error signing up user", err);
-    //   });
-
     alert(`username: ${formData.username} role: ${formData.role}, email: ${formData.email}, birthdate ${formData.birthdate} 
     passoword: ${formData.password}, race: ${formData.race}, ethnicity: ${formData.ethnicity}, gender: ${formData.gender}`);
   };
+
+ 
+
+  const handleLogin = async (event: any) => {
+    event.preventDefault();
+
+    try{
+      const userResponse = await axios.get(`/api/signup?email=${formData.email}`);
+      const {user_id, is_artist, is_admin} = userResponse.data[0];
+      user.setUserId(user_id);
+
+      if(is_artist === 1){
+        user.setUserRole("artist");
+        const artistResponse = await axios.get(`/api/signupArtist?user_id=${user_id}`);
+        const artistID = artistResponse.data[0].artist_id;
+        //set zustand variable
+      } else if(is_admin === 1){
+        user.setUserRole("admin");
+
+        //admin logic
+      } else {
+        user.setUserRole("listener");
+        const listenerResponse = await axios.get(`/api/signupListener?user_id=${user_id}`);
+        const listenerID = listenerResponse.data[0].listener_id;;
+        //set zustand variable
+      }
+
+      
+      router.push('/');
+    } catch (err) {
+
+    }
+  }
 
   /*
     TODO:
@@ -184,12 +209,20 @@ export default function LoginPage() {
         </div>
         {switchToLogin && (
           <>
-            <form>
+            <form onSubmit={handleLogin}>
               <label>email:</label>
-              <input type="text" name="name" placeholder="your email" />
+              <input type="text" 
+                     name="name"
+                     value={formData.email}
+                     placeholder="your email" 
+                     onChange={handleChange} />
 
               <label>password:</label>
-              <input type="text" name="password" placeholder="password" />
+              <input type="password"
+                     name="password" 
+                     value={formData.password}
+                     placeholder="password" 
+                     onChange={handleChange}/>
 
               <input type="submit" value="Submit" />
             </form>
