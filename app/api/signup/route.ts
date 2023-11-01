@@ -32,8 +32,8 @@ export async function POST(req: Request) {
   }
 
   const result = await prisma.$executeRaw`
-    INSERT INTO user (user_name,password,birth_date,join_date,email,is_artist,is_admin,ethnicity_id,gender_id)
-    VALUES (${data.username},${data.password},${data.birthdate},${curDate},${data.email},${isArtist},${isAdmin},1,1)
+    INSERT INTO user (user_name,password,birth_date,join_date,email,is_artist,is_admin,race_id,ethnicity_id,gender_id)
+    VALUES (${data.username},${data.password},${data.birthdate},${curDate},${data.email},${isArtist},${isAdmin},${data.race},${data.ethnicity},${data.gender})
     `;
 
   return new Response(JSON.stringify(result));

@@ -40,9 +40,9 @@ export default function LoginPage() {
     email: "",
     password: "",
     birthdate: "",
-    race: "",
-    ethnicity: "",
-    gender: "",
+    race: 0,
+    ethnicity: 0,
+    gender: 0
   });
 
   const RadioInput = ({
@@ -78,9 +78,9 @@ export default function LoginPage() {
       email: "",
       password: "",
       birthdate: "",
-      race: "",
-      ethnicity: "",
-      gender: "",
+      race: 0,
+      ethnicity: 0,
+      gender: 0
     });
     setSwitchToSignUp(false);
   };
@@ -93,9 +93,9 @@ export default function LoginPage() {
       email: "",
       password: "",
       birthdate: "",
-      race: "",
-      ethnicity: "",
-      gender: "",
+      race: 0,
+      ethnicity: 0,
+      gender: 0
     });
     setSwitchToLogin(false);
   };
@@ -114,6 +114,10 @@ export default function LoginPage() {
   const handleSignUp = async (event: any) => {
     event.preventDefault();
     //post user in database
+    formData.race = Number(formData.race);
+    formData.ethnicity = Number(formData.ethnicity);
+    formData.gender = Number(formData.gender);
+    
     try {
       const sigupResponse = await axios.post("/api/signup", formData);
       console.log(sigupResponse);
@@ -284,11 +288,11 @@ export default function LoginPage() {
                   defaultValue={formData.race}
                   onChange={handleChange}
                 >
-                  <option value="white">white</option>
-                  <option value="hispanic">hispanic</option>
-                  <option value="black">black</option>
-                  <option value="asian">asian</option>
-                  <option value="me">middle eastern</option>
+                  <option value="1">White</option>
+                  <option value="2">Black</option>
+                  <option value="3">Asian</option>
+                  <option value="4">A. Indian</option>
+                  <option value="5">Hispanic</option>
                 </select>
               <label className="form-label">Ethicity</label>
                 <select
@@ -296,25 +300,24 @@ export default function LoginPage() {
                   defaultValue={formData.ethnicity}
                   onChange={handleChange}
                 >
-                  <option value="white">white</option>
-                  <option value="black">black</option>
-                  <option value="hispanic">hispanic</option>
-                  <option value="asian">asian</option>
-                  <option value="me">middle eastern</option>
+                  <option value="1">Asian</option>
+                  <option value="2">Hispanic</option>
+                  <option value="3">African American</option>
+                  <option value="4">White</option>
                 </select>
               
               <label className="form-label">
                 Gender
                 <RadioInput
                   label="gender"
-                  value="male"
+                  value="1"
                   checked={gender}
                   setter={setGender}
                   spanText="Male"
                 />
                 <RadioInput
                   label="gender"
-                  value="female"
+                  value="2"
                   checked={gender}
                   setter={setGender}
                   spanText="Female"
