@@ -5,11 +5,10 @@ import Image from "next/image";
 import { Track } from "@/types";
 import PlayButton from "./PlayButton";
 
-// import PlayButton from "./PlayButton";
 
 interface TrackItemProps {
     data: Track;
-    onClick: (id: string) => void;
+    onClick: (id: number) => void;
 }
 
 const TrackItem: React.FC<TrackItemProps> = ({
@@ -20,7 +19,7 @@ const TrackItem: React.FC<TrackItemProps> = ({
 
     return (
         <div
-            // onClick={() => onClick(data.track_id)}
+            onClick={() => onClick(data.track_id)}
             className="
         relative 
         group 
@@ -79,7 +78,6 @@ const TrackItem: React.FC<TrackItemProps> = ({
             truncate
           "
                 >
-                    <audio controls src={data.track_path} className="w-full"></audio>
                 </div>
             </div>
             <div

@@ -10,3 +10,40 @@ export interface Track {
     track_img_path: string
 
 };
+
+export interface User {
+    user_id: number;
+    user_name: string;
+    password: string;
+    birth_date: Date;
+    join_date: Date;
+    email: string;
+    race_name: string;
+    ethnicity_name: string;
+    gender_name: string;
+
+}
+
+export interface Playlist {
+    playlist_id: number;
+    playlist_name: string;
+    playlist_created_at: Date;
+    playlist_updated_at: Date;
+
+}
+
+export interface SuperUser {
+    user_id: number;
+    user_name: string;
+    password: string;
+    birth_date: Date;
+    join_date: Date;
+    email: string;
+    race_name: string;
+    ethnicity_name: string;
+    gender_name: string;
+    artist_id?: number;
+    listener_id?: number;
+    is_artist: number;
+
+}

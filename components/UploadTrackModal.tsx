@@ -4,19 +4,17 @@ import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 import useUploadTrackModal from '@/hooks/useUploadTrackModal'
-// import { postTracks } from '@/db'
 
 import Modal from './Modal';
 import Input from './Input';
 import Button from './Button';
-import { PrismaClient } from '@prisma/client';
 import { UploadButton } from '@uploadthing/react';
 import { OurFileRouter } from '@/app/api/uploadthing/core';
 
 
-const axios = require('axios');
 
 interface trackRequest {
     title: string,
@@ -77,7 +75,7 @@ const UploadTrackModal = () => {
             // console.log(title, author, image[0], audio[0]);
 
             if (!title || !artist || !audio[0] || !image[0]) {
-                alert("Failed")
+
                 toast.error('Missing fields');
                 return;
             }
@@ -126,7 +124,7 @@ const UploadTrackModal = () => {
 
             <Modal
                 title='Add a track'
-                description='Upload an mp3 file'
+                description='Upload an mp3 and image for your track'
                 isOpen={uploadModal.isOpen}
                 onChange={onChange}
             >

@@ -12,7 +12,7 @@ export default function AdminPage() {
             <Header title="Admin Center" description="Data reports"></Header>
             <ArtistSearchForm/>
         </div>
-    )
+    );
 }
 
 //first div's className. I put it down here because it was horrible to look at
