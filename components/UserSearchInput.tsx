@@ -28,7 +28,7 @@ const UserSearchInput = () => {
 
     return (
         <Input
-            placeholder="Who do you want to search?"
+            placeholder="Who do you want to find?"
             value={value}
             onChange={(e) => setValue(e.target.value)}
         />

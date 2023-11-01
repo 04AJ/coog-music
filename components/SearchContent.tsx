@@ -32,7 +32,6 @@ const SearchContent: React.FC<SearchContentProps> = ({
             axios.get<Playlist[]>(`/api/playlist?listener_id=${user.listenerId}`)
                 .then(response => {
 
-                    console.log("testing search content")
 
                     if (response.data) {
                         setPlaylists(response.data);

@@ -44,5 +44,6 @@ export interface SuperUser {
     gender_name: string;
     artist_id?: number;
     listener_id?: number;
+    is_artist: number;
 
 }
