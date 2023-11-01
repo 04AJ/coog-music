@@ -18,9 +18,7 @@ const CreatedTracks = () => {
     const [createdTracks, setCreatedTracks] = useState<Track[]>();
     //CAREFUL: setting state inside useEffect = infinite loop. Need to use dependency array[]
 
-    if (user.userRole !== 'artist') {
-        return null;
-    }
+
 
     //consume likedTracks api endpoint
     useEffect(() => {
@@ -47,7 +45,11 @@ const CreatedTracks = () => {
 
     return (
         <div >
-            Your Tracks
+            {(user.userRole === 'artist') ?
+                " Your Tracks" :
+                ""
+
+            }
             {createdTracks ? <Carousel tracks={createdTracks} /> : null}
         </div>
     )
