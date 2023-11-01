@@ -72,7 +72,7 @@ const Library: React.FC = () => {
                     <div className="text-neutral-200">
                         {(followers) ?
                             <div>
-                                {followers.map((follower) => <ul className="cursor-pointer" onClick={() => { user.setActiveUser(follower); router.push('/userProfile') }}>{follower.user_name}</ul>)}
+                                {followers.map((follower) => <ul key={follower.user_id} className="cursor-pointer" onClick={() => { user.setActiveUser(follower); router.push('/userProfile') }}>{follower.user_name}</ul>)}
                             </div> : null}
                     </div>
                     : null
