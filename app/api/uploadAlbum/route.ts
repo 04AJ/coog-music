@@ -13,6 +13,6 @@ export async function POST(req: Request) {
 
     const result = await prisma.$executeRaw`INSERT INTO album (artist_id, album_name, album_created_at, album_release_date, album_cover_path) 
     VALUES (${data.artist_id}, ${data.title} , ${curDate}, ${curDate}, ${data.image_url} );`;
-    console.log(result);
+    // console.log(result);
     return new Response(JSON.stringify(result));
 }

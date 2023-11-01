@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
         WHERE ${listener_id} = listener_follows_listener.listener_id AND listener_follows_listener.follower_id = listener.listener_id AND (user.user_id = listener.user_id )
         AND user.gender_id = gender.gender_id AND user.ethnicity_id = ethnicity.ethnicity_id AND user.race_id = race.race_id`;
 
-        console.log(users);
+        // console.log(users);
         return new Response(JSON.stringify(users))
 
     }

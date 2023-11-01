@@ -117,25 +117,25 @@ export default function LoginPage() {
     formData.race = Number(formData.race);
     formData.ethnicity = Number(formData.ethnicity);
     formData.gender = Number(formData.gender);
-    
+
     try {
       const sigupResponse = await axios.post("/api/signup", formData);
       console.log(sigupResponse);
 
       const userResponse = await axios.get(`/api/signup?email=${formData.email}`);
-      console.log("userresponse: ",userResponse);
+      console.log("userresponse: ", userResponse);
       const userID: number = userResponse.data[0].user_id;
-      if(userID){
+      if (userID) {
         user.setUserId(userID);
         console.log(typeof user.userId);
         console.log(formData.role);
-        if(formData.role === "artist"){
+        if (formData.role === "artist") {
           user.setUserRole("artist");
-          const res = await axios.post('/api/signupArtist',{...formData, userID: userID});
+          const res = await axios.post('/api/signupArtist', { ...formData, userID: userID });
           console.log("success signing up artist", res)
         } else {
           user.setUserRole("listener");
-          const res = await axios.post('/api/signupListener',{...formData, userID: userID});
+          const res = await axios.post('/api/signupListener', { ...formData, userID: userID });
           console.log("success signing up listener", res)
         }
         router.push('/');
@@ -148,22 +148,23 @@ export default function LoginPage() {
     passoword: ${formData.password}, race: ${formData.race}, ethnicity: ${formData.ethnicity}, gender: ${formData.gender}`);
   };
 
- 
+
 
   const handleLogin = async (event: any) => {
     event.preventDefault();
 
-    try{
+    try {
       const userResponse = await axios.get(`/api/signup?email=${formData.email}`);
-      const {user_id, is_artist, is_admin} = userResponse.data[0];
+      const { user_id, is_artist, is_admin } = userResponse.data[0];
       user.setUserId(user_id);
 
-      if(is_artist === 1){
+      if (is_artist === 1) {
         user.setUserRole("artist");
         const artistResponse = await axios.get(`/api/signupArtist?user_id=${user_id}`);
         const artistID = artistResponse.data[0].artist_id;
         //set zustand variable
-      } else if(is_admin === 1){
+        user.setArtistId(artistID);
+      } else if (is_admin === 1) {
         user.setUserRole("admin");
 
         //admin logic
@@ -171,15 +172,16 @@ export default function LoginPage() {
         user.setUserRole("listener");
         const listenerResponse = await axios.get(`/api/signupListener?user_id=${user_id}`);
         const listenerID = listenerResponse.data[0].listener_id;;
+        user.setListenerId(listenerID);
         //set zustand variable
       }
 
-      
+
       router.push('/');
     } catch (err) {
       console.error("Error logging in USER", err);
       user.setUserRole("na");
-      
+
     }
   }
 
@@ -206,18 +208,18 @@ export default function LoginPage() {
           <>
             <form onSubmit={handleLogin} className="login-form">
               <label className="form-label">Email</label>
-              <input type="text" 
-                     name="name"
-                     value={formData.email}
-                     placeholder="your email" 
-                     onChange={handleChange} />
+              <input type="text"
+                name="name"
+                value={formData.email}
+                placeholder="your email"
+                onChange={handleChange} />
 
               <label className="form-label">Password</label>
               <input type="password"
-                     name="password" 
-                     value={formData.password}
-                     placeholder="password" 
-                     onChange={handleChange}/>
+                name="password"
+                value={formData.password}
+                placeholder="password"
+                onChange={handleChange} />
 
               <input className="login-button" type="submit" value="Log In" />
             </form>
@@ -273,37 +275,37 @@ export default function LoginPage() {
                 onChange={handleChange}
               />
               <label className="form-label">Birth Date</label>
-                <input
-                  type="date"
-                  name="birthdate"
-                  defaultValue={formData.birthdate}
-                  onChange={handleChange}
-                />
-              
+              <input
+                type="date"
+                name="birthdate"
+                defaultValue={formData.birthdate}
+                onChange={handleChange}
+              />
+
               <label className="form-label">Race</label>
-                <select
-                  name="race"
-                  defaultValue={formData.race}
-                  onChange={handleChange}
-                >
-                  <option value="1">White</option>
-                  <option value="2">Black</option>
-                  <option value="3">Asian</option>
-                  <option value="4">A. Indian</option>
-                  <option value="5">Hispanic</option>
-                </select>
+              <select
+                name="race"
+                defaultValue={formData.race}
+                onChange={handleChange}
+              >
+                <option value="1">White</option>
+                <option value="2">Black</option>
+                <option value="3">Asian</option>
+                <option value="4">A. Indian</option>
+                <option value="5">Hispanic</option>
+              </select>
               <label className="form-label">Ethicity</label>
-                <select
-                  name="ethnicity"
-                  defaultValue={formData.ethnicity}
-                  onChange={handleChange}
-                >
-                  <option value="1">Asian</option>
-                  <option value="2">Hispanic</option>
-                  <option value="3">African American</option>
-                  <option value="4">White</option>
-                </select>
-              
+              <select
+                name="ethnicity"
+                defaultValue={formData.ethnicity}
+                onChange={handleChange}
+              >
+                <option value="1">Asian</option>
+                <option value="2">Hispanic</option>
+                <option value="3">African American</option>
+                <option value="4">White</option>
+              </select>
+
               <label className="form-label">
                 Gender
                 <RadioInput
