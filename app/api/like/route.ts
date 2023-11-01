@@ -9,6 +9,8 @@ export async function GET(req: NextRequest) {
     const user_id = searchParams.get('user_id');
     const track_id = searchParams.get('track_id');
     const track: [{}] = await prisma.$queryRaw`SELECT track_id FROM liked_tracks WHERE user_id = ${user_id} AND track_id = ${track_id}`
+
+
     if (track[0]) {
         return new Response(JSON.stringify(true))
 

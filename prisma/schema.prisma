@@ -16,13 +16,14 @@ model admin {
 }
 
 model album {
-  album_id           Int       @id @default(autoincrement())
-  album_name         String?   @db.VarChar(100)
+  album_id           Int              @id @default(autoincrement())
+  album_name         String?          @db.VarChar(100)
   artist_id          Int?
-  album_created_at   DateTime  @db.DateTime(0)
-  album_release_date DateTime? @db.Date
-  album_cover_path   String?   @db.VarChar(255)
-  artist             artist?   @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "album_ibfk_1")
+  album_created_at   DateTime         @db.DateTime(0)
+  album_release_date DateTime?        @db.Date
+  album_cover_path   String?          @db.VarChar(255)
+  artist             artist?          @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "album_ibfk_1")
+  track_to_album     track_to_album[]
 
   @@index([artist_id], map: "artist_id")
 }
@@ -156,6 +157,7 @@ model track {
   liked_tracks      liked_tracks[]
   rating            rating[]
   artist            artist?             @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "track_ibfk_1")
+  track_to_album    track_to_album[]
   track_to_genre    track_to_genre[]
   track_to_playlist track_to_playlist[]
 
@@ -208,4 +210,15 @@ model user {
   @@index([ethnicity_id], map: "ethnicity_id")
   @@index([gender_id], map: "gender_id")
   @@index([race_id], map: "race_id")
+}
+
+model track_to_album {
+  track_id          Int
+  album_id          Int
+  track_inserted_at DateTime? @db.DateTime(0)
+  track             track     @relation(fields: [track_id], references: [track_id], onDelete: NoAction, onUpdate: NoAction, map: "track_to_album_ibfk_1")
+  album             album     @relation(fields: [album_id], references: [album_id], onDelete: NoAction, onUpdate: NoAction, map: "track_to_album_ibfk_2")
+
+  @@id([track_id, album_id])
+  @@index([album_id], map: "album_id")
 }

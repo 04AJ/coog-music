@@ -1,9 +1,13 @@
 "use client"
-import { Track } from "@/types";
+import { Playlist, Track } from "@/types";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import usePlayer from "@/hooks/usePlayer";
 import useOnPlay from "@/hooks/useOnPlay";
+import PlaylistDropdown from "./PlaylistDropdown";
+import { useEffect, useState } from "react";
+import { useUser } from "@/hooks/useUser";
+import axios from "axios";
 
 
 
@@ -17,6 +21,34 @@ const SearchContent: React.FC<SearchContentProps> = ({
 
     const onPlay = useOnPlay(tracks);
     const player = usePlayer();
+    const user = useUser();
+    const [playlists, setPlaylists] = useState<Playlist[]>();
+
+    useEffect(() => {
+
+        if (user.userRole === 'listener') {
+            //get playList or albumId's
+
+            axios.get<Playlist[]>(`/api/playlist?listener_id=${user.listenerId}`)
+                .then(response => {
+
+
+                    if (response.data) {
+                        setPlaylists(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+
+        }
+
+    }, [user.userId, user.listenerId, user.userRole])
+
+
+
+
 
     if (tracks.length === 0) {
         return (
@@ -48,7 +80,9 @@ const SearchContent: React.FC<SearchContentProps> = ({
                             data={track}
                         />
                     </div>
+                    {(user.userRole === "listener" && playlists) ? <PlaylistDropdown playlists={playlists} track_id={track.track_id} /> : null}
                     <LikeButton trackId={track.track_id} />
+
                 </div>
             ))}
         </div>

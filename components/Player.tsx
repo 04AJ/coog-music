@@ -33,7 +33,7 @@ const Player = () => {
 
     }, [player.activeId]);
 
-    console.log(track?.track_name);
+    // console.log(track?.track_name);
 
     if (!track || !player.activeId) {
         return null;
@@ -62,7 +62,15 @@ const Player = () => {
             self-start
             ">{track.track_name}</p>
 
-
+            <p className="
+            font-light
+            bottom-5
+            left-10 
+            fixed
+            text-base
+            self-start
+            text-red-400
+            ">{track.artist_name}</p>
 
 
             <div className="

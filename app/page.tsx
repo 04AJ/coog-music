@@ -1,17 +1,18 @@
-import Image from "next/image";
-import mysql, { ConnectionOptions, RowDataPacket } from "mysql2";
-import Link from "next/link";
-import useUploadTrackModal from "@/hooks/useUploadTrackModal";
-import Library from "@/components/Library";
+
+import Image from 'next/image'
+import mysql, { ConnectionOptions, RowDataPacket } from 'mysql2';
+import Link from 'next/link';
+import Library from '@/components/Library';
 import { toast, Toaster } from "react-hot-toast";
 import UploadTrackButton from '@/components/UploadTrackButton';
 import Header from '@/components/Header';
-import { useEffect, useState } from 'react';
-import { Track } from '@/types';
 import { getTracks } from '@/db'
 import Carousel from '@/components/Carousel';
 import LikedTracks from '@/components/LikedTracks';
-
+import CreatePlaylistButton from '@/components/CreatePlaylistButton';
+import PlaylistDropdown from '@/components/PlaylistDropdown';
+import CreateAlbumButton from '@/components/CreateAlbumButton';
+import CreatedTracks from '@/components/CreatedTracks';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -30,27 +31,41 @@ export default async function Home() {
       <div><Toaster /></div>
 
 
-
       <Header title="Coog Music Library" description="Welcome back"></Header>
 
-      <UploadTrackButton />
+      <div className="
+      
+      ">
+        <div className='grid grid-row-2'>
+          <CreateAlbumButton />
+          <UploadTrackButton />
+
+        </div>
+        <CreatePlaylistButton />
 
 
+      </div>
+
+      <CreatedTracks />
+      <LikedTracks />
       <div className='pl-5'> Complete List of Tracks</div>
       <div className='pl-5'>
         {/* {tracks.map((track) =>
-          <div key={count++} >
-            {track.track_name}
-            <img src={track.track_img_path} alt="" width="100vw" />
-            <audio controls src={track.track_path} />
-          </div>)} */}
+            <div key={count++} >
+              {track.track_name}
+              <img src={track.track_img_path} alt="" width="100vw" />
+              <audio controls src={track.track_path} />
+            </div>)} */}
+
         <Carousel tracks={tracks} />
 
-        <LikedTracks />
       </div>
 
 
+
     </div >
+
+
   )
 
 

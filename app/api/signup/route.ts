@@ -12,11 +12,13 @@ interface reqFormat {
   gender: string;
 }
 
+
 interface resFormat {
   user_id: number;
   is_artist: number;
   is_admin: number;
 }
+
 
 export async function POST(req: Request) {
   const data: reqFormat = await req.json();
@@ -38,6 +40,7 @@ export async function POST(req: Request) {
 
   return new Response(JSON.stringify(result));
 }
+
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;

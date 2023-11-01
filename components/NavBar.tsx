@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { BiHomeAlt2 } from "react-icons/bi"
 import { AiFillUnlock, AiOutlineSearch } from "react-icons/ai"
 import { CgProfile } from "react-icons/cg"
+import { BiSolidGroup } from "react-icons/bi"
 import { RiAdminLine } from "react-icons/ri"
 import { twMerge } from "tailwind-merge";
 import Library from "./Library";
@@ -55,6 +56,14 @@ const NavBar: React.FC<NavBarProps> = ({
             label: 'Profile',
             active: pathname === '/profile',
             href: '/profile',
+            visible: true
+
+        },
+        {
+            icon: BiSolidGroup,
+            label: 'Explore',
+            active: pathname === '/explore',
+            href: '/explore',
             visible: true
 
         },
