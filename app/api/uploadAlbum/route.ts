@@ -4,7 +4,6 @@ import prisma from '@/client'
 interface reqFormat {
     title: string,
     artist_id: number,
-    audio_url: string,
     image_url: string
 }
 
@@ -12,7 +11,8 @@ export async function POST(req: Request) {
     const data: reqFormat = await req.json();
     let curDate = new Date();
 
-    const result = await prisma.$executeRaw`INSERT INTO track (artist_id, track_path, track_name, created_at, updated_at, streams, track_img_path ) VALUES (${data.artist_id}, ${data.audio_url}, ${data.title}, ${curDate},${curDate}, 0, ${data.image_url} );`;
+    const result = await prisma.$executeRaw`INSERT INTO album (artist_id, album_name, album_created_at, album_release_date, album_cover_path) 
+    VALUES (${data.artist_id}, ${data.title} , ${curDate}, ${curDate}, ${data.image_url} );`;
     console.log(result);
     return new Response(JSON.stringify(result));
 }

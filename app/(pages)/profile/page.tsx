@@ -54,7 +54,7 @@ export default function ProfilePage() {
                 <div className="flex gap-5 p-4">
                     <button className="border" onClick={() => { user.setUserId(4); user.setListenerId(3); user.setUserRole("listener") }
                     }>Login as Listener</button>
-                    <button className="border" onClick={() => { user.setUserId(1); user.setArtistId(1); user.setUserRole('artist') }
+                    <button className="border" onClick={() => { user.setUserId(2); user.setArtistId(2); user.setUserRole('artist') }
                     }>Login as Artist</button>
                 </div>
 

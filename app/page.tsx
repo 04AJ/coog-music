@@ -11,6 +11,7 @@ import Carousel from '@/components/Carousel';
 import LikedTracks from '@/components/LikedTracks';
 import CreatePlaylistButton from '@/components/CreatePlaylistButton';
 import PlaylistDropdown from '@/components/PlaylistDropdown';
+import CreateAlbumButton from '@/components/CreateAlbumButton';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -34,7 +35,11 @@ export default async function Home() {
       <div className="
       
       ">
-        <UploadTrackButton />
+        <div className='grid grid-row-2'>
+          <CreateAlbumButton />
+          <UploadTrackButton />
+
+        </div>
         <CreatePlaylistButton />
 
 

@@ -1,5 +1,6 @@
 "use client"
 
+import CreateAlbumModal from "@/components/CreateAlbumModal";
 import CreatePlaylistModal from "@/components/CreatePlaylistModal";
 import Modal from "@/components/Modal";
 import UploadTrackModal from "@/components/UploadTrackModal";
@@ -27,6 +28,7 @@ const ModalProvider = () => {
         <>
             <UploadTrackModal />
             <CreatePlaylistModal />
+            <CreateAlbumModal />
         </>
     )
 }
