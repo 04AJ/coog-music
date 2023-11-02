@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const artist_id = searchParams.get('artist_id');
     const tracks = await prisma.$queryRaw<Playlist[]>`
-    SELECT album_id, album_name, album_created_at, album_release_date 
+    SELECT album_id, album_name, album_created_at, album_release_date, album_cover_path
     FROM album
     WHERE artist_id = ${artist_id};`
     // console.log(tracks);

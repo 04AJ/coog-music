@@ -94,7 +94,7 @@ const TrackItem: React.FC<TrackItemProps> = ({
                 <PlayButton />
             </div>
 
-            {(user.userRole === 'artist' && data.artist_id === user.artistId) ?
+            {(albums[0] && user.userRole === 'artist' && data.artist_id === user.artistId) ?
 
                 < div
                     className="

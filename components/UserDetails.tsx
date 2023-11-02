@@ -1,9 +1,11 @@
 "use client"
 import { useUser } from "@/hooks/useUser";
-import { Playlist, SuperUser, User } from "@/types";
+import { Album, Playlist, SuperUser, User } from "@/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PlaylistTracks from "./PlaylistTracks";
+import AlbumTracks from "./AlbumTracks";
+import Image from "next/image";
 
 interface UserDetailsProps {
     userDetails: User | SuperUser,
@@ -16,7 +18,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
     const user = useUser();
     const [playlists, setPlaylists] = useState<Playlist[]>();
-    const [albums, setAlbums] = useState<Playlist[]>();
+    const [albums, setAlbums] = useState<Album[]>();
 
 
 
@@ -43,6 +45,22 @@ const UserDetails: React.FC<UserDetailsProps> = ({
         else if (profilePage && user.userRole === 'artist') {
 
 
+            axios.get<Album[]>(`/api/album?artist_id=${user.artistId}`)
+                .then(response => {
+
+
+                    if (response.data) {
+                        setAlbums(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+
+
+
+
         }
         else if (!profilePage && user.activeUser.is_artist === 0) {
             //get playList or albumId's
@@ -63,6 +81,20 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
         }
         else {
+
+            axios.get<Album[]>(`/api/album?artist_id=${user.activeUser.artist_id}`)
+                .then(response => {
+
+
+
+                    if (response.data) {
+                        setAlbums(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
 
         }
 
@@ -130,10 +162,35 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
                 : (profilePage && user.userRole === 'artist') ?
 
+                    <div>
+                        <h1 className="text-3xl font-bold">
+                            Albums
+                        </h1>
+                        {albums?.map((album) =>
+                            <div key={album.album_id}>
+                                <li>{album.album_name}</li>
 
-                    <h1 className="text-3xl font-bold">
-                        Albums
-                    </h1>
+                                <div
+                                    className="
+          relative 
+          aspect-square 
+          w-1/3
+          rounded-md 
+          overflow-hidden
+        "
+                                >
+                                    <Image
+                                        className="object-cover"
+                                        src={album.album_cover_path}
+                                        fill
+                                        alt="Image"
+                                    />
+                                </div>
+                                <AlbumTracks album_id={album.album_id} />
+                            </div>
+                        )}
+                    </div>
+
                     : (!profilePage && user.activeUser.is_artist === 0) ?
                         <div>
                             <h1 className="text-3xl font-bold">Playlists</h1>
@@ -146,9 +203,19 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                             )}
                         </div>
 
-                        : <div className="text-3xl font-bold">Albums</div>
+                        :
 
-
+                        <div>
+                            <h1 className="text-3xl font-bold">
+                                Albums
+                            </h1>
+                            {albums?.map((album) =>
+                                <div key={album.album_id}>
+                                    <li>{album.album_name}</li>
+                                    <AlbumTracks album_id={album.album_id} />
+                                </div>
+                            )}
+                        </div>
 
 
 

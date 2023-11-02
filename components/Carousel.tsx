@@ -4,6 +4,8 @@ import { Album, Track } from "@/types"
 import TrackItem from "./TrackItem";
 import useOnPlay from "@/hooks/useOnPlay";
 import usePlayer from "@/hooks/usePlayer";
+import Image from "next/image";
+
 
 interface CarouselProps {
     tracks: Track[];
@@ -38,12 +40,15 @@ const Carousel: React.FC<CarouselProps> = ({
               "
         >
             {tracks.map((item) => (
+
+
                 <TrackItem
                     key={item.track_id}
                     onClick={(id: number) => { onPlay(id); player.setPath(item.track_path) }}
                     data={item}
                     albums={albums}
                 />
+
             ))}
         </div>
     );
