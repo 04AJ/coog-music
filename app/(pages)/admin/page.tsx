@@ -3,6 +3,7 @@
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import ArtistSearchForm from './ArtistSearchForm';
+import {getArtistByName} from "@/db";
 import './admin.css';
 
 export default function AdminPage() {

@@ -47,3 +47,9 @@ export interface SuperUser {
     is_artist: number;
 
 }
+
+export interface Artist {
+    artist_id: number;
+    artist_name: string;
+    artist_email: string;
+}
