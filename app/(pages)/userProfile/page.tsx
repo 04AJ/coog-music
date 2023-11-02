@@ -8,6 +8,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { RxCaretLeft } from "react-icons/rx"
+import { MdVerified } from "react-icons/md";
+import toast from "react-hot-toast";
 
 
 export default function UserProfilePage() {
@@ -15,32 +18,158 @@ export default function UserProfilePage() {
     const player = usePlayer();
     const router = useRouter();
 
+    const [isFollowing, setIsFollowing] = useState(false);
+
+    //test if track has been liked already
+    //get request
+    useEffect(() => {
+        //listener follows listener
+        if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
+            axios.get<boolean>(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
+                .then(response => {
+                    if (response.data) {
+                        setIsFollowing(true);
+
+                    }
+                })
+                .catch(Error => console.error(Error))
+
+        }
+        //listener forllows artist
+        else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
+
+            axios.get<boolean>(`/api/follow?listener_id=${user.listenerId}&artist_id=${user.activeUser.artist_id}`)
+                .then(response => {
+                    if (response.data) {
+                        setIsFollowing(true);
+
+                    }
+                })
+                .catch(Error => console.error(Error))
 
 
+        }
+
+    }, [user.userId, user.activeUser, user.activeUser.is_artist, user.activeUser.listener_id, user.listenerId, user.userRole])
+
+    const handleFollow = async () => {
+        //if !isFollow
+        //call post request
+        if (!isFollowing) {
+            if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
+                axios.post(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
+                    .then(() => {
+
+                        toast.success("Following!");
+
+                        setIsFollowing(true);
+                    })
+                    .catch(Error => console.error(Error))
+            }
+            //listener forllows artist
+            else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
+                axios.post(`/api/follow?listener_id=${user.listenerId}&artist_id=${user.activeUser.artist_id}`)
+                    .then(() => {
+
+                        toast.success("Following!");
+
+                        setIsFollowing(true);
+                    })
+                    .catch(Error => console.error(Error))
+            }
+
+        }
+        //if isFollow
+        //call DELETE request
+        else {
+            if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
+                axios.delete(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
+                    .then(() => {
+
+                        toast.success("Unfollowed");
+
+                        setIsFollowing(false);
+                    })
+                    .catch(Error => console.error(Error))
+            }
+            //listener forllows artist
+            else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
+                axios.delete(`/api/follow?listener_id=${user.listenerId}&artist_id=${user.activeUser.artist_id}`)
+                    .then(() => {
+
+                        toast.success("Unfollowed");
+
+                        setIsFollowing(false);
+                    })
+                    .catch(Error => console.error(Error))
+            }
+
+        }
+    }
 
 
     return (
 
         <div
             className={twMerge(`
-          flex-col
-          h-full
+            h-fit 
+        bg-gradient-to-b 
+        from-purple-800 to-30%
+        p-6
           `,
                 player.activeId && 'h-[calc(100%-80px)]'
             )}
         >
-            <div className="pl-10 bg-neutral-900/80 flex min-h-screen flex-col items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-red-500 before:dark:opacity-10 after:dark:from-red-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
+            <div className="w-full h-full mb-4 flex-col items-center">
 
-                Search User Profile Page!
+                <button
+                    onClick={() => router.back()}
+                    className="
+              rounded-full 
+              bg-black 
+              flex 
+              items-center 
+              justify-center 
+              cursor-pointer 
+              hover:opacity-75 
+              transition
+            "
+                >
+                    <RxCaretLeft className="text-white" size={35} />
+                </button>
 
-                <div className="text-2xl font-bold">{user.activeUser.user_name}</div>
-                <p>Follow Btn</p>
+                <div className="text-center mb-10">
+                    {user.activeUser.is_artist ?
+                        <div className="flex justify-center">
+                            <p>Verified Artist</p>
+                            <MdVerified color='#72bcd4' size='1.5rem' />
+
+                        </div>
+
+                        : null}
+
+                    <div className="text-6xl font-bold gap-2 justify-center flex flex-row mb-2">
 
 
-                <button onClick={() => router.push(`/explore?title=${user.activeUser.user_name}`)}>Go Back</button>
+                        {user.activeUser.user_name}
 
-                <p>User Info</p>
-                <p>Albums or Tracks</p>
+
+                    </div>
+                    {(user.userRole === 'listener') ?
+                        <button className="border p-1 rounded-md hover:bg-sky-600"
+                            onClick={handleFollow}
+                        >{(isFollowing) ? "Unfollow" : "Follow"}</button>
+                        : null
+                    }
+
+
+                </div>
+
+
+
+                <p className="text-3xl font-bold">User Info</p>
+                <UserDetails userDetails={user.activeUser} profilePage={false} />
+
 
             </div >
 

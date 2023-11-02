@@ -9,7 +9,7 @@ interface User {
     listenerId?: number;
     userRole: 'listener' | 'artist' | 'admin' | 'na';
     activeUser: SuperUser;
-    setUserId: (id: number) => void;
+    setUserId: (id: number | undefined) => void;
     setArtistId: (id: number) => void;
     setListenerId: (id: number) => void;
     setActiveUser: (user: SuperUser) => void;
@@ -41,7 +41,6 @@ export const useUser = create<User>()(
             activeUser: {
                 user_id: -1,
                 user_name: "",
-                password: "",
                 birth_date: new Date(),
                 join_date: new Date(),
                 email: "",
@@ -52,8 +51,8 @@ export const useUser = create<User>()(
                 listener_id: -1,
                 is_artist: -1
             },
-            userRole: 'admin',
-            setUserId: (id: number) => set({ userId: id }),
+            userRole: 'na',
+            setUserId: (id: number | undefined) => set({ userId: id }),
             setArtistId: (id: number) => set({ artistId: id }),
 
             setListenerId: (id: number) => set({ listenerId: id }),

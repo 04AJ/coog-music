@@ -13,31 +13,27 @@ import Input from './Input';
 import Button from './Button';
 import { UploadButton } from '@uploadthing/react';
 import { OurFileRouter } from '@/app/api/uploadthing/core';
+import useCreateAlbumModal from '@/hooks/useCreateAlbumModal';
 import { useUser } from '@/hooks/useUser';
 
 
 
-interface trackRequest {
+interface albumRequest {
     title: string,
     artist_id: number,
-    audio_url: string,
     image_url: string
 }
 
 
-const UploadTrackModal = () => {
+const CreateAlbumModal = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [image, setImage] = useState<{
         fileUrl: string;
         fileKey: string;
     }[]>([])
-    const [audio, setAudio] = useState<{
-        fileUrl: string;
-        fileKey: string;
-    }[]>([])
 
     //calling custom hook (allows us to change modal state)
-    const uploadModal = useUploadTrackModal();
+    const albumModal = useCreateAlbumModal();
     const user = useUser();
     const router = useRouter();
 
@@ -45,6 +41,7 @@ const UploadTrackModal = () => {
         handleSubmit,
         reset } = useForm<FieldValues>({
             defaultValues: {
+                artist: '',
                 title: '',
                 song: null,
                 image: null,
@@ -57,7 +54,7 @@ const UploadTrackModal = () => {
         if (!open) {
             //reset form
             reset();
-            uploadModal.onClose();
+            albumModal.onClose();
         }
     }
 
@@ -69,11 +66,10 @@ const UploadTrackModal = () => {
 
             const title = values.title;
             const imageFile = values.image?.[0];
-            const songFile = values.song?.[0];
 
             // console.log(title, author, image[0], audio[0]);
 
-            if (!title || !audio[0] || !image[0]) {
+            if (!title || !image[0]) {
 
                 toast.error('Missing fields');
                 return;
@@ -81,18 +77,17 @@ const UploadTrackModal = () => {
 
 
             // POST REQUEST
-            axios.post('/api/upload', {
+            axios.post('/api/uploadAlbum', {
                 title: values.title,
                 artist_id: user.artistId,
-                audio_url: audio[0].fileUrl,
                 image_url: image[0].fileUrl
             }
             ).then(() => {
                 router.refresh();
                 setIsLoading(false);
-                toast.success('Track Successfully uploaded!')
+                toast.success('Album Successfully created!')
                 reset();
-                uploadModal.onClose();
+                albumModal.onClose();
 
             })
 
@@ -122,9 +117,9 @@ const UploadTrackModal = () => {
             <div><Toaster /></div>
 
             <Modal
-                title='Add a track'
-                description='Upload an mp3 and image for your track'
-                isOpen={uploadModal.isOpen}
+                title='Create an Album'
+                description='Upload an album cover'
+                isOpen={albumModal.isOpen}
                 onChange={onChange}
             >
                 <form
@@ -135,35 +130,10 @@ const UploadTrackModal = () => {
                         id="title"
                         disabled={isLoading}
                         {...register('title', { required: true })}
-                        placeholder="Track title"
+                        placeholder="Album title"
                     />
 
-                    {/* <div>
-            <div className="pb-1">
-                Select a song file
-            </div>
-            <Input
-                placeholder="test"
-                disabled={isLoading}
-                type="file"
-                accept=".mp3"
-                id="song"
-                {...register('song', { required: true })}
-            />
-        </div>
-        <div>
-            <div className="pb-1">
-                Select an image
-            </div>
-            <Input
-                placeholder="test"
-                disabled={isLoading}
-                type="file"
-                accept="image/*"
-                id="image"
-                {...register('image', { required: true })}
-            />
-        </div> */}
+
 
                     <UploadButton<OurFileRouter>
                         className="mt-4 ut-button:bg-red-500/50 ut-button:ut-readying:bg-red-500 ut-button:ut-uploading:bg-red-500/100"
@@ -184,25 +154,7 @@ const UploadTrackModal = () => {
 
                     />
 
-                    <UploadButton<OurFileRouter>
-                        className="mt-4 ut-button:bg-red-500/50 ut-button:ut-readying:bg-red-500 ut-button:ut-uploading:bg-red-500/100"
 
-                        endpoint="audioUploader"
-                        onClientUploadComplete={(res) => {
-                            // Do something with the response
-                            if (res) {
-                                setAudio(res);
-                                const json = JSON.stringify(res);
-                                console.log(json);
-
-                            }
-                        }}
-                        onUploadError={(error: Error) => {
-                            // Do something with the error.
-                            alert(`ERROR! ${error.message}`);
-                        }}
-
-                    />
                     <Button disabled={isLoading} type="submit">
                         Create
                     </Button>
@@ -213,4 +165,4 @@ const UploadTrackModal = () => {
     )
 }
 
-export default UploadTrackModal
+export default CreateAlbumModal

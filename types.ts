@@ -35,7 +35,6 @@ export interface Playlist {
 export interface SuperUser {
     user_id: number;
     user_name: string;
-    password: string;
     birth_date: Date;
     join_date: Date;
     email: string;
@@ -48,8 +47,11 @@ export interface SuperUser {
 
 }
 
-export interface Artist {
-    artist_id: number;
-    artist_name: string;
-    artist_email: string;
+export interface Album {
+    album_id: number;
+    album_name: string;
+    album_created_at: Date;
+    album_release_date: Date;
+    album_cover_path: string
+
 }

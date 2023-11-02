@@ -1,24 +1,53 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest } from "next/server";
 import prisma from "@/client";
 
 interface reqFormat {
+  username: string;
   role: string;
   email: string;
   password: string;
+  birthdate: string;
   race: string;
   ethnicity: string;
   gender: string;
 }
 
+
+interface resFormat {
+  user_id: number;
+  is_artist: number;
+  is_admin: number;
+}
+
+
 export async function POST(req: Request) {
   const data: reqFormat = await req.json();
   let curDate = new Date();
+  let isAdmin,isArtist;
+  if(data.role === "artist"){
+    isArtist = 1;
+    isAdmin = 0;
+  } else {
+    isArtist = 0;
+    isAdmin = 0;
+  }
 
   const result = await prisma.$executeRaw`
-    INSERT INTO user (user_name,password,birth_date,join_date,email,ethnicity_id,gender_id)
-    VALUES ('myusername1234','mypassword','2001-01-02','2001-01-02','testuser2@icloud.com',1,1)
+    INSERT INTO user (user_name,password,birth_date,join_date,email,is_artist,is_admin,race_id,ethnicity_id,gender_id)
+    VALUES (${data.username},${data.password},${data.birthdate},${curDate},${data.email},${isArtist},${isAdmin},${data.race},${data.ethnicity},${data.gender})
     `;
 
-  return new Response(JSON.stringify("cruz"));
+  return new Response(JSON.stringify(result));
 }
 
+
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const userEmail = searchParams.get("email");
+  const result: resFormat[] = await prisma.$queryRaw`
+    SELECT user_id, is_artist, is_admin
+    FROM user
+    WHERE email = ${userEmail}
+    `;
+  return new Response(JSON.stringify(result));
+}

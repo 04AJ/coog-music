@@ -1,31 +1,36 @@
 "use client"
 import { useUser } from "@/hooks/useUser";
-import { Playlist, User } from "@/types";
+import { Album, Playlist, SuperUser, User } from "@/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PlaylistTracks from "./PlaylistTracks";
+import AlbumTracks from "./AlbumTracks";
+import Image from "next/image";
 
 interface UserDetailsProps {
-    userDetails: User
+    userDetails: User | SuperUser,
+    profilePage: boolean
 }
 const UserDetails: React.FC<UserDetailsProps> = ({
-    userDetails
+    userDetails,
+    profilePage
 }) => {
 
     const user = useUser();
     const [playlists, setPlaylists] = useState<Playlist[]>();
+    const [albums, setAlbums] = useState<Album[]>();
+
 
 
     //get playlistIds or albumId's
     useEffect(() => {
 
-        if (user.userRole === 'listener') {
+        if (profilePage && user.userRole === 'listener') {
             //get playList or albumId's
 
             axios.get<Playlist[]>(`/api/playlist?listener_id=${user.listenerId}`)
                 .then(response => {
 
-                    console.log("testing user content")
 
                     if (response.data) {
                         setPlaylists(response.data);
@@ -37,13 +42,68 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                 })
 
         }
+        else if (profilePage && user.userRole === 'artist') {
 
-    }, [user.userId, user.listenerId, user.userRole])
+
+            axios.get<Album[]>(`/api/album?artist_id=${user.artistId}`)
+                .then(response => {
+
+
+                    if (response.data) {
+                        setAlbums(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+
+
+
+
+        }
+        else if (!profilePage && user.activeUser.is_artist === 0) {
+            //get playList or albumId's
+
+            axios.get<Playlist[]>(`/api/playlist?listener_id=${user.activeUser.listener_id}`)
+                .then(response => {
+
+
+
+                    if (response.data) {
+                        setPlaylists(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+
+        }
+        else {
+
+            axios.get<Album[]>(`/api/album?artist_id=${user.activeUser.artist_id}`)
+                .then(response => {
+
+
+
+                    if (response.data) {
+                        setAlbums(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+
+        }
+
+    }, [user.userId, user.listenerId, user.userRole, profilePage, user.activeUser.is_artist, user.activeUser.listener_id])
 
 
     return (
         <div className="w-full flex-col">
-            <div className="w-3/4 mb-10 bg-slate-800">
+            <div className="w-3/4 mb-10 bg-slate-800/40">
 
 
                 <div className="flex flex-row">
@@ -51,11 +111,11 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                     <p className="w-3/4 border p-1">{userDetails.user_name}</p>
                 </div>
 
-
+                {/* 
                 <div className="flex flex-row">
                     <p className="w-1/4 border p-1">Password</p>
                     <p className="w-3/4 border p-1">{userDetails.password}</p>
-                </div>
+                </div> */}
                 <div className="flex flex-row">
                     <p className="w-1/4 border p-1">Email</p>
                     <p className="w-3/4 border p-1">{userDetails.email}</p>
@@ -86,12 +146,10 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
             </div>
 
-            {(user.userRole === 'listener') ?
-
-
+            {(profilePage && user.userRole === 'listener') ?
                 <div>
-                    <h1>
-                        Listener Playlists
+                    <h1 className="text-3xl font-bold">
+                        Playlists
                     </h1>
 
                     {playlists?.map((playlist) =>
@@ -99,25 +157,83 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                             <li>{playlist.playlist_name}</li>
                             <PlaylistTracks playlist_id={playlist.playlist_id} />
                         </div>
-
                     )}
-
-
-
-
                 </div>
 
-                :
+                : (profilePage && user.userRole === 'artist') ?
 
-                <h1>
-                    Aritist Albums
-                </h1>
+                    <div>
+                        <h1 className="text-3xl font-bold">
+                            Albums
+                        </h1>
+                        {albums?.map((album) =>
+                            <div key={album.album_id}>
+                                <li>{album.album_name}</li>
+
+                                <div
+                                    className="
+          relative 
+          aspect-square 
+          w-1/3
+          rounded-md 
+          overflow-hidden
+        "
+                                >
+                                    <Image
+                                        className="object-cover"
+                                        src={album.album_cover_path}
+                                        fill
+                                        alt="Image"
+                                    />
+                                </div>
+                                <AlbumTracks album_id={album.album_id} />
+                            </div>
+                        )}
+                    </div>
+
+                    : (!profilePage && user.activeUser.is_artist === 0) ?
+                        <div>
+                            <h1 className="text-3xl font-bold">Playlists</h1>
+
+                            {playlists?.map((playlist) =>
+                                <div key={playlist.playlist_id}>
+                                    <li>{playlist.playlist_name}</li>
+                                    <PlaylistTracks playlist_id={playlist.playlist_id} />
+                                </div>
+                            )}
+                        </div>
+
+                        :
+
+                        <div>
+                            <h1 className="text-3xl font-bold">
+                                Albums
+                            </h1>
+                            {albums?.map((album) =>
+                                <div key={album.album_id}>
+                                    <li>{album.album_name}</li>
+                                    <AlbumTracks album_id={album.album_id} />
+                                </div>
+                            )}
+                        </div>
+
+
+
+
 
             }
+
+
+
+
+
+
 
         </div>
 
     )
+
+
 }
 
 export default UserDetails;

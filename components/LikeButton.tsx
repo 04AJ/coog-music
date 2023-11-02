@@ -53,8 +53,8 @@ const LikeButton: React.FC<LikeButtonProps> = ({
     const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 
     const handleLike = async () => {
-        if (!user) {
-            alert("No User - show auth modal");
+        if (!user.userId || user.userRole === 'na') {
+            router.push('/login');
             return;
         }
         if (isLiked) {

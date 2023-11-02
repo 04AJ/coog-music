@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 const prisma = new PrismaClient();
 
 
+
 export async function getTracks(): Promise<Track[]> {
   const tracks = await prisma.$queryRaw`SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name FROM track, artist WHERE track.artist_id = artist.artist_id;`
   // console.log(tracks);
@@ -56,7 +57,7 @@ export async function getTracksByTitle(title: string): Promise<Track[]> {
 export async function getListenerByName(name: string): Promise<SuperUser[]> {
   const query = `%${name}%`;
   const users = await prisma.$queryRaw`
-  SELECT user.user_id, user_name, birth_date, join_date, email, race_name, ethnicity_name, gender_name, listener_id
+  SELECT user.user_id, user_name, birth_date, join_date, email, race_name, ethnicity_name, gender_name, listener_id, is_artist
   FROM user, listener, race, ethnicity, gender
   WHERE user_name LIKE ${query} AND (user.user_id = listener.user_id )
   AND user.gender_id = gender.gender_id AND user.ethnicity_id = ethnicity.ethnicity_id AND user.race_id = race.race_id`
@@ -70,7 +71,7 @@ export async function getListenerByName(name: string): Promise<SuperUser[]> {
 export async function getArtistByName(name: string): Promise<SuperUser[]> {
   const query = `%${name}%`;
   const users = await prisma.$queryRaw`
-  SELECT user.user_id, user_name, birth_date, join_date, email, race_name, ethnicity_name, gender_name, artist_id
+  SELECT user.user_id, user_name, birth_date, join_date, email, race_name, ethnicity_name, gender_name, artist_id, is_artist
   FROM user, artist, race, ethnicity, gender
   WHERE user_name LIKE ${query} AND (user.user_id = artist.user_id )
   AND user.gender_id = gender.gender_id AND user.ethnicity_id = ethnicity.ethnicity_id AND user.race_id = race.race_id`
