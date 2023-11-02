@@ -46,3 +46,12 @@ export interface SuperUser {
     is_artist: number;
 
 }
+
+export interface Album {
+    album_id: number;
+    album_name: string;
+    album_created_at: Date;
+    album_release_date: Date;
+    album_cover_path: string
+
+}

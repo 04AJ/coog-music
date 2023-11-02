@@ -155,9 +155,13 @@ export default function UserProfilePage() {
 
 
                     </div>
-                    <button className="border p-1 rounded-md hover:bg-sky-600"
-                        onClick={handleFollow}
-                    >{(isFollowing) ? "Unfollow" : "Follow"}</button>
+                    {(user.userRole === 'listener') ?
+                        <button className="border p-1 rounded-md hover:bg-sky-600"
+                            onClick={handleFollow}
+                        >{(isFollowing) ? "Unfollow" : "Follow"}</button>
+                        : null
+                    }
+
 
                 </div>
 

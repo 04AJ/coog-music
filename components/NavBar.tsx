@@ -55,7 +55,7 @@ const NavBar: React.FC<NavBarProps> = ({
             icon: CgProfile,
             label: 'Profile',
             active: pathname === '/profile',
-            href: '/profile',
+            href: (!user.userId || user.userRole === 'na') ? '/login' : '/profile',
             visible: true
 
         },

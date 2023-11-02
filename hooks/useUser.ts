@@ -51,7 +51,7 @@ export const useUser = create<User>()(
                 listener_id: -1,
                 is_artist: -1
             },
-            userRole: 'admin',
+            userRole: 'na',
             setUserId: (id: number | undefined) => set({ userId: id }),
             setArtistId: (id: number) => set({ artistId: id }),
 

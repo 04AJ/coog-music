@@ -24,7 +24,7 @@ export async function DELETE(req: NextRequest) {
     const listener_id = searchParams.get('listener_id');
     const artist_id = searchParams.get('artist_id');
     const affected = await prisma.$executeRaw`DELETE FROM listener_follows_artists WHERE listener_id = ${listener_id} AND artist_id = ${artist_id}`
-    console.log(affected);
+    // console.log(affected);
     return new Response(JSON.stringify(affected));
 }
 
