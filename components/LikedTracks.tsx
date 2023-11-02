@@ -32,7 +32,7 @@ const LikedTracks = () => {
   return (
     <div>
       Liked Tracks
-      {likedTracks ? <Carousel tracks={likedTracks} /> : null}
+      {likedTracks ? <Carousel tracks={likedTracks} albums={[]} /> : null}
     </div>
   );
 };

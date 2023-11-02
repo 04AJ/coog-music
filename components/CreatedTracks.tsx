@@ -36,7 +36,7 @@ const CreatedTracks = () => {
                 })
         }
 
-    }, [user.userId, user.userRole]);
+    }, [user.userId, user.userRole, user.artistId]);
 
 
     const [albums, setAlbums] = useState<Album[]>();
