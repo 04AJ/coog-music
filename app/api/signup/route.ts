@@ -24,7 +24,6 @@ export async function POST(req: Request) {
   const data: reqFormat = await req.json();
   let curDate = new Date();
   let isAdmin,isArtist;
-  console.log(data.email);
   if(data.role === "artist"){
     isArtist = 1;
     isAdmin = 0;
@@ -45,12 +44,10 @@ export async function POST(req: Request) {
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const userEmail = searchParams.get("email");
-  console.log(userEmail);
   const result: resFormat[] = await prisma.$queryRaw`
     SELECT user_id, is_artist, is_admin
     FROM user
     WHERE email = ${userEmail}
     `;
-  console.log(result[0].user_id);
   return new Response(JSON.stringify(result));
 }

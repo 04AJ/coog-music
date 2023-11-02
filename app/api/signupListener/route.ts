@@ -24,9 +24,6 @@ export async function POST(req: Request){
     INSERT INTO listener (user_id)
     VALUES (${data.userID})
     `
-    console.log(typeof data.userID);
-    console.log(data);
-    console.log("this is user id,",data.userID)
     return new Response(JSON.stringify(result));
 }
 

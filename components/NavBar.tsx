@@ -37,7 +37,7 @@ const NavBar: React.FC<NavBarProps> = ({
         },
         {
             icon: AiFillUnlock,
-            label: 'Login',
+            label: (user.userId) ? 'Logout' : 'Login',
             active: pathname === '/login',
             href: '/login',
             visible: true
