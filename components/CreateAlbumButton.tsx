@@ -6,16 +6,22 @@ import { AiOutlinePlus } from "react-icons/ai";
 import useCreateAlbumModal from "@/hooks/useCreateAlbumModal"
 import Button from "./Button";
 import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 
 
 const UploadTrackButton: React.FC = () => {
     const albumModal = useCreateAlbumModal();
-
+    const router = useRouter();
     const user = useUser();
 
 
     const onClick = () => {
+        if (!user.userId || user.userRole === 'na') {
+            router.push('./login')
+            return albumModal.onClose();
+
+        }
 
         return albumModal.onOpen();
     }

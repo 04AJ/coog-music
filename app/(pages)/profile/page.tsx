@@ -5,6 +5,7 @@ import usePlayer from "@/hooks/usePlayer";
 import { useUser } from "@/hooks/useUser";
 import { Playlist, User } from "@/types";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -14,7 +15,11 @@ export default function ProfilePage() {
     const player = usePlayer();
     //call api to get user details  
     const [userDetails, setUserDetails] = useState<User[]>();
+    const router = useRouter();
 
+    if (!user.userId || user.userRole === 'na') {
+        router.push('/login')
+    }
 
     useEffect(() => {
         axios.get<User[]>(`/api/user?user_id=${user.userId}`)
