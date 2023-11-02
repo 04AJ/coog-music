@@ -49,19 +49,8 @@ export default async function Home() {
       <CreatedTracks />
       <LikedTracks />
       <div className='pl-5'> Complete List of Tracks</div>
-      <div className='pl-5'>
-        {/* {tracks.map((track) =>
-            <div key={count++} >
-              {track.track_name}
-              <img src={track.track_img_path} alt="" width="100vw" />
-              <audio controls src={track.track_path} />
-            </div>)} */}
 
-        <Carousel tracks={tracks} />
-
-      </div>
-
-
+      <Carousel tracks={tracks} albums={[]} />
 
     </div >
 

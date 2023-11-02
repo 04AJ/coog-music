@@ -1,17 +1,19 @@
 "use client"
 
-import { Track } from "@/types"
+import { Album, Track } from "@/types"
 import TrackItem from "./TrackItem";
 import useOnPlay from "@/hooks/useOnPlay";
 import usePlayer from "@/hooks/usePlayer";
 
 interface CarouselProps {
     tracks: Track[];
+    albums: Album[];
 
 }
 
 const Carousel: React.FC<CarouselProps> = ({
-    tracks
+    tracks,
+    albums
 
 }) => {
     const player = usePlayer();
@@ -40,6 +42,7 @@ const Carousel: React.FC<CarouselProps> = ({
                     key={item.track_id}
                     onClick={(id: number) => { onPlay(id); player.setPath(item.track_path) }}
                     data={item}
+                    albums={albums}
                 />
             ))}
         </div>

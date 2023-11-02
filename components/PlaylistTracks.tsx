@@ -39,7 +39,7 @@ const PlaylistTracks: React.FC<PlaylistTrackProps> = ({
 
     return (
         <div >
-            {playlistTracks ? <Carousel tracks={playlistTracks} /> : null}
+            {playlistTracks ? <Carousel tracks={playlistTracks} albums={[]} /> : null}
         </div>
     )
 }
