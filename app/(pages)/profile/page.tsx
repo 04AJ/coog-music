@@ -17,9 +17,6 @@ export default function ProfilePage() {
     const [userDetails, setUserDetails] = useState<User[]>();
     const router = useRouter();
 
-    if (!user.userId || user.userRole === 'na') {
-        router.push('/login')
-    }
 
     useEffect(() => {
         axios.get<User[]>(`/api/user?user_id=${user.userId}`)

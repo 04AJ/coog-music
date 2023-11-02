@@ -31,7 +31,9 @@ const Logout = () => {
     }, [user.userId]);
 
     const onClickLogout = () => {
+        user.setUserId(undefined);
         user.setUserRole('na')
+        router.refresh();
 
     }
 

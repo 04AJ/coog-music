@@ -22,7 +22,7 @@ const Carousel: React.FC<CarouselProps> = ({
     const onPlay = useOnPlay(tracks);
     if (tracks.length === 0) {
         return (
-            <div className="mt-4 text-neutral-400">No songs available.</div>
+            <div className="mt-4 text-neutral-400">No tracks available.</div>
         )
     }
     return (

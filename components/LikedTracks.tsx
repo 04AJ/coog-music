@@ -31,8 +31,15 @@ const LikedTracks = () => {
 
   return (
     <div>
-      Liked Tracks
-      {likedTracks ? <Carousel tracks={likedTracks} albums={[]} /> : null}
+
+
+      {likedTracks ?
+        <div>
+          Liked Tracks
+          <Carousel tracks={likedTracks} albums={[]} />
+        </div>
+
+        : null}
     </div>
   );
 };
