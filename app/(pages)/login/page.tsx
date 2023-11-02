@@ -32,8 +32,6 @@ export default function LoginPage() {
   const [switchToSignUp, setSwitchToSignUp] = useState(false);
   const [role, setRole] = useState("");
   const [gender, setGender] = useState("");
-  const [race, setRace] = useState("");
-  const [ethnicity, setEthnicity] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     role: "",
@@ -44,7 +42,7 @@ export default function LoginPage() {
     ethnicity: 0,
     gender: 0
   });
-
+ 
   const RadioInput = ({
     label,
     value,
@@ -100,12 +98,6 @@ export default function LoginPage() {
     setSwitchToLogin(false);
   };
 
-  const handleSelect = (event: any) => {
-    setRace(event.target.value);
-    // return (event: any) => {
-    //   setter(event.target.value);
-    // };
-  };
   const handleChange = (event: any) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
@@ -127,25 +119,25 @@ export default function LoginPage() {
       const userID: number = userResponse.data[0].user_id;
       if(userID){
         user.setUserId(userID);
-        console.log(typeof user.userId);
-        console.log(formData.role);
+        
         if(formData.role === "artist"){
           user.setUserRole("artist");
-          const res = await axios.post('/api/signupArtist',{...formData, userID: userID});
-          console.log("success signing up artist", res)
+          await axios.post('/api/signupArtist',{...formData, userID: userID});
+          const artistResponse = await axios.get(`/api/signupArtist?user_id=${userID}`);
+          const artistID = artistResponse.data[0].artist_id;
+          user.setArtistId(artistID);
         } else {
           user.setUserRole("listener");
-          const res = await axios.post('/api/signupListener',{...formData, userID: userID});
-          console.log("success signing up listener", res)
+          await axios.post('/api/signupListener',{...formData, userID: userID});
+          const listenerResponse = await axios.get(`/api/signupListener?user_id=${userID}`);
+          const listenerID = listenerResponse.data[0].listener_id;
+          user.setListenerId(listenerID);
         }
         router.push('/');
       }
     } catch (err) {
       console.error("Error signing up USER", err);
     }
-
-    alert(`username: ${formData.username} role: ${formData.role}, email: ${formData.email}, birthdate ${formData.birthdate} 
-    passoword: ${formData.password}, race: ${formData.race}, ethnicity: ${formData.ethnicity}, gender: ${formData.gender}`);
   };
 
  
@@ -155,14 +147,17 @@ export default function LoginPage() {
 
     try{
       const userResponse = await axios.get(`/api/signup?email=${formData.email}`);
-      const {user_id, is_artist, is_admin} = userResponse.data[0];
+      console.log(userResponse);
+      const user_id = userResponse.data[0].user_id;
+      const is_artist = userResponse.data[0].is_artist;
+      const is_admin = userResponse.data[0].is_admin;
       user.setUserId(user_id);
 
       if(is_artist === 1){
         user.setUserRole("artist");
         const artistResponse = await axios.get(`/api/signupArtist?user_id=${user_id}`);
         const artistID = artistResponse.data[0].artist_id;
-        //set zustand variable
+        user.setArtistId(artistID);
       } else if(is_admin === 1){
         user.setUserRole("admin");
 
@@ -170,11 +165,9 @@ export default function LoginPage() {
       } else {
         user.setUserRole("listener");
         const listenerResponse = await axios.get(`/api/signupListener?user_id=${user_id}`);
-        const listenerID = listenerResponse.data[0].listener_id;;
-        //set zustand variable
-      }
-
-      
+        const listenerID = listenerResponse.data[0].listener_id;
+        user.setListenerId(listenerID);
+      }      
       router.push('/');
     } catch (err) {
       console.error("Error logging in USER", err);
@@ -206,8 +199,9 @@ export default function LoginPage() {
           <>
             <form onSubmit={handleLogin} className="login-form">
               <label className="form-label">Email</label>
-              <input type="text" 
-                     name="name"
+              <input type="email"
+                     id="email" 
+                     name="email"
                      value={formData.email}
                      placeholder="your email" 
                      onChange={handleChange} />
@@ -258,7 +252,7 @@ export default function LoginPage() {
               <label className="form-label">Email</label>
               <input
                 type="email"
-                id="email"
+                placeholder="Email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
@@ -266,7 +260,7 @@ export default function LoginPage() {
 
               <label className="form-label">Password</label>
               <input
-                type="text"
+                type="password"
                 name="password"
                 placeholder="password"
                 value={formData.password}
