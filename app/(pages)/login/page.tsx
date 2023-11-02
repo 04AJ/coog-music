@@ -329,7 +329,7 @@ export default function LoginPage() {
       && 
       <div className="logout-container">
         <h1>You sure you want to logout????? :(</h1>
-        <button  className="logout-button" onClick={handleLogout}>im a logout button</button>
+        <button  className="logout-button" onClick={handleLogout}>Log Out</button>
       </div>}
 
       
