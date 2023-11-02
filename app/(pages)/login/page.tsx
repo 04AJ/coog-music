@@ -140,8 +140,6 @@ export default function LoginPage() {
     }
   };
 
- 
-
   const handleLogin = async (event: any) => {
     event.preventDefault();
 
@@ -176,9 +174,14 @@ export default function LoginPage() {
     }
   }
 
+  const handleLogout = () => {
+    user.setUserId(undefined);
+    user.setUserRole("na");
+  }
+
   return (
     <>
-      <div className="login-container">
+      {user.userId === undefined  && <div className="login-container">
         <div className="switch-container">
           <p
             className={`switch-container-child ${switchToLogin ? "active" : ""
@@ -320,7 +323,16 @@ export default function LoginPage() {
             </form>
           </>
         )}
-      </div>
+      </div>}
+      
+      {user.userId 
+      && 
+      <div className="logout-container">
+        <h1>You sure you want to logout????? :(</h1>
+        <button  className="logout-button" onClick={handleLogout}>im a logout button</button>
+      </div>}
+
+      
     </>
   );
 }
