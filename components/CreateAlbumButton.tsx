@@ -17,8 +17,7 @@ const UploadTrackButton: React.FC = () => {
 
 
     const onClick = () => {
-        user.setUserId(1);
-        user.setUserRole('artist');
+
         if (!user.userId || user.userRole === 'na') {
             router.push('./login')
             return albumModal.onClose();
