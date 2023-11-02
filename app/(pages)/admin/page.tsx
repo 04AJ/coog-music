@@ -13,7 +13,7 @@ export default function AdminPage() {
             <Header title="Admin Center" description="Data reports"></Header>
             <div className="flex flex-row space-x-7 my-7">
                 <ArtistSearchForm/>
-                <UserDemographics/>
+                {/* <UserDemographics/> */}
                 <MostLikedSongs/>
             </div>
         </div>

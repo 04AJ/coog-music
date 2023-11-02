@@ -4,7 +4,6 @@ import { Track } from '@/types';
 import { NextRequest } from "next/server";
 
 
-//UNFINISHED
 export async function GET(req: NextRequest) {
     const trackRankings = await prisma.$queryRaw<Track[]>`
         SELECT track_name, track.track_id, artist.artist_name, COUNT(liked_tracks.track_id) AS likes
