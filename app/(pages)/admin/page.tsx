@@ -1,9 +1,9 @@
 "use client"
 
-import Button from "@/components/Button";
 import Header from "@/components/Header";
 import ArtistSearchForm from './ArtistSearchForm';
-import {getArtistByName} from "@/db";
+import UserDemographics from './UserDemographics';
+import MostLikedSongs from './MostLikedSongs';
 import './admin.css';
 
 export default function AdminPage() {
@@ -11,7 +11,11 @@ export default function AdminPage() {
     return (
         <div>
             <Header title="Admin Center" description="Data reports"></Header>
-            <ArtistSearchForm/>
+            <div className="flex flex-row space-x-7 my-7">
+                <ArtistSearchForm/>
+                <UserDemographics/>
+                <MostLikedSongs/>
+            </div>
         </div>
     );
 }
