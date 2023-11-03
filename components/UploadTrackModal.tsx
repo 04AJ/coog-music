@@ -4,23 +4,22 @@ import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 import useUploadTrackModal from '@/hooks/useUploadTrackModal'
-// import { postTracks } from '@/db'
 
 import Modal from './Modal';
 import Input from './Input';
 import Button from './Button';
-import { PrismaClient } from '@prisma/client';
 import { UploadButton } from '@uploadthing/react';
 import { OurFileRouter } from '@/app/api/uploadthing/core';
+import { useUser } from '@/hooks/useUser';
 
 
-const axios = require('axios');
 
 interface trackRequest {
     title: string,
-    artist: string,
+    artist_id: number,
     audio_url: string,
     image_url: string
 }
@@ -39,14 +38,13 @@ const UploadTrackModal = () => {
 
     //calling custom hook (allows us to change modal state)
     const uploadModal = useUploadTrackModal();
-
+    const user = useUser();
     const router = useRouter();
 
     const { register,
         handleSubmit,
         reset } = useForm<FieldValues>({
             defaultValues: {
-                artist: '',
                 title: '',
                 song: null,
                 image: null,
@@ -70,14 +68,13 @@ const UploadTrackModal = () => {
             setIsLoading(true);
 
             const title = values.title;
-            const artist = values.artist;
             const imageFile = values.image?.[0];
             const songFile = values.song?.[0];
 
             // console.log(title, author, image[0], audio[0]);
 
-            if (!title || !artist || !audio[0] || !image[0]) {
-                alert("Failed")
+            if (!title || !audio[0] || !image[0]) {
+
                 toast.error('Missing fields');
                 return;
             }
@@ -86,7 +83,7 @@ const UploadTrackModal = () => {
             // POST REQUEST
             axios.post('/api/upload', {
                 title: values.title,
-                artist: values.artist,
+                artist_id: user.artistId,
                 audio_url: audio[0].fileUrl,
                 image_url: image[0].fileUrl
             }
@@ -126,7 +123,7 @@ const UploadTrackModal = () => {
 
             <Modal
                 title='Add a track'
-                description='Upload an mp3 file'
+                description='Upload an mp3 and image for your track'
                 isOpen={uploadModal.isOpen}
                 onChange={onChange}
             >
@@ -140,12 +137,7 @@ const UploadTrackModal = () => {
                         {...register('title', { required: true })}
                         placeholder="Track title"
                     />
-                    <Input
-                        id="artist"
-                        disabled={isLoading}
-                        {...register('artist', { required: true })}
-                        placeholder="Track artist"
-                    />
+
                     {/* <div>
             <div className="pb-1">
                 Select a song file

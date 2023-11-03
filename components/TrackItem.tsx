@@ -2,25 +2,28 @@
 
 import Image from "next/image";
 
-import { Track } from "@/types";
+import { Album, Track } from "@/types";
 import PlayButton from "./PlayButton";
+import AlbumDropdown from "./AlbumDropdown";
+import { useUser } from "@/hooks/useUser";
 
-// import PlayButton from "./PlayButton";
 
 interface TrackItemProps {
     data: Track;
-    onClick: (id: string) => void;
+    albums: Album[];
+    onClick: (id: number) => void;
 }
 
 const TrackItem: React.FC<TrackItemProps> = ({
     data,
+    albums,
     onClick
 }) => {
     const imagePath = data.track_img_path;
-
+    const user = useUser();
     return (
         <div
-            // onClick={() => onClick(data.track_id)}
+            onClick={() => onClick(data.track_id)}
             className="
         relative 
         group 
@@ -79,7 +82,6 @@ const TrackItem: React.FC<TrackItemProps> = ({
             truncate
           "
                 >
-                    <audio controls src={data.track_path} className="w-full"></audio>
                 </div>
             </div>
             <div
@@ -91,7 +93,22 @@ const TrackItem: React.FC<TrackItemProps> = ({
             >
                 <PlayButton />
             </div>
-        </div>
+
+            {(albums[0] && user.userRole === 'artist' && data.artist_id === user.artistId) ?
+
+                < div
+                    className="
+            absolute
+            bottom-1
+            right-1
+            "
+                >
+                    <AlbumDropdown track_id={data.track_id} albums={albums} />
+
+                </div> : null
+            }
+
+        </div >
     );
 }
 
