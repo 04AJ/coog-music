@@ -1,20 +1,28 @@
 "use client"
 
-import { Track } from "@/types"
+import { Album, Track } from "@/types"
 import TrackItem from "./TrackItem";
+import useOnPlay from "@/hooks/useOnPlay";
+import usePlayer from "@/hooks/usePlayer";
+import Image from "next/image";
+
 
 interface CarouselProps {
     tracks: Track[];
+    albums: Album[];
 
 }
 
 const Carousel: React.FC<CarouselProps> = ({
-    tracks
+    tracks,
+    albums
 
 }) => {
+    const player = usePlayer();
+    const onPlay = useOnPlay(tracks);
     if (tracks.length === 0) {
         return (
-            <div className="mt-4 text-neutral-400">No songs available.</div>
+            <div className="mt-4 text-neutral-400">No tracks available.</div>
         )
     }
     return (
@@ -32,11 +40,15 @@ const Carousel: React.FC<CarouselProps> = ({
               "
         >
             {tracks.map((item) => (
+
+
                 <TrackItem
-                    onClick={() => { }}
                     key={item.track_id}
+                    onClick={(id: number) => { onPlay(id); player.setPath(item.track_path) }}
                     data={item}
+                    albums={albums}
                 />
+
             ))}
         </div>
     );

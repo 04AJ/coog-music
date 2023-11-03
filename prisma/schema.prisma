@@ -8,7 +8,7 @@ datasource db {
 }
 
 model admin {
-  admin_id Int   @id
+  admin_id Int   @id @default(autoincrement())
   user_id  Int?
   user     user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "admin_ibfk_1")
 
@@ -16,19 +16,20 @@ model admin {
 }
 
 model album {
-  album_id           Int       @id @default(autoincrement())
-  album_name         String?   @db.VarChar(100)
+  album_id           Int              @id @default(autoincrement())
+  album_name         String?          @db.VarChar(100)
   artist_id          Int?
-  album_created_at   DateTime  @db.DateTime(0)
-  album_release_date DateTime? @db.Date
-  album_cover        Bytes?    @db.Blob
-  artist             artist?   @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "album_ibfk_1")
+  album_created_at   DateTime         @db.DateTime(0)
+  album_release_date DateTime?        @db.Date
+  album_cover_path   String?          @db.VarChar(255)
+  artist             artist?          @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "album_ibfk_1")
+  track_to_album     track_to_album[]
 
   @@index([artist_id], map: "artist_id")
 }
 
 model artist {
-  artist_id                Int                        @id
+  artist_id                Int                        @id @default(autoincrement())
   user_id                  Int?
   artist_name              String?                    @db.VarChar(255)
   artist_join_date         DateTime?                  @db.Date
@@ -71,7 +72,7 @@ model liked_tracks {
 }
 
 model listener {
-  listener_id                                                               Int                         @id
+  listener_id                                                               Int                         @id @default(autoincrement())
   user_id                                                                   Int?
   followers                                                                 BigInt?
   user                                                                      user?                       @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_ibfk_1")
@@ -148,8 +149,7 @@ model track {
   artist_id         Int?
   track_path        String?             @db.VarChar(255)
   track_name        String              @db.VarChar(100)
-  track_length      DateTime            @db.Time(0)
-  track_mp3         Bytes?
+  track_length      BigInt?
   created_at        DateTime            @db.DateTime(0)
   updated_at        DateTime            @db.DateTime(0)
   streams           BigInt?
@@ -157,6 +157,7 @@ model track {
   liked_tracks      liked_tracks[]
   rating            rating[]
   artist            artist?             @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "track_ibfk_1")
+  track_to_album    track_to_album[]
   track_to_genre    track_to_genre[]
   track_to_playlist track_to_playlist[]
 
@@ -185,7 +186,7 @@ model track_to_playlist {
 }
 
 model user {
-  user_id           Int                 @id
+  user_id           Int                 @id @default(autoincrement())
   user_name         String?             @db.VarChar(255)
   password          String?             @db.VarChar(20)
   birth_date        DateTime?           @db.Date
@@ -209,4 +210,15 @@ model user {
   @@index([ethnicity_id], map: "ethnicity_id")
   @@index([gender_id], map: "gender_id")
   @@index([race_id], map: "race_id")
+}
+
+model track_to_album {
+  track_id          Int
+  album_id          Int
+  track_inserted_at DateTime? @db.DateTime(0)
+  track             track     @relation(fields: [track_id], references: [track_id], onDelete: NoAction, onUpdate: NoAction, map: "track_to_album_ibfk_1")
+  album             album     @relation(fields: [album_id], references: [album_id], onDelete: NoAction, onUpdate: NoAction, map: "track_to_album_ibfk_2")
+
+  @@id([track_id, album_id])
+  @@index([album_id], map: "album_id")
 }
