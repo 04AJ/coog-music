@@ -44,6 +44,7 @@ export interface SuperUser {
     artist_id?: number;
     listener_id?: number;
     is_artist: number;
+    is_admin: number;
 
 }
 
