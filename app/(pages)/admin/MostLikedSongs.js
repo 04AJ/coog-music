@@ -44,11 +44,10 @@ class MostLikedSongs extends Component{
         return(
             <div>
                 <h1>Current Song Rankings</h1>
-                <div className="flex-1 items-center text-center border rounded py-2">
+                <div className="flex-1 items-center text-center border rounded w-80 py-2">
                     <button onClick={this.handleClick} className="bg-red-500 py-1 px-2 text-white hover:bg-red-800">View/Hide</button>
                 </div>
-                <MostLikedSongsTable data={this.state.data}/>
-                
+                {(this.state.data.length) ? <MostLikedSongsTable data={this.state.data}/> : <div></div>}
             </div>
         );
     }

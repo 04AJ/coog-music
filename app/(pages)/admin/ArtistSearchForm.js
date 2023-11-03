@@ -49,7 +49,7 @@ class ArtistSearchForm extends React.Component{
                         <button onClick={this.handleHide} className="bg-red-500 py-1 px-2 text-white mx-2 my-2 hover:bg-red-800">Hide Results</button>
                     </div>
                 </form>
-                <ArtistSearchTable data={this.state.data}/>
+                {(this.state.data.length) ? <ArtistSearchTable data={this.state.data}/> : <div></div>}
             </div>
         );
     }

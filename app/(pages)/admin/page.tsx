@@ -15,7 +15,7 @@ export default function AdminPage() {
                 <ArtistSearchForm/>
                 {/* <UserDemographics/> */}
                 <MostLikedSongs/>
-                {/* <UserCreationActivity/> */}
+                <UserCreationActivity/>
             </div>
         </div>
     );

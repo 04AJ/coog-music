@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-//import table
+import UserCreationTable from './UserCreationTable';
 
 
 class UserCreationActivity extends Component{
@@ -27,8 +27,12 @@ class UserCreationActivity extends Component{
         e.preventDefault();
         const FDate = this.state.fDate;
         const TDate = this.state.tDate;
-        console.log(FDate);
+        console.log(typeof FDate);
         console.log(TDate);
+        if (FDate === '' && TDate === ''){
+            console.log("give at least 1 date");
+            return;
+        }
         axios
             .get(`/api/reportUserCreation?from_date=${FDate}&to_date=${TDate}`)
             .then((res) => {
@@ -58,7 +62,7 @@ class UserCreationActivity extends Component{
                         <button onClick={this.handleHide} className="bg-red-500 py-1 px-2 text-white mx-2 my-2 hover:bg-red-800">Hide Results</button>
                     </div>
                 </form>
-                
+                {(this.state.data.length) ? <UserCreationTable data ={this.state.data}/> : <div></div>}
             </div>
         );
     }
