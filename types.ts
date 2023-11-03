@@ -56,3 +56,9 @@ export interface Album {
     album_cover_path: string
 
 }
+
+export interface Artist {
+    artist_id: number;
+    artist_name: string;
+    artist_email: string;
+}
