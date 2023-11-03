@@ -156,16 +156,19 @@ export default function LoginPage() {
         const artistResponse = await axios.get(`/api/signupArtist?user_id=${user_id}`);
         const artistID = artistResponse.data[0].artist_id;
         user.setArtistId(artistID);
-      } else if(is_admin === 1){
+      }
+      if(is_admin === 1){
         user.setUserRole("admin");
+        console.log('admin!')
 
         //admin logic
       } else {
-        user.setUserRole("listener");
-        const listenerResponse = await axios.get(`/api/signupListener?user_id=${user_id}`);
-        const listenerID = listenerResponse.data[0].listener_id;
-        user.setListenerId(listenerID);
-      }      
+      user.setUserRole("listener");
+      const listenerResponse = await axios.get(`/api/signupListener?user_id=${user_id}`);
+      const listenerID = listenerResponse.data[0].listener_id;
+      user.setListenerId(listenerID);
+      }
+            
       router.push('/');
     } catch (err) {
       console.error("Error logging in USER", err);

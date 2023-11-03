@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import ArtistSearchForm from './ArtistSearchForm';
 import UserDemographics from './UserDemographics';
 import MostLikedSongs from './MostLikedSongs';
-import './admin.css';
+import UserCreationActivity from './UserCreationActivity';
 
 export default function AdminPage() {
     
@@ -15,6 +15,7 @@ export default function AdminPage() {
                 <ArtistSearchForm/>
                 {/* <UserDemographics/> */}
                 <MostLikedSongs/>
+                {/* <UserCreationActivity/> */}
             </div>
         </div>
     );
