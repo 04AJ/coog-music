@@ -103,5 +103,8 @@ interface trackRequest {
 }
 
 
-
+export async function getArtistFollowersEmails(){
+  const emails = await prisma.$queryRaw`SELECT * FROM email_queue`
+  return (emails as any) || [];
+}
 
