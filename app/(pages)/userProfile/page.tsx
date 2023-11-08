@@ -12,6 +12,9 @@ import { RxCaretLeft } from "react-icons/rx"
 import { MdVerified } from "react-icons/md";
 import toast from "react-hot-toast";
 
+interface response {
+    streams: number
+}
 
 export default function UserProfilePage() {
     const user = useUser();
@@ -19,10 +22,29 @@ export default function UserProfilePage() {
     const router = useRouter();
 
     const [isFollowing, setIsFollowing] = useState(false);
+    const [streamCount, setStreamCount] = useState(0);
+
 
     //test if track has been liked already
     //get request
     useEffect(() => {
+        //get streams
+
+        if (user.activeUser.is_artist === 1) {
+            axios.get<response>(`/api/stream?artist_id=${user.activeUser.artist_id}`)
+                .then(response => {
+                    if (response.data.streams) {
+                        setStreamCount(response.data.streams);
+                    }
+                    else {
+                        setStreamCount(0);
+                    }
+                })
+                .catch(Error => console.error(Error))
+
+        }
+
+
         //listener follows listener
         if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
             axios.get<boolean>(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
@@ -36,7 +58,7 @@ export default function UserProfilePage() {
 
         }
         //listener forllows artist
-        else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
+        else if (user.userRole === 'admin' || (user.userRole === 'artist' && user.activeUser.is_artist === 1)) {
 
             axios.get<boolean>(`/api/follow?listener_id=${user.listenerId}&artist_id=${user.activeUser.artist_id}`)
                 .then(response => {
@@ -140,11 +162,14 @@ export default function UserProfilePage() {
 
                 <div className="text-center mb-10">
                     {user.activeUser.is_artist ?
+
                         <div className="flex justify-center">
                             <p>Verified Artist</p>
                             <MdVerified color='#72bcd4' size='1.5rem' />
 
+
                         </div>
+
 
                         : null}
 
@@ -154,6 +179,10 @@ export default function UserProfilePage() {
                         {user.activeUser.user_name}
 
 
+                    </div>
+                    <div>
+                        {(user.activeUser.is_artist) ? <div className="text-lg">Streams: {streamCount}</div>
+                            : null}
                     </div>
                     {(user.userRole === 'listener') ?
                         <button className="border p-1 rounded-md hover:bg-sky-600"

@@ -5,6 +5,7 @@ import TrackItem from "./TrackItem";
 import useOnPlay from "@/hooks/useOnPlay";
 import usePlayer from "@/hooks/usePlayer";
 import Image from "next/image";
+import axios from 'axios';
 
 
 interface CarouselProps {
@@ -44,7 +45,14 @@ const Carousel: React.FC<CarouselProps> = ({
 
                 <TrackItem
                     key={item.track_id}
-                    onClick={(id: number) => { onPlay(id); player.setPath(item.track_path) }}
+                    onClick={(id: number) => {
+
+                        onPlay(id);
+                        player.setPath(item.track_path);
+                        axios.patch(`/api/stream?track_id=${item.track_id}`)
+                            .then(() => { })
+                            .catch(() => console.log("failed to increment stream"));
+                    }}
                     data={item}
                     albums={albums}
                 />
