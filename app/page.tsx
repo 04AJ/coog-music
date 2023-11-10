@@ -23,8 +23,6 @@ export const revalidate = 0;
 export default async function Home() {
 
   const tracks = await getTracks();
-  const emails = await getArtistFollowersEmails();
-  console.log(emails);
 
 
 

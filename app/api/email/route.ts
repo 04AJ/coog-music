@@ -1,7 +1,7 @@
 import primsa from '@/client'
 import { NextRequest } from 'next/server'
 
-
+//NOT IN USE
 interface resFormat {
     email_id: number;
     artist_name: string;
