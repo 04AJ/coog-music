@@ -85,7 +85,7 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
             <h1 className="text-2xl mb-2">{genreName}</h1>
             <div className="flex flex-row justify-around cursor-pointer">
                 {genres.map((genre) => (
-                    <div id={genre.label} className="p-2 hover:bg-red-500/90" onClick={() => { setAll(false); setGenreName("All " + genre.label + " tracks"); handleClick(genre.value) }}>{genre.label}</div>
+                    <div key={genre.label} className="p-2 hover:bg-red-500/90" onClick={() => { setAll(false); setGenreName("All " + genre.label + " tracks"); handleClick(genre.value) }}>{genre.label}</div>
                 ))}
                 <div className="p-2 hover:bg-red-500/90 " onClick={() => { setAll(true); setGenreName("Complete List of tracks") }}>all</div>
             </div>
