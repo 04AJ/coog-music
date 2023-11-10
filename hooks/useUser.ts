@@ -49,7 +49,8 @@ export const useUser = create<User>()(
                 gender_name: "",
                 artist_id: -1,
                 listener_id: -1,
-                is_artist: -1
+                is_artist: -1,
+                is_admin: -1
             },
             userRole: 'na',
             setUserId: (id: number | undefined) => set({ userId: id }),

@@ -44,6 +44,7 @@ export interface SuperUser {
     artist_id?: number;
     listener_id?: number;
     is_artist: number;
+    is_admin: number;
 
 }
 
@@ -54,4 +55,10 @@ export interface Album {
     album_release_date: Date;
     album_cover_path: string
 
+}
+
+export interface Artist {
+    artist_id: number;
+    artist_name: string;
+    artist_email: string;
 }
