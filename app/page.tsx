@@ -14,6 +14,7 @@ import PlaylistDropdown from '@/components/PlaylistDropdown';
 import CreateAlbumButton from '@/components/CreateAlbumButton';
 import CreatedTracks from '@/components/CreatedTracks';
 import Logout from '@/components/Logout';
+import GenreTracks from '@/components/GenreTracks';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -49,9 +50,9 @@ export default async function Home() {
 
       <CreatedTracks />
       <LikedTracks />
-      <div className='pl-5'> Complete List of Tracks</div>
+      <GenreTracks complete_tracks={tracks} />
 
-      <Carousel tracks={tracks} albums={[]} />
+
 
     </div >
 

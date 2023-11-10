@@ -213,7 +213,7 @@ const UploadTrackModal = () => {
                                         },
                                         {
                                             value: 10,
-                                            label: "punk"
+                                            label: "funk"
                                         }
                                     ]
                                 }
