@@ -62,3 +62,4 @@ export interface Artist {
     artist_name: string;
     artist_email: string;
 }
+
