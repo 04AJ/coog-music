@@ -68,7 +68,7 @@ const CreatedTracks = () => {
     return (
         <div >
             {(user.userRole === 'artist') ?
-                " Your Tracks" :
+                <h1 className="text-2xl">Your Tracks</h1> :
                 ""
 
             }

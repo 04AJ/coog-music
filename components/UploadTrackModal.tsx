@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -14,15 +14,19 @@ import Button from './Button';
 import { UploadButton } from '@uploadthing/react';
 import { OurFileRouter } from '@/app/api/uploadthing/core';
 import { useUser } from '@/hooks/useUser';
+import Select from "react-select";
+
 
 
 
 interface trackRequest {
     title: string,
+    genre_id: number,
     artist_id: number,
     audio_url: string,
     image_url: string
 }
+
 
 
 const UploadTrackModal = () => {
@@ -43,6 +47,7 @@ const UploadTrackModal = () => {
 
     const { register,
         handleSubmit,
+        control,
         reset } = useForm<FieldValues>({
             defaultValues: {
                 title: '',
@@ -63,11 +68,13 @@ const UploadTrackModal = () => {
 
     //ASYNC onSubmit
     const onSubmit: SubmitHandler<FieldValues> = async (values) => {
+
         //upload to MySQL
         try {
             setIsLoading(true);
 
             const title = values.title;
+            const genre = values.genre_id;
             const imageFile = values.image?.[0];
             const songFile = values.song?.[0];
 
@@ -80,9 +87,12 @@ const UploadTrackModal = () => {
             }
 
 
+
+
             // POST REQUEST
             axios.post('/api/upload', {
                 title: values.title,
+                genre_id: values.genre.value,
                 artist_id: user.artistId,
                 audio_url: audio[0].fileUrl,
                 image_url: image[0].fileUrl
@@ -99,11 +109,11 @@ const UploadTrackModal = () => {
 
             // const tracks = postTracks(input);
 
-            // router.refresh();
-            // setIsLoading(false);
-            // toast.success('Track Successfully uploaded!')
-            // reset();
-            // uploadModal.onClose();
+            router.refresh();
+            setIsLoading(false);
+            toast.success('Track Successfully uploaded!')
+            reset();
+            uploadModal.onClose();
 
 
         } catch (error) {
@@ -138,32 +148,82 @@ const UploadTrackModal = () => {
                         placeholder="Track title"
                     />
 
-                    {/* <div>
-            <div className="pb-1">
-                Select a song file
-            </div>
-            <Input
-                placeholder="test"
-                disabled={isLoading}
-                type="file"
-                accept=".mp3"
-                id="song"
-                {...register('song', { required: true })}
-            />
-        </div>
-        <div>
-            <div className="pb-1">
-                Select an image
-            </div>
-            <Input
-                placeholder="test"
-                disabled={isLoading}
-                type="file"
-                accept="image/*"
-                id="image"
-                {...register('image', { required: true })}
-            />
-        </div> */}
+
+
+                    <Controller
+                        render={({ field }) => (
+                            <Select
+                                placeholder="Select a genre:"
+                                theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: 0,
+                                    colors: {
+                                        ...theme.colors,
+                                        primary: 'grey  ',
+                                    },
+
+                                })}
+                                styles={{
+                                    control: (baseStyles, state) => ({
+                                        ...baseStyles,
+                                        background: 'darkgrey',
+
+
+
+                                    }),
+                                }}
+                                {...field}
+                                options={
+                                    [
+                                        {
+                                            value: 1,
+                                            label: "hiphop"
+                                        },
+                                        {
+                                            value: 2,
+                                            label: "pop"
+                                        },
+                                        {
+                                            value: 3,
+                                            label: "country"
+                                        },
+                                        {
+                                            value: 4,
+                                            label: "rock"
+                                        },
+                                        {
+                                            value: 5,
+                                            label: "indie"
+                                        },
+                                        {
+                                            value: 6,
+                                            label: "r&b"
+                                        },
+                                        {
+                                            value: 7,
+                                            label: "jazz"
+                                        },
+                                        {
+                                            value: 8,
+                                            label: "metal"
+                                        },
+                                        {
+                                            value: 9,
+                                            label: "classical"
+                                        },
+                                        {
+                                            value: 10,
+                                            label: "funk"
+                                        }
+                                    ]
+                                }
+                                isClearable
+                            />
+                        )}
+                        name="genre"
+                        control={control}
+                    />
+
 
                     <UploadButton<OurFileRouter>
                         className="mt-4 ut-button:bg-red-500/50 ut-button:ut-readying:bg-red-500 ut-button:ut-uploading:bg-red-500/100"
