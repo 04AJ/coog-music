@@ -6,7 +6,7 @@ import Library from '@/components/Library';
 import { toast, Toaster } from "react-hot-toast";
 import UploadTrackButton from '@/components/UploadTrackButton';
 import Header from '@/components/Header';
-import { getTracks } from '@/db'
+import { getTracks, getArtistFollowersEmails } from '@/db'
 import Carousel from '@/components/Carousel';
 import LikedTracks from '@/components/LikedTracks';
 import CreatePlaylistButton from '@/components/CreatePlaylistButton';
@@ -24,7 +24,6 @@ export const revalidate = 0;
 export default async function Home() {
 
   const tracks = await getTracks();
-
 
 
 
