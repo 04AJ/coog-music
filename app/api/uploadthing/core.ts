@@ -29,7 +29,7 @@ export const ourFileRouter = {
         }),
 
     // Define as many FileRoutes as you like, each with a unique routeSlug
-    audioUploader: f({ audio: { maxFileSize: "4MB", maxFileCount: 1 } })
+    audioUploader: f({ audio: { maxFileSize: "10MB", maxFileCount: 1 } })
         // Set permissions and file types for this FileRoute
         .middleware(async ({ req }) => {
             // This code runs on your server before upload

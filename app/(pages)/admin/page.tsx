@@ -5,6 +5,7 @@ import ArtistSearchForm from './ArtistSearchForm';
 import UserDemographics from './UserDemographics';
 import MostLikedSongs from './MostLikedSongs';
 import UserCreationActivity from './UserCreationActivity';
+import PopularTracks from './PopularTracks';
 
 export default function AdminPage() {
     
@@ -18,6 +19,9 @@ export default function AdminPage() {
             </div>
             <div>
                 <UserDemographics/>
+            </div>
+            <div className="flex flex-row space-x-7 my-7">
+                <PopularTracks/>
             </div>
         </div>
     );

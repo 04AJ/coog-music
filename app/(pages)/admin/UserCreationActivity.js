@@ -44,7 +44,7 @@ class UserCreationActivity extends Component{
         });
     }
 
-    render(){ //on click -> change view to true, which gets the table and shit
+    render(){ 
         return(
             <div>
                 <h1>User Registration Activity</h1>
