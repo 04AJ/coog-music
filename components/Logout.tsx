@@ -44,7 +44,7 @@ const Logout = () => {
 
     return (
 
-        <div className="fixed top-2 right-2 z-200 bg-black">
+        <div className="fixed top-2 right-2 z-500 bg-black">
             <div className='flex flex-col border rounded-md p-2'>
                 <div>
                     {(userDetails && userDetails[0]) ? userDetails[0].user_name : null}

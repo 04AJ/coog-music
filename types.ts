@@ -63,3 +63,10 @@ export interface Artist {
     artist_email: string;
 }
 
+export interface Notification {
+    artist_name: string;
+    n_id: number;
+    n_time: Date;
+    Message: string;
+    sendAll: number;
+}

@@ -30,7 +30,7 @@ export default function Dropdown({ children }: { children: ReactNode }) {
 
 function DropdownButton({ children }: { children: ReactNode }) {
     return (
-        <RadixDropdownMenu.Trigger className="cursor-default select-none rounded p-1 text-2xl hover:bg-gray-200/20 focus-visible:outline-none data-[state=open]:bg-gray-200/75">
+        <RadixDropdownMenu.Trigger className="cursor-default select-none rounded p-1 text-2xl hover:bg-gray-200/20 focus-visible:outline-none data-[state=open]:bg-gray-200/10">
             {children}
         </RadixDropdownMenu.Trigger>
     );
@@ -122,7 +122,7 @@ function DropdownMenuItem({
                 await closeMenu();
                 onSelect();
             }}
-            className="w-40 select-none rounded px-2 py-1.5 text-gray-700 data-[highlighted]:bg-red-400 data-[highlighted]:text-white data-[highlighted]:focus:outline-none"
+            className="w-100 select-none rounded px-2 py-1.5 text-gray-700 data-[highlighted]:bg-red-400 data-[highlighted]:text-white data-[highlighted]:focus:outline-none"
             asChild
         >
             <motion.div animate={controls}>{children}</motion.div>
