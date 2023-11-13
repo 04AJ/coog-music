@@ -6,7 +6,7 @@ import UserCreationTable from './UserCreationTable';
 class UserCreationActivity extends Component{
     constructor(props){
         super(props);
-        this.state = { fDate: '', tDate: '', data: [], artist:false, user:false };
+        this.state = { fDate: '', tDate: '', data: [], artists:false, listeners:false };
         this.handleSubmit = this.handleSubmit.bind(this);
         //this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -32,15 +32,15 @@ class UserCreationActivity extends Component{
         e.preventDefault();
         const FDate = this.state.fDate;
         const TDate = this.state.tDate;
-        const ar = this.state.artist;
-        const us = this.state.user;
+        const ar = this.state.artists;
+        const ls = this.state.listeners;
         console.log(ar);
         if (FDate === '' && TDate === ''){
             console.log("give at least 1 date");
             return;
         }
         axios
-            .get(`/api/reportUserCreation?from_date=${FDate}&to_date=${TDate}`)
+            .get(`/api/reportUserCreation?from_date=${FDate}&to_date=${TDate}&artists=${ar}&listeners${ls}`)
             .then((res) => {
                 console.log(res.data);
                 this.setState({data:res.data});
@@ -50,7 +50,7 @@ class UserCreationActivity extends Component{
         });
     }
 
-    render(){ 
+    render(){ //on click -> change view to true, which gets the table and shit
         return(
             <div>
                 <h1>User Registration Activity</h1>
@@ -66,9 +66,9 @@ class UserCreationActivity extends Component{
                         </div>
                         <div className="space-x-2">
                             <label htmlFor='artistCheck'>artists</label>
-                            <input id="artistCheck" type="checkbox" onChange={this.handleToggle} name="artist" checked={this.state.artist}/>
+                            <input id="artistCheck" type="checkbox" onChange={this.handleToggle} name="artists" checked={this.state.artists}/>
                             <label htmlFor='userCheck'>users</label>
-                            <input id="userCheck" type="checkbox" onChange={this.handleToggle} name="user" checked={this.state.user}/>
+                            <input id="userCheck" type="checkbox" onChange={this.handleToggle} name="listeners" checked={this.state.listeners}/>
                         </div>
                         <button type="submit" className="bg-red-500 py-1 px-2 text-white hover:bg-red-800">Search</button>
                         <button onClick={this.handleHide} className="bg-red-500 py-1 px-2 text-white mx-2 my-2 hover:bg-red-800">Hide Results</button>
