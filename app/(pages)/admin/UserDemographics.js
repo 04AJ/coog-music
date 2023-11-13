@@ -16,7 +16,12 @@ class UserDemographics extends Component{
 
     async handleChange(e) {
         e.preventDefault();
-        this.setState({passedID: e.target.value});
+        this.setState({passedName: e.target.value});
+    }
+
+    async handleHide(e) {
+        e.preventDefault();
+        this.setState({raceData:[], genderData:[], ageData:[]});
     }
 
     async handleHide(e) {
@@ -32,7 +37,7 @@ class UserDemographics extends Component{
             .get(`/api/reportRace?artist_id=${passedID}`)
             .then((res) => {
                 console.log(res.data);
-                this.setState({raceData:res.data});
+                this.setState({data:res.data});
             })
             .catch((err) => {
                 console.error("this is an error ", err);
@@ -63,7 +68,7 @@ class UserDemographics extends Component{
                 <form onSubmit={this.handleSubmit} className="w-80">
                     <h1>User Demographics</h1>
                     <div className="flex-1 items-center text-center border rounded py-2">
-                        <input onChange={this.handleChange} name="passedID" className="bg-white text-black mr-1 py-1 px-2" type="text" placeholder="Artist ID"></input>
+                        <input onChange={this.handleChange} name="passedName" className="bg-white text-black mr-1 py-1 px-2" type="text" placeholder="Artist ID"></input>
                         <button type="submit" className="bg-red-500 py-1 px-2 text-white hover:bg-red-800">Search</button>
                         <button onClick={this.handleHide} className="bg-red-500 py-1 px-2 text-white mx-2 my-2 hover:bg-red-800">Hide Results</button>
                     </div>
