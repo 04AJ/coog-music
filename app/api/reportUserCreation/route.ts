@@ -9,16 +9,13 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const From = searchParams.get('from_date');
     const To = searchParams.get('to_date');
-    // if(From === '2023-10-30'){
-    //     return new Response("right");
-    // } else{
-    //     return new Response("no");
-    // }
+    const showListeners = searchParams.get('listeners'); //bool
+    const showArtists = searchParams.get('artists'); //bool
     if(To === ''){ //give all users from beginning of time to _
         const users = await prisma.$queryRaw<User[]>`
             Select user_name, user_id, join_date
-            FROM user 
-            WHERE join_date >= ${From}
+            FROM user
+            WHERE join_date >= ${From} 
             group by user_name, user_id, join_date;`;
         const result = JSON.parse(JSON.stringify(users, (key, value) =>
             typeof value === 'bigint'
