@@ -47,7 +47,7 @@ const NotificationDropdown = () => {
 
     return (
         <div className="z-500 ">
-            <header className=" border-gray-100 p-2">
+            <header className=" border-gray-100">
                 <Dropdown>
                     <Dropdown.Button>{(notifications) ? <VscBellDot /> : <VscBell />}</Dropdown.Button>
 

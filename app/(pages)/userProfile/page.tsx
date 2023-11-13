@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import UserDetails from "@/components/UserDetails";
 import usePlayer from "@/hooks/usePlayer";
 import { useUser } from "@/hooks/useUser";
-import { Playlist, User } from "@/types";
+import { Playlist, SuperUser, User } from "@/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -23,6 +23,7 @@ export default function UserProfilePage() {
 
     const [isFollowing, setIsFollowing] = useState(false);
     const [streamCount, setStreamCount] = useState(0);
+    const [followers, setFollowers] = useState<SuperUser[]>();
 
 
     //test if track has been liked already
@@ -71,6 +72,34 @@ export default function UserProfilePage() {
 
 
         }
+
+
+        if (user.activeUser.is_artist === 0) {
+            axios.get<SuperUser[]>(`api/followers?listener_id=${user.activeUser.listener_id}`)
+                .then(response => {
+                    if (response.data) {
+                        setFollowers(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+        }
+        else if (user.activeUser.is_artist === 1) {
+            axios.get<SuperUser[]>(`api/followers?artist_id=${user.activeUser.artist_id}`)
+                .then(response => {
+
+                    if (response.data) {
+                        setFollowers(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+        }
+
 
     }, [user.userId, user.activeUser, user.activeUser.is_artist, user.activeUser.listener_id, user.listenerId, user.userRole])
 
@@ -183,6 +212,9 @@ export default function UserProfilePage() {
                     <div>
                         {(user.activeUser.is_artist) ? <div className="text-lg">Streams: {streamCount}</div>
                             : null}
+                    </div>
+                    <div>
+                        {(followers) ? followers.length : 0} Followers
                     </div>
                     {(user.userRole === 'listener') ?
                         <button className="border p-1 rounded-md hover:bg-sky-600"

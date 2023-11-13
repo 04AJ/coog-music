@@ -36,6 +36,7 @@ export interface SuperUser {
     user_id: number;
     user_name: string;
     birth_date: Date;
+    password: string;
     join_date: Date;
     email: string;
     race_name: string;

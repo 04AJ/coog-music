@@ -21,7 +21,6 @@ const UserDetails: React.FC<UserDetailsProps> = ({
     const [albums, setAlbums] = useState<Album[]>();
 
 
-
     //get playlistIds or albumId's
     useEffect(() => {
 
@@ -40,6 +39,9 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                 .catch(error => {
                     alert("error fetching data");
                 })
+
+
+
 
         }
         else if (profilePage && user.userRole === 'artist') {
@@ -120,6 +122,13 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                     <p className="w-1/4 border p-1">Email</p>
                     <p className="w-3/4 border p-1">{userDetails.email}</p>
                 </div>
+                {(user.userRole === 'admin') ?
+                    <div className="flex flex-row">
+                        <p className="w-1/4 border p-1">Password</p>
+                        <p className="w-3/4 border p-1">{userDetails.password}</p>
+                    </div>
+                    : null
+                }
                 <div className="flex flex-row">
                     <p className="w-1/4 border p-1">Gender</p>
                     <p className="w-3/4 border p-1">{userDetails.gender_name}</p>
