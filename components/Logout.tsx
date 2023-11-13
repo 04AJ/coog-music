@@ -7,6 +7,7 @@ import { User } from '@/types'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { Underdog } from 'next/font/google'
+import NotificationDropdown from './NotificationDropdown'
 
 const Logout = () => {
 
@@ -44,8 +45,11 @@ const Logout = () => {
 
     return (
 
-        <div className="fixed top-2 right-2 z-500 bg-black">
-            <div className='flex flex-col border rounded-md p-2'>
+        <div className="flex fixed top-2 right-2 z-500 bg-black gap-1 border rounded-md p-2">
+            <div>
+                <NotificationDropdown />
+            </div>
+            <div className='flex flex-col '>
                 <div>
                     {(userDetails && userDetails[0]) ? userDetails[0].user_name : null}
 

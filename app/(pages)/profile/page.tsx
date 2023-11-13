@@ -1,5 +1,7 @@
 "use client"
 import Header from "@/components/Header";
+import UploadProfileButton from "@/components/UpdateProfileButton";
+import UpdateProfileModal from "@/components/UpdateProfileModal";
 import UserDetails from "@/components/UserDetails";
 import usePlayer from "@/hooks/usePlayer";
 import { useUser } from "@/hooks/useUser";
@@ -49,10 +51,13 @@ export default function ProfilePage() {
                 player.activeId && 'h-[calc(100%-80px)]'
             )}
         >
+
+            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} /> : null}
+
             <div className="w-full h-full mb-4 flex-col items-center">
 
                 <Header title="Profile" description="User Details"></Header>
-
+                <UploadProfileButton />
 
 
 
@@ -60,6 +65,8 @@ export default function ProfilePage() {
 
             </div >
             {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={true} /> : null}
+
+
 
 
         </div >

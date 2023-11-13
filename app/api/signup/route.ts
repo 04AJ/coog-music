@@ -12,6 +12,14 @@ interface reqFormat {
   gender: string;
 }
 
+interface updateFormat {
+  userId: number;
+  race_id: string;
+  ethnicity_id: string;
+  gender_id: string;
+}
+
+
 
 interface resFormat {
   user_id: number;
@@ -52,4 +60,13 @@ export async function GET(req: NextRequest) {
   return new Response(JSON.stringify(result));
 }
 
+export async function PATCH(req: Request) {
+  const data: updateFormat = await req.json();
 
+  const result = await prisma.$executeRaw`
+  UPDATE user SET gender_id = ${data.gender_id}, ethnicity_id = ${data.ethnicity_id}, race_id = ${data.race_id}
+  WHERE user_id = ${data.userId}
+   `;
+
+  return new Response(JSON.stringify(result));
+}

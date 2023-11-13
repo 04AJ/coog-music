@@ -35,7 +35,6 @@ const NotificationDropdown = () => {
 
     const handleSubmit = async () => {
 
-        console.log(notifications);
 
         // axios.post(`/api/playlist?track_id=${track_id}&playlist_id=${playlist_id}`)
         //     .then(() => {
@@ -47,7 +46,7 @@ const NotificationDropdown = () => {
     }
 
     return (
-        <div className="fixed top-2 right-20 z-500 ">
+        <div className="z-500 ">
             <header className=" border-gray-100 p-2">
                 <Dropdown>
                     <Dropdown.Button>{(notifications) ? <VscBellDot /> : <VscBell />}</Dropdown.Button>

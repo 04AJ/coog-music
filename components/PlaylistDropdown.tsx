@@ -27,7 +27,7 @@ const PlaylistDropdown: React.FC<PlaylistDropdownProps> = ({
     }
 
     return (
-        <div className="flex min-h-full items-center justify-center z-100">
+        <div className="flex min-h-full items-center justify-center z-0">
             <header className=" border-gray-100 p-2">
                 <Dropdown>
                     <Dropdown.Button><AiOutlinePlus /></Dropdown.Button>
