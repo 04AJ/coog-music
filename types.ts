@@ -36,6 +36,7 @@ export interface SuperUser {
     user_id: number;
     user_name: string;
     birth_date: Date;
+    password: string;
     join_date: Date;
     email: string;
     race_name: string;
@@ -61,4 +62,12 @@ export interface Artist {
     artist_id: number;
     artist_name: string;
     artist_email: string;
+}
+
+export interface Notification {
+    artist_name: string;
+    n_id: number;
+    n_time: Date;
+    Message: string;
+    sendAll: number;
 }

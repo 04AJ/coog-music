@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import PlaylistTracks from "./PlaylistTracks";
 import AlbumTracks from "./AlbumTracks";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import AlbumItem from "./AlbumItem";
 
 interface UserDetailsProps {
     userDetails: User | SuperUser,
@@ -19,7 +21,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
     const user = useUser();
     const [playlists, setPlaylists] = useState<Playlist[]>();
     const [albums, setAlbums] = useState<Album[]>();
-
+    const router = useRouter();
 
 
     //get playlistIds or albumId's
@@ -40,6 +42,9 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                 .catch(error => {
                     alert("error fetching data");
                 })
+
+
+
 
         }
         else if (profilePage && user.userRole === 'artist') {
@@ -103,42 +108,45 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
     return (
         <div className="w-full flex-col">
-            <div className="w-3/4 mb-10 bg-slate-800/40">
+            <div className="flex-col mb-10 w-3/4 bg-slate-800/40">
 
 
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Username</p>
-                    <p className="w-3/4 border p-1">{userDetails.user_name}</p>
+                    <p className="w-1/4 border rounded p-1">Username</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.user_name}</p>
                 </div>
 
-                {/* 
+
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Password</p>
-                    <p className="w-3/4 border p-1">{userDetails.password}</p>
-                </div> */}
+                    <p className="w-1/4 border rounded p-1">Email</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.email}</p>
+                </div>
+                {(user.userRole === 'admin') ?
+                    <div className="flex flex-row">
+                        <p className="w-1/4 border rounded p-1">Password</p>
+                        <p className="w-3/4 border rounded p-1">{userDetails.password}</p>
+                    </div>
+                    : null
+                }
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Email</p>
-                    <p className="w-3/4 border p-1">{userDetails.email}</p>
+                    <p className="w-1/4 border rounded p-1">Gender</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.gender_name}</p>
                 </div>
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Gender</p>
-                    <p className="w-3/4 border p-1">{userDetails.gender_name}</p>
+                    <p className="w-1/4 border rounded p-1">Race</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.race_name.toLowerCase()}</p>
                 </div>
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Race</p>
-                    <p className="w-3/4 border p-1">{userDetails.race_name}</p>
+                    <p className="w-1/4 border rounded p-1">Ethnicity</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.ethnicity_name}</p>
                 </div>
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Ethnicity</p>
-                    <p className="w-3/4 border p-1">{userDetails.ethnicity_name}</p>
+                    <p className="w-1/4 border rounded p-1">Birthdate</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.birth_date.toString().substring(0, 10)}</p>
                 </div>
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Birthdate</p>
-                    <p className="w-3/4 border p-1">{userDetails.birth_date.toString().substring(0, 10)}</p>
-                </div>
-                <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Joined Coog Music</p>
-                    <p className="w-3/4 border p-1">{userDetails.join_date.toString().substring(0, 10)}</p>
+                    <p className="w-1/4 border rounded p-1">Joined Coog Music</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.join_date.toString().substring(0, 10)}</p>
                 </div>
 
 
@@ -168,25 +176,24 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                         </h1>
                         {albums?.map((album) =>
                             <div key={album.album_id}>
-                                <li>{album.album_name}</li>
 
                                 <div
+                                    onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
+
                                     className="
-          relative 
-          aspect-square 
-          w-1/3
-          rounded-md 
-          overflow-hidden
-        "
+                                 grid 
+                                 grid-cols-1 
+                                 sm:grid-cols-2 
+                                 md:grid-cols-3 
+                                 lg:grid-cols-3 
+                                 xl:grid-cols-4 
+                                 2xl:grid-cols-6 
+                                 gap-4 
+                                 mt-4
+                         "
                                 >
-                                    <Image
-                                        className="object-cover"
-                                        src={album.album_cover_path}
-                                        fill
-                                        alt="Image"
-                                    />
+                                    <AlbumItem data={album} />
                                 </div>
-                                <AlbumTracks album_id={album.album_id} />
                             </div>
                         )}
                     </div>
@@ -211,8 +218,24 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                             </h1>
                             {albums?.map((album) =>
                                 <div key={album.album_id}>
-                                    <li>{album.album_name}</li>
-                                    <AlbumTracks album_id={album.album_id} />
+
+                                    <div
+                                        onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
+
+                                        className="
+                                        grid 
+                                        grid-cols-1 
+                                        sm:grid-cols-2 
+                                        md:grid-cols-3 
+                                        lg:grid-cols-3 
+                                        xl:grid-cols-4 
+                                        2xl:grid-cols-6 
+                                        gap-4 
+                                        mt-4
+                                "
+                                    >
+                                        <AlbumItem data={album} />
+                                    </div>
                                 </div>
                             )}
                         </div>
