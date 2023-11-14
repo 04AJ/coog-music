@@ -12,8 +12,8 @@ export async function GET(req: NextRequest) {
     const showArtists = searchParams.get('artists'); 
 
 
-    let artistsOnly = false//((showListeners==='false') && showArtists==='true')
-    const listenersOnly = false//(showListeners && (!showArtists))
+    const artistsOnly =((showListeners==='false' && showArtists==='true')) ? true:false;
+    const listenersOnly = ((showListeners==='true' && showArtists==='false')) ? true:false;
     
     
     // if(To === ''){ 
@@ -29,24 +29,25 @@ export async function GET(req: NextRequest) {
     //     ));
     //     return new Response(JSON.stringify(result));
     // }
-    let users = await prisma.$queryRaw<User[]>`
-        Select user_name, user_id, join_date, is_artist
-        FROM user 
-        WHERE join_date >= ${From} AND join_date <= ${To}
-        group by user_name, user_id, join_date;`;
+    let users;
     if(artistsOnly){
         users = await prisma.$queryRaw<User[]>`
             Select user_name, user_id, join_date, is_artist
             FROM user 
             WHERE join_date >= ${From} AND join_date <= ${To} AND is_artist = 1
             group by user_name, user_id, join_date;`;
-    }
-    if(listenersOnly){ //wow this is so shit, but idc
+    }else if(listenersOnly){ //wow this is so shit, but idc
         users = await prisma.$queryRaw<User[]>`
             Select user_name, user_id, join_date, is_artist
             FROM user 
             WHERE join_date >= ${From} AND join_date <= ${To} AND (is_artist = 0 OR is_artist IS NULL)
             group by user_name, user_id, join_date;`;
+    } else {
+        users = await prisma.$queryRaw<User[]>`
+        Select user_name, user_id, join_date, is_artist
+        FROM user 
+        WHERE join_date >= ${From} AND join_date <= ${To}
+        group by user_name, user_id, join_date;`;
     }
     const result = JSON.parse(JSON.stringify(users, (key, value) =>
         typeof value === 'bigint'

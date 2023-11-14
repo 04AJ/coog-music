@@ -23,7 +23,7 @@ export default function AdminPage() {
             <div className="flex flex-row space-x-7 my-7">
                 <PopularTracks/>
             </div>
-        </div>
+    </div>
     );
 }
 

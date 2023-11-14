@@ -45,7 +45,7 @@ class UserCreationActivity extends Component{
             return;
         }
         axios
-            .get(`/api/reportUserCreation?from_date=${FDate}&to_date=${TDate}&artists=${ar}&listeners${ls}`)
+            .get(`/api/reportUserCreation?from_date=${FDate}&to_date=${TDate}&artists=${ar}&listeners=${ls}`)
             .then((res) => {
                 console.log(res.data);
                 this.setState({data:res.data});
