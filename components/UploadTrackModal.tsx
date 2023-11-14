@@ -15,6 +15,7 @@ import { UploadButton } from '@uploadthing/react';
 import { OurFileRouter } from '@/app/api/uploadthing/core';
 import { useUser } from '@/hooks/useUser';
 import Select from "react-select";
+import { FormControl, InputLabel, NativeSelect } from '@mui/material';
 
 
 
@@ -51,6 +52,7 @@ const UploadTrackModal = () => {
         reset } = useForm<FieldValues>({
             defaultValues: {
                 title: '',
+                genre: 1,
                 song: null,
                 image: null,
             }
@@ -74,13 +76,13 @@ const UploadTrackModal = () => {
             setIsLoading(true);
 
             const title = values.title;
-            const genre = values.genre_id;
+            const genre = values.genre;
             const imageFile = values.image?.[0];
             const songFile = values.song?.[0];
 
             // console.log(title, author, image[0], audio[0]);
 
-            if (!title || !audio[0] || !image[0]) {
+            if (!title || !audio[0] || !image[0] || !genre) {
 
                 toast.error('Missing fields');
                 return;
@@ -92,7 +94,7 @@ const UploadTrackModal = () => {
             // POST REQUEST
             axios.post('/api/upload', {
                 title: values.title,
-                genre_id: values.genre.value,
+                genre_id: values.genre,
                 artist_id: user.artistId,
                 audio_url: audio[0].fileUrl,
                 image_url: image[0].fileUrl
@@ -148,82 +150,41 @@ const UploadTrackModal = () => {
                         {...register('title', { required: true })}
                         placeholder="Track title"
                     />
+                    <FormControl fullWidth>
+                        <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{ color: 'white' }}>Genre</InputLabel>
+                        <Controller
+
+                            render={({ field }) => (
+                                <NativeSelect {...field}
+                                    sx={{ color: 'grey' }}
+                                    inputProps={{
+                                        name: 'genre',
+                                        id: 'uncontrolled-native',
+                                    }}
+                                >
+                                    <option value={1} style={{ color: 'black' }}>hiphop</option>
+                                    <option value={2} style={{ color: 'black' }}>pop</option>
+                                    <option value={3} style={{ color: 'black' }}>country</option>
+                                    <option value={4} style={{ color: 'black' }}>rock</option>
+                                    <option value={5} style={{ color: 'black' }}>indie</option>
+                                    <option value={6} style={{ color: 'black' }}>r&b</option>
+                                    <option value={7} style={{ color: 'black' }}>jazz</option>
+                                    <option value={8} style={{ color: 'black' }}>metal</option>
+                                    <option value={9} style={{ color: 'black' }}>classical</option>
+                                    <option value={10} style={{ color: 'black' }}>funk</option>
+
+
+                                </NativeSelect>
+                            )}
+                            name="genre"
+                            control={control}
+
+                        />
+                    </FormControl>
 
 
 
-                    <Controller
-                        render={({ field }) => (
-                            <Select
-                                placeholder="Select a genre:"
-                                theme={(theme) => ({
-                                    ...theme,
-                                    borderRadius: 0,
-                                    colors: {
-                                        ...theme.colors,
-                                        primary: 'grey  ',
-                                    },
 
-                                })}
-                                styles={{
-                                    control: (baseStyles, state) => ({
-                                        ...baseStyles,
-                                        background: 'darkgrey',
-
-
-
-                                    }),
-                                }}
-                                {...field}
-                                options={
-                                    [
-                                        {
-                                            value: 1,
-                                            label: "hiphop"
-                                        },
-                                        {
-                                            value: 2,
-                                            label: "pop"
-                                        },
-                                        {
-                                            value: 3,
-                                            label: "country"
-                                        },
-                                        {
-                                            value: 4,
-                                            label: "rock"
-                                        },
-                                        {
-                                            value: 5,
-                                            label: "indie"
-                                        },
-                                        {
-                                            value: 6,
-                                            label: "r&b"
-                                        },
-                                        {
-                                            value: 7,
-                                            label: "jazz"
-                                        },
-                                        {
-                                            value: 8,
-                                            label: "metal"
-                                        },
-                                        {
-                                            value: 9,
-                                            label: "classical"
-                                        },
-                                        {
-                                            value: 10,
-                                            label: "funk"
-                                        }
-                                    ]
-                                }
-                                isClearable
-                            />
-                        )}
-                        name="genre"
-                        control={control}
-                    />
 
 
                     <UploadButton<OurFileRouter>

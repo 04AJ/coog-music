@@ -15,6 +15,7 @@ import CreateAlbumButton from '@/components/CreateAlbumButton';
 import CreatedTracks from '@/components/CreatedTracks';
 import Logout from '@/components/Logout';
 import GenreTracks from '@/components/GenreTracks';
+import usePlayer from '@/hooks/usePlayer';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -24,7 +25,6 @@ export const revalidate = 0;
 export default async function Home() {
 
   const tracks = await getTracks();
-
 
 
   return (

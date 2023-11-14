@@ -14,9 +14,9 @@ interface reqFormat {
 
 interface updateFormat {
   userId: number;
-  race_id: string;
-  ethnicity_id: string;
-  gender_id: string;
+  race_id: number;
+  ethnicity_id: number;
+  gender_id: number;
 }
 
 
@@ -67,6 +67,7 @@ export async function PATCH(req: Request) {
   UPDATE user SET gender_id = ${data.gender_id}, ethnicity_id = ${data.ethnicity_id}, race_id = ${data.race_id}
   WHERE user_id = ${data.userId}
    `;
+
 
   return new Response(JSON.stringify(result));
 }

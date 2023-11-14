@@ -15,7 +15,7 @@ import { useUser } from '@/hooks/useUser';
 import { User } from '@/types';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { FormControl, InputLabel } from '@mui/material';
+import { Box, FormControl, InputLabel, NativeSelect } from '@mui/material';
 
 
 
@@ -31,6 +31,26 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
 
     const user = useUser();
 
+    // creating maps 
+    const genderMap = new Map([
+        ["male", 1],
+        ["female", 2]
+    ])
+
+    const raceMap = new Map([
+        ["white", 1],
+        ["black", 2],
+        ["asian", 3],
+        ["a. indian", 4],
+        ["hispanic", 5]
+    ])
+
+    const ethnicityMap = new Map([
+        ["asian", 1],
+        ["hispanic", 2],
+        ["african american", 3],
+        ["white", 4]
+    ])
 
     //custom hook to change modal visibility  state
     const profileModal = useUpdateProfileModal();
@@ -42,9 +62,9 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
         control,
         reset } = useForm<FieldValues>({
             defaultValues: {
-                gender: user_info.gender_name,
-                race: user_info.race_name,
-                ethnicity: user_info.ethnicity_name
+                gender: genderMap.get(user_info.gender_name.toLowerCase()),
+                race: raceMap.get(user_info.race_name.toLowerCase()),
+                ethnicity: ethnicityMap.get(user_info.ethnicity_name.toLowerCase())
             }
         })
     //triggered anytime 'x' or bg if clicked
@@ -56,8 +76,6 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
         }
     }
 
-    const handleChange = (event: SelectChangeEvent) => {
-    };
 
 
     //ASYNC onSubmit
@@ -66,30 +84,34 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
         try {
             setIsLoading(true);
 
-            const name = values.name;
+            const gender = values.gender;
+            const race = values.race;
+            const ethnicity = values.ethnicity;
 
-            if (!name) {
+
+            if (!gender || !race || !ethnicity) {
                 toast.error('Missing fields');
                 return;
             }
 
 
 
+
             // PATCH REQUEST
             axios.patch('/api/signup', {
                 userId: user_info.user_id,
-                birthdate: values.birthdate,
-                race_id: values.race,
-                ethnicity_id: values.ethnicity,
-                gender_id: values.gender
+                race_id: race,
+                ethnicity_id: ethnicity,
+                gender_id: gender
 
             }
             ).then(() => {
                 router.refresh();
                 setIsLoading(false);
-                toast.success('Playlist Created!')
+                toast.success('Updated Profile')
                 reset();
                 profileModal.onClose();
+                window.location.href = "/profile";
 
 
             })
@@ -120,63 +142,88 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
                     onSubmit={handleSubmit(onSubmit)}
                     className="flex flex-col gap-y-4 color-white"
                 >
-
-
-
                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                        <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{ color: 'white' }}>Gender</InputLabel>
                         <Controller
+
                             render={({ field }) => (
-                                <Select {...field}
-                                    onChange={handleChange}
+                                <NativeSelect {...field}
+                                    sx={{ color: 'grey' }}
+                                    inputProps={{
+                                        name: 'gender',
+                                        id: 'uncontrolled-native',
+                                    }}
                                 >
-                                    <MenuItem value={1}>male</MenuItem>
-                                    <MenuItem value={2}>female</MenuItem>
-                                </Select>
+                                    <option value={1} style={{ color: 'black' }}>male</option>
+                                    <option value={2} style={{ color: 'black' }}>female</option>
+
+                                </NativeSelect>
                             )}
                             name="gender"
                             control={control}
 
                         />
                     </FormControl>
+
+
+
+
                     <FormControl fullWidth>
-
-                        <InputLabel id="demo-simple-select-label">Race</InputLabel>
+                        <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{ color: 'white' }}>Race</InputLabel>
                         <Controller
-                            render={({ field }) => (
-                                <Select {...field}
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                >
-                                    <MenuItem value={1}>white</MenuItem>
-                                    <MenuItem value={2}>black</MenuItem>
-                                    <MenuItem value={3}>asian</MenuItem>
-                                    <MenuItem value={4}>american indian</MenuItem>
-                                    <MenuItem value={5}>hispanic</MenuItem>
 
-                                </Select>
+                            render={({ field }) => (
+                                <NativeSelect {...field}
+                                    sx={{ color: 'grey' }}
+                                    inputProps={{
+                                        name: 'race',
+                                        id: 'uncontrolled-native',
+                                    }}
+                                >
+                                    <option value={1} style={{ color: 'black' }}>white</option>
+                                    <option value={2} style={{ color: 'black' }}>black</option>
+                                    <option value={3} style={{ color: 'black' }}>asian</option>
+                                    <option value={4} style={{ color: 'black' }}>american indian</option>
+                                    <option value={5} style={{ color: 'black' }}>hispanic</option>
+
+
+                                </NativeSelect>
                             )}
                             name="race"
                             control={control}
+
                         />
                     </FormControl>
 
 
+
+
+
+
                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Ethnicity</InputLabel>
+                        <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{ color: 'white' }}>Ethnicity</InputLabel>
                         <Controller
+
                             render={({ field }) => (
-                                <Select {...field}>
-                                    <MenuItem value={1}>asian</MenuItem>
-                                    <MenuItem value={2}>hispanic</MenuItem>
-                                    <MenuItem value={3}>african american</MenuItem>
-                                    <MenuItem value={4}>white</MenuItem>
-                                </Select>
+                                <NativeSelect {...field}
+                                    sx={{ color: 'grey' }}
+                                    inputProps={{
+                                        name: 'ethnicity',
+                                        id: 'uncontrolled-native',
+                                    }}
+                                >
+                                    <option value={1} style={{ color: 'black' }}>asian</option>
+                                    <option value={2} style={{ color: 'black' }}>hispanic</option>
+                                    <option value={3} style={{ color: 'black' }}>african american</option>
+                                    <option value={4} style={{ color: 'black' }}>white</option>
+
+
+                                </NativeSelect>
                             )}
                             name="ethnicity"
                             control={control}
-                        />
 
+                        />
                     </FormControl>
 
 

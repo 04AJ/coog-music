@@ -12,6 +12,7 @@ import Library from "./Library";
 import Box from "./Box";
 import NavBarItem from "./NavBarItem";
 import { useUser } from "@/hooks/useUser";
+import usePlayer from "@/hooks/usePlayer";
 
 
 interface NavBarProps {
@@ -22,7 +23,7 @@ const NavBar: React.FC<NavBarProps> = ({
 }) => {
     //nextjs hook
     const pathname = usePathname();
-
+    const player = usePlayer();
     const user = useUser();
 
 
@@ -79,13 +80,7 @@ const NavBar: React.FC<NavBarProps> = ({
 
     return (
         <div
-            className={twMerge(`
-            flex 
-            h-full
-            z-50
-            `,
-
-            )}
+            className={(player.activeId) ? 'flex h-[calc(100%-80px)]' : 'flex h-full'}
         >
             <div
                 className="

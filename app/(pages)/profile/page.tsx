@@ -6,9 +6,12 @@ import UserDetails from "@/components/UserDetails";
 import usePlayer from "@/hooks/usePlayer";
 import { useUser } from "@/hooks/useUser";
 import { Playlist, User } from "@/types";
+import { InputLabel, Select, MenuItem, Box, NativeSelect } from "@mui/material";
+import FormControl from "@mui/material/FormControl/FormControl";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { twMerge } from "tailwind-merge";
 
 
@@ -36,7 +39,16 @@ export default function ProfilePage() {
     }, [user.userId]);
 
 
-
+    const { register,
+        handleSubmit,
+        control,
+        reset } = useForm<FieldValues>({
+            defaultValues: {
+                gender: 2,
+                race: 30,
+                ethnicity: 1
+            }
+        })
 
 
     return (
@@ -63,8 +75,13 @@ export default function ProfilePage() {
 
 
 
+
             </div >
             {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={true} /> : null}
+
+
+
+
 
 
 

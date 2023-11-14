@@ -108,45 +108,45 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
     return (
         <div className="w-full flex-col">
-            <div className="w-3/4 mb-10 bg-slate-800/40">
+            <div className="flex-col mb-10 w-3/4 bg-slate-800/40">
 
 
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Username</p>
-                    <p className="w-3/4 border p-1">{userDetails.user_name}</p>
+                    <p className="w-1/4 border rounded p-1">Username</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.user_name}</p>
                 </div>
 
 
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Email</p>
-                    <p className="w-3/4 border p-1">{userDetails.email}</p>
+                    <p className="w-1/4 border rounded p-1">Email</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.email}</p>
                 </div>
                 {(user.userRole === 'admin') ?
                     <div className="flex flex-row">
-                        <p className="w-1/4 border p-1">Password</p>
-                        <p className="w-3/4 border p-1">{userDetails.password}</p>
+                        <p className="w-1/4 border rounded p-1">Password</p>
+                        <p className="w-3/4 border rounded p-1">{userDetails.password}</p>
                     </div>
                     : null
                 }
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Gender</p>
-                    <p className="w-3/4 border p-1">{userDetails.gender_name}</p>
+                    <p className="w-1/4 border rounded p-1">Gender</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.gender_name}</p>
                 </div>
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Race</p>
-                    <p className="w-3/4 border p-1">{userDetails.race_name}</p>
+                    <p className="w-1/4 border rounded p-1">Race</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.race_name.toLowerCase()}</p>
                 </div>
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Ethnicity</p>
-                    <p className="w-3/4 border p-1">{userDetails.ethnicity_name}</p>
+                    <p className="w-1/4 border rounded p-1">Ethnicity</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.ethnicity_name}</p>
                 </div>
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Birthdate</p>
-                    <p className="w-3/4 border p-1">{userDetails.birth_date.toString().substring(0, 10)}</p>
+                    <p className="w-1/4 border rounded p-1">Birthdate</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.birth_date.toString().substring(0, 10)}</p>
                 </div>
                 <div className="flex flex-row">
-                    <p className="w-1/4 border p-1">Joined Coog Music</p>
-                    <p className="w-3/4 border p-1">{userDetails.join_date.toString().substring(0, 10)}</p>
+                    <p className="w-1/4 border rounded p-1">Joined Coog Music</p>
+                    <p className="w-3/4 border rounded p-1">{userDetails.join_date.toString().substring(0, 10)}</p>
                 </div>
 
 
