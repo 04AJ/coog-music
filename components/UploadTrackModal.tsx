@@ -105,18 +105,12 @@ const UploadTrackModal = () => {
                 toast.success('Track Successfully uploaded!')
                 reset();
                 uploadModal.onClose();
+                window.location.href = "/";
+
 
             })
 
 
-            // const tracks = postTracks(input);
-
-            router.refresh();
-            setIsLoading(false);
-            toast.success('Track Successfully uploaded!')
-            reset();
-            uploadModal.onClose();
-            window.location.href = "/";
 
 
         } catch (error) {
