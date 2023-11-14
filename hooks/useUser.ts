@@ -1,5 +1,6 @@
 //hook to store userID using zustand!
-import { SuperUser } from '@/types';
+import { Album, SuperUser } from '@/types';
+import { album } from '@prisma/client';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware'
 
@@ -9,11 +10,12 @@ interface User {
     listenerId?: number;
     userRole: 'listener' | 'artist' | 'admin' | 'na';
     activeUser: SuperUser;
+    activeAlbum: Album;
     setUserId: (id: number | undefined) => void;
     setArtistId: (id: number) => void;
     setListenerId: (id: number) => void;
     setActiveUser: (user: SuperUser) => void;
-
+    setActiveAlbum: (album: Album) => void;
     setUserRole: (role: 'listener' | 'artist' | 'admin' | 'na') => void;
 
 
@@ -41,6 +43,7 @@ export const useUser = create<User>()(
             activeUser: {
                 user_id: -1,
                 user_name: "",
+                password: "",
                 birth_date: new Date(),
                 join_date: new Date(),
                 email: "",
@@ -52,13 +55,20 @@ export const useUser = create<User>()(
                 is_artist: -1,
                 is_admin: -1
             },
+            activeAlbum: {
+                album_id: -1,
+                album_name: "",
+                album_created_at: new Date(),
+                album_release_date: new Date(),
+                album_cover_path: ""
+            },
             userRole: 'na',
             setUserId: (id: number | undefined) => set({ userId: id }),
             setArtistId: (id: number) => set({ artistId: id }),
 
             setListenerId: (id: number) => set({ listenerId: id }),
             setActiveUser: (user: SuperUser) => set({ activeUser: user }),
-
+            setActiveAlbum: (album: Album) => set({ activeAlbum: album }),
             setUserRole: (role: 'listener' | 'artist' | 'admin' | 'na') => set({ userRole: role }),
         }),
         {

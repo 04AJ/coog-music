@@ -88,6 +88,8 @@ const CreateAlbumModal = () => {
                 toast.success('Album Successfully created!')
                 reset();
                 albumModal.onClose();
+                window.location.href = "/";
+
 
             })
 

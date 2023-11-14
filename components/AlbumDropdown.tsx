@@ -15,9 +15,9 @@ const AlbumDropdown: React.FC<AlbumDropdownProps> = ({
     track_id
 }) => {
 
-    if (!albums) {
-        return null;
-    }
+    // if (!albums) {
+    //     return null;
+    // }
 
     const handleSubmit = async (track_id: number, album_id: number) => {
 

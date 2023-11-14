@@ -34,8 +34,10 @@ const LikedTracks = () => {
 
 
       {likedTracks ?
-        <div>
-          Liked Tracks
+        <div >
+          <h1 className="text-2xl mt-5">
+            Liked Tracks
+          </h1>
           <Carousel tracks={likedTracks} albums={[]} />
         </div>
 
