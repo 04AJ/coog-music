@@ -20,11 +20,12 @@ import { Box, FormControl, InputLabel, NativeSelect } from '@mui/material';
 
 
 interface UpdateProfileProps {
-    user_info: User
+    user_info: User;
+    isProfile: Boolean
 }
 
 const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
-    user_info
+    user_info, isProfile
 }) => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -62,6 +63,9 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
         control,
         reset } = useForm<FieldValues>({
             defaultValues: {
+                user_name: user_info.user_name,
+                email: user_info.email,
+                password: user_info.password,
                 gender: genderMap.get(user_info.gender_name.toLowerCase()),
                 race: raceMap.get(user_info.race_name.toLowerCase()),
                 ethnicity: ethnicityMap.get(user_info.ethnicity_name.toLowerCase())
@@ -80,19 +84,26 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
 
     //ASYNC onSubmit
     const onSubmit: SubmitHandler<FieldValues> = async (values) => {
+
+        console.log(values);
         //upload to MySQL
         try {
             setIsLoading(true);
 
+            const user_name = values.user_name;
+            const email = values.email;
+            const password = values.password;
             const gender = values.gender;
             const race = values.race;
             const ethnicity = values.ethnicity;
 
 
-            if (!gender || !race || !ethnicity) {
+            if (!user_name || !email || !password || !gender || !race || !ethnicity) {
                 toast.error('Missing fields');
                 return;
             }
+
+            console.log(values);
 
 
 
@@ -100,6 +111,9 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
             // PATCH REQUEST
             axios.patch('/api/signup', {
                 userId: user_info.user_id,
+                user_name: user_name,
+                email: email,
+                password: password,
                 race_id: race,
                 ethnicity_id: ethnicity,
                 gender_id: gender
@@ -108,11 +122,15 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
             ).then(() => {
                 router.refresh();
                 setIsLoading(false);
-                toast.success('Updated Profile')
+                toast.success('Updated User Details')
                 reset();
                 profileModal.onClose();
-                window.location.href = "/profile";
-
+                if (isProfile) {
+                    window.location.href = "/profile";
+                }
+                else {
+                    window.location.href = "/userProfile";
+                }
 
             })
 
@@ -133,15 +151,48 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
             <div><Toaster /></div>
 
             <Modal
-                title='Update your profile'
-                description='Change the following attributes to your profile'
+                title='Update user profile'
+                description='Change the following attributes to user profile'
                 isOpen={profileModal.isOpen}
                 onChange={onChange}
             >
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="flex flex-col gap-y-4 color-white"
+
                 >
+
+                    <div>
+                        <Input
+                            className='mb-1'
+                            id="user_name"
+                            disabled={isLoading}
+                            {...register('user_name')}
+                            placeholder={user_info.user_name}
+                        />
+
+                        <div style={{ display: (user.userRole === 'admin') ? 'block' : 'none' }}>
+
+
+                            <Input
+                                className='mb-1'
+                                id="email"
+                                disabled={isLoading}
+                                {...register('email')}
+                                placeholder={user_info.email}
+                            />
+
+                            <Input
+                                id="password"
+                                disabled={isLoading}
+                                {...register('password')}
+                                placeholder={user_info.password}
+                            />
+                        </div>
+
+
+                    </div>
+
                     <FormControl fullWidth>
                         <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{ color: 'white' }}>Gender</InputLabel>
                         <Controller
@@ -231,7 +282,7 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
                         Update
                     </Button>
                 </form>
-            </Modal>
+            </Modal >
         </>
 
     )

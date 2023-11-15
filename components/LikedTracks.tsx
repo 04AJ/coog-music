@@ -15,6 +15,9 @@ const LikedTracks = () => {
   const [likedTracks, setLikedTracks] = useState<Track[]>();
   //CAREFUL: setting state inside useEffect = infinite loop. Need to use dependency array[]
 
+  if (user.userRole === 'admin') {
+    return null;
+  }
   //consume likedTracks api endpoint
   useEffect(() => {
     axios

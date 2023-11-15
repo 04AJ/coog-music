@@ -14,7 +14,7 @@ const CreatePlaylistButton: React.FC = () => {
     const playlistModal = useCreatePlaylistModal();
     const user = useUser();
     const router = useRouter();
-    if (user.userRole === 'artist') {
+    if (user.userRole === 'artist' || user.userRole === 'admin') {
         return null;
 
     }

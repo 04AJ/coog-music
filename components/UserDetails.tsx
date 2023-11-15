@@ -210,19 +210,19 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                             )}
                         </div>
 
-                        :
+                        : (!profilePage && user.activeUser.is_artist === 1) ?
 
-                        <div>
-                            <h1 className="text-3xl font-bold">
-                                Albums
-                            </h1>
-                            {albums?.map((album) =>
-                                <div key={album.album_id}>
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    Albums
+                                </h1>
+                                {albums?.map((album) =>
+                                    <div key={album.album_id}>
 
-                                    <div
-                                        onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
+                                        <div
+                                            onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
 
-                                        className="
+                                            className="
                                         grid 
                                         grid-cols-1 
                                         sm:grid-cols-2 
@@ -233,14 +233,14 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                                         gap-4 
                                         mt-4
                                 "
-                                    >
-                                        <AlbumItem data={album} />
+                                        >
+                                            <AlbumItem data={album} />
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
+                                )}
+                            </div>
 
-
+                            : null
 
 
 

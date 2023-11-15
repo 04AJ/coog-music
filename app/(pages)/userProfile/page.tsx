@@ -11,6 +11,8 @@ import { twMerge } from "tailwind-merge";
 import { RxCaretLeft } from "react-icons/rx"
 import { MdVerified } from "react-icons/md";
 import toast from "react-hot-toast";
+import UpdateProfileButton from "@/components/UpdateProfileButton";
+import UpdateProfileModal from "@/components/UpdateProfileModal";
 
 interface response {
     streams: number
@@ -21,6 +23,7 @@ export default function UserProfilePage() {
     const player = usePlayer();
     const router = useRouter();
 
+    const [userDetails, setUserDetails] = useState<User[]>();
     const [isFollowing, setIsFollowing] = useState(false);
     const [streamCount, setStreamCount] = useState(0);
     const [followers, setFollowers] = useState<SuperUser[]>();
@@ -30,6 +33,18 @@ export default function UserProfilePage() {
     //get request
     useEffect(() => {
         //get streams
+
+        axios.get<User[]>(`/api/user?user_id=${user.activeUser.user_id}`)
+            .then(response => {
+
+                if (response.data) {
+                    setUserDetails(response.data);
+                }
+
+            })
+            .catch(error => {
+                alert("error fetching data");
+            })
 
         if (user.activeUser.is_artist === 1) {
             axios.get<response>(`/api/stream?artist_id=${user.activeUser.artist_id}`)
@@ -44,8 +59,6 @@ export default function UserProfilePage() {
                 .catch(Error => console.error(Error))
 
         }
-
-
         //listener follows listener
         if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
             axios.get<boolean>(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
@@ -59,7 +72,7 @@ export default function UserProfilePage() {
 
         }
         //listener forllows artist
-        else if (user.userRole === 'admin' || (user.userRole === 'artist' && user.activeUser.is_artist === 1)) {
+        else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
 
             axios.get<boolean>(`/api/follow?listener_id=${user.listenerId}&artist_id=${user.activeUser.artist_id}`)
                 .then(response => {
@@ -171,6 +184,8 @@ export default function UserProfilePage() {
                 player.activeId && 'h-[calc(100%-80px)]'
             )}
         >
+            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={false} /> : null}
+
             <div className="w-full h-full mb-4 flex-col items-center">
 
                 <button
@@ -205,7 +220,7 @@ export default function UserProfilePage() {
                     <div className="text-6xl font-bold gap-2 justify-center flex flex-row mb-2">
 
 
-                        {user.activeUser.user_name}
+                        {userDetails ? userDetails[0].user_name : null}
 
 
                     </div>
@@ -227,9 +242,9 @@ export default function UserProfilePage() {
                 </div>
 
 
-
+                {(user.userRole === 'admin') ? <UpdateProfileButton /> : null}
                 <p className="text-3xl font-bold">User Info</p>
-                <UserDetails userDetails={user.activeUser} profilePage={false} />
+                {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={false} /> : null}
 
 
             </div >
