@@ -29,3 +29,8 @@ export async function POST(req: NextRequest) {
 
     return new Response(JSON.stringify(affected));
 }
+
+export async function DELETE(req: NextRequest) {
+    // NEED TO IMPLEMENT
+    return new Response(JSON.stringify(""));
+}

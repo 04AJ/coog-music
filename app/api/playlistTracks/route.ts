@@ -16,3 +16,11 @@ export async function GET(req: NextRequest) {
     return new Response(JSON.stringify(tracks))
 
 };
+
+export async function DELETE(req: NextRequest) {
+    const searchParams = req.nextUrl.searchParams;
+    const track_id = searchParams.get('track_id');
+    const playlist_id = searchParams.get('playlist_id');
+    const affected = await prisma.$executeRaw`DELETE FROM track_to_playlist WHERE track_id = ${track_id} AND playlist_id = ${playlist_id}`
+    return new Response(JSON.stringify(affected));
+}
