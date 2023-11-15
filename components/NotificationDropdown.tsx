@@ -6,32 +6,27 @@ import { Notification } from "@/types";
 import { VscBell, VscBellDot } from "react-icons/vsc"
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useUser } from "@/hooks/useUser";
 
 
 
 const NotificationDropdown = () => {
-
+    const user = useUser();
     const [notifications, setNotifications] = useState<Notification[]>();
 
     useEffect(() => {
-
-
-        axios.get<Notification[]>(`/api/notifications`)
+        axios.get<Notification[]>(`/api/notifications?listener_id=${user.listenerId}`)
             .then(response => {
-
-
                 if (response.data) {
-                    setNotifications(response.data);
+                    setNotifications(response.data); 
                 }
-
             })
             .catch(error => {
                 alert("error fetching data");
             })
-
-
-
     }, [])
+
+    
 
     const handleSubmit = async () => {
 
