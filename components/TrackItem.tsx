@@ -6,6 +6,8 @@ import { Album, Track } from "@/types";
 import PlayButton from "./PlayButton";
 import AlbumDropdown from "./AlbumDropdown";
 import { useUser } from "@/hooks/useUser";
+import UpdateModal from "./UpdateModal";
+import UpdateButton from "./UpdateButton";
 
 
 interface TrackItemProps {
@@ -23,7 +25,6 @@ const TrackItem: React.FC<TrackItemProps> = ({
     const user = useUser();
     return (
         <div
-            onClick={() => onClick(data.track_id)}
             className="
         relative 
         group 
@@ -42,6 +43,8 @@ const TrackItem: React.FC<TrackItemProps> = ({
       "
         >
             <div
+                onClick={() => onClick(data.track_id)}
+
                 className="
           relative 
           aspect-square 
@@ -85,6 +88,8 @@ const TrackItem: React.FC<TrackItemProps> = ({
                 </div>
             </div>
             <div
+                onClick={() => onClick(data.track_id)}
+
                 className="
           absolute 
           bottom-24 
@@ -104,6 +109,20 @@ const TrackItem: React.FC<TrackItemProps> = ({
             "
                 >
                     <AlbumDropdown track_id={data.track_id} albums={albums} />
+
+                </div> : null
+            }
+
+            {(user.userRole === 'admin' || (user.userRole === 'artist' && data.artist_id === user.artistId)) ?
+
+                < div
+                    className="
+absolute
+bottom-10
+right-1
+"
+                >
+                    <UpdateButton id={data.track_id} name={data.track_name} type={"track"} genre={data.genre_id} />
 
                 </div> : null
             }

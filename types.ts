@@ -7,6 +7,7 @@ export interface Track {
     created_at?: Date;
     updated_at?: Date;
     stream?: number;
+    genre_id: number;
     track_img_path: string
 
 };

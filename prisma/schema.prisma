@@ -77,7 +77,7 @@ model listener {
   listener_id                                                               Int                         @id @default(autoincrement())
   user_id                                                                   Int?
   followers                                                                 BigInt?
-  user                                                                      user?                       @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "listener_ibfk_1")
+  user                                                                      user?                       @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "listener_ibfk_1")
   listener_follows_artists                                                  listener_follows_artists[]
   listener_follows_listener_listener_follows_listener_listener_idTolistener listener_follows_listener[] @relation("listener_follows_listener_listener_idTolistener")
   listener_follows_listener_listener_follows_listener_follower_idTolistener listener_follows_listener[] @relation("listener_follows_listener_follower_idTolistener")

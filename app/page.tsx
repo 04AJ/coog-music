@@ -16,6 +16,7 @@ import CreatedTracks from '@/components/CreatedTracks';
 import Logout from '@/components/Logout';
 import GenreTracks from '@/components/GenreTracks';
 import usePlayer from '@/hooks/usePlayer';
+import UpdateModal from '@/components/UpdateModal';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -53,6 +54,8 @@ export default async function Home() {
       <CreatedTracks />
       <LikedTracks />
       <GenreTracks complete_tracks={tracks} />
+      <UpdateModal />
+
 
 
 
