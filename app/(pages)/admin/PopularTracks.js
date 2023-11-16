@@ -6,7 +6,7 @@ import PopularTracksTable from "./PopularTracksTable";
 class PopularTracks extends Component{
     constructor(props){
         super(props);
-        this.state = { genre: '0', gender: '0', race: '0',data: []};
+        this.state = { genre: '0', gender: '0', ethnicity: '0',data: []};
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleHide = this.handleHide.bind(this);
@@ -16,7 +16,7 @@ class PopularTracks extends Component{
         e.preventDefault(); 
         const state = this.state;
         axios
-            .get(`/api/reportPopularTracks?genre=${state.genre}&gender=${state.gender}&race=${state.race}`)
+            .get(`/api/reportPopularTracks?genre=${state.genre}&gender=${state.gender}&ethnicity=${state.ethnicity}`)
             .then((res) => {
                 console.log(res.data);
                 this.setState({data:res.data});
@@ -49,14 +49,13 @@ class PopularTracks extends Component{
                             <option value="2">Female</option>
                         </select>
 
-                        <label className="form-label">Race:</label>
-                        <select className="ml-2 mr-4" name="race" onChange={this.handleChange} defaultValue="0">
+                        <label className="form-label">Ethnicity:</label>
+                        <select className="ml-2 mr-4" name="ethnicity" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
-                            <option value="1">White</option>
-                            <option value="2">Black</option>
-                            <option value="3">Asian</option>
-                            <option value="4">A. Indian</option>
-                            <option value="5">Hispanic</option>
+                            <option value="1">Asian</option>
+                            <option value="2">Hispanic</option>
+                            <option value="3">African American</option>
+                            <option value="4">White</option>
                         </select>
 
                         <label className="form-label">Genre:</label>
