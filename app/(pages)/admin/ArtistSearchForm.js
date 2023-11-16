@@ -41,7 +41,7 @@ class ArtistSearchForm extends React.Component{
     render(){
         return(
             <div>
-                <form onSubmit={this.handleSubmit} className="w-80">
+                <form onSubmit={this.handleSubmit} className="w-96">
                     <h1>Artist ID Search</h1>
                     <div className="flex-1 items-center text-center border rounded py-2">
                         <input onChange={this.handleChange} name="passedName" className="bg-white text-black mr-1 py-1 px-2" type="text" placeholder="Enter artist name"></input>

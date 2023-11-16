@@ -8,15 +8,16 @@ import UserGenderTable from './UserGenderTable';
 class UserDemographics extends Component{
     constructor(props){
         super(props);
-        this.state = { passedID: "", raceData:[], genderData:[], ageData:[] };
+        this.state = { passedID: "", showRace:false, showGender:false, raceData:[], genderData:[], ageData:[] };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleHide = this.handleHide.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
     }
 
     async handleChange(e) {
         e.preventDefault();
-        this.setState({passedName: e.target.value});
+        this.setState({passedID: e.target.value});
     }
 
     async handleHide(e) {
@@ -24,33 +25,36 @@ class UserDemographics extends Component{
         this.setState({raceData:[], genderData:[], ageData:[]});
     }
 
-    async handleHide(e) {
-        e.preventDefault();
-        this.setState({raceData:[], genderData:[], ageData:[]});
+    async handleToggle(e) {
+        this.setState({[e.target.name] : e.target.checked});
     }
 
     async handleSubmit(e){  //change to query for demographics   .. then if the input is empty return all 
         e.preventDefault();    
         const passedID = this.state.passedID;
         console.log(passedID);
-        axios //RACE QUERY
-            .get(`/api/reportRace?artist_id=${passedID}`)
-            .then((res) => {
-                console.log(res.data);
-                this.setState({data:res.data});
-            })
-            .catch((err) => {
-                console.error("this is an error ", err);
-        });
-        axios //GENDER QUERY
-            .get(`/api/reportGender?artist_id=${passedID}`)
-            .then((res) => {
-                console.log(res.data);
-                this.setState({genderData:res.data});
-            })
-            .catch((err) => {
-                console.error("this is an error ", err);
-        });
+        if(this.state.showRace){
+            axios //RACE QUERY
+                .get(`/api/reportRace?artist_id=${passedID}`)
+                .then((res) => {
+                    console.log(res.data);
+                    this.setState({raceData:res.data});
+                })
+                .catch((err) => {
+                    console.error("this is an error ", err);
+            });
+        } else {this.setState({raceData:[]})}
+        if(this.state.showGender){
+            axios //GENDER QUERY
+                .get(`/api/reportGender?artist_id=${passedID}`)
+                .then((res) => {
+                    console.log(res.data);
+                    this.setState({genderData:res.data});
+                })
+                .catch((err) => {
+                    console.error("this is an error ", err);
+            });
+        } else {this.setState({genderData:[]})}
         // axios //AGE QUERY
         //     .get(`/api/reportAge?artist_id=${passedID}`)
         //     .then((res) => {
@@ -68,9 +72,16 @@ class UserDemographics extends Component{
                 <form onSubmit={this.handleSubmit} className="w-80">
                     <h1>User Demographics</h1>
                     <div className="flex-1 items-center text-center border rounded py-2">
-                        <input onChange={this.handleChange} name="passedName" className="bg-white text-black mr-1 py-1 px-2" type="text" placeholder="Artist ID"></input>
+                        <input onChange={this.handleChange} name="passedID" className="bg-white text-black mr-1 py-1 px-2" type="text" placeholder="Artist Email"></input>
+                        <div className="space-x-2">
+                            <label htmlFor='showRace'>Race</label>
+                            <input id="showRace" type="checkbox" onChange={this.handleToggle} name="showRace" checked={this.state.showRace}/>
+                            <label htmlFor='showGender'>Gender</label>
+                            <input id="showGender" type="checkbox" onChange={this.handleToggle} name="showGender" checked={this.state.showGender}/>
+                        </div>
                         <button type="submit" className="bg-red-500 py-1 px-2 text-white hover:bg-red-800">Search</button>
                         <button onClick={this.handleHide} className="bg-red-500 py-1 px-2 text-white mx-2 my-2 hover:bg-red-800">Hide Results</button>
+
                     </div>
                 </form>
                 {(this.state.raceData.length) ? <UserRaceTable data ={this.state.raceData}/> : <div></div>}
