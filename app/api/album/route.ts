@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const tracks = await prisma.$queryRaw<Playlist[]>`
     SELECT album_id, album_name, album_created_at, album_release_date, album_cover_path
     FROM album
-    WHERE artist_id = ${artist_id};`
+    WHERE artist_id = ${artist_id} AND archive != 1;`
     // console.log(tracks);
     return new Response(JSON.stringify(tracks))
 
