@@ -8,7 +8,7 @@ import UserGenderTable from './UserGenderTable';
 class UserDemographics extends Component{
     constructor(props){
         super(props);
-        this.state = { passedID: "", showRace:false, showGender:false, raceData:[], genderData:[], ageData:[] };
+        this.state = { passedID: "", showRace:false, showGender:false, raceData:[], genderData:[], ageData:[], noData:false };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleHide = this.handleHide.bind(this);
@@ -64,6 +64,9 @@ class UserDemographics extends Component{
         //     .catch((err) => {
         //         console.error("this is an error ", err);
         // });
+        if(this.state.genderData.length + this.state.raceData.length === 0){
+            this.setState({noData:true});
+        } else {this.setState({noData:false})}
     }
 
     render(){ //create multiple tables for demographic stats
@@ -86,6 +89,7 @@ class UserDemographics extends Component{
                 </form>
                 {(this.state.raceData.length) ? <UserRaceTable data ={this.state.raceData}/> : <div></div>}
                 {(this.state.genderData.length) ? <UserGenderTable className="my-2" data ={this.state.genderData}/> : <div></div>}
+                {(this.state.noData === true) ? <div>no data available for this artist</div> : <div></div>}
             </div>
         );
     }

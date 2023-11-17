@@ -60,18 +60,17 @@ class ArtistSearchForm extends React.Component{
                 <form onSubmit={this.handleSubmit} className="w-96">
                     <h1>Artist ID Search</h1>
                     <div className="flex-1 items-center text-center border rounded py-2">
-                        <select onChange={this.handleChange} className="bg-white text-black mr-1 py-1 px-2" name="passedName">
-                            {/* Map through your artists data to create option elements */}
+                        {/* <select onChange={this.handleChange} className="bg-white text-black mr-1 py-1 px-2" name="passedName">
                             {this.state.artists.map((artist) => (
                               <option key={artist.artist_id} value={artist.artist_id}>
                                 {artist.artist_name}
                               </option>
                             ))}
                         </select>
-                        <button type="submit" className="bg-red-500 py-1 px-2 text-white hover:bg-red-800">Search</button>
-                            {/* <input onChange={this.handleChange} name="passedName" className="bg-white text-black mr-1 py-1 px-2" type="text" placeholder="Enter artist name"></input>
+                        <button type="submit" className="bg-red-500 py-1 px-2 text-white hover:bg-red-800">Search</button> */}
+                            <input onChange={this.handleChange} name="passedName" className="bg-white text-black mr-1 py-1 px-2" type="text" placeholder="Enter artist name"></input>
                             <button type="submit" className="bg-red-500 py-1 px-2 text-white hover:bg-red-800">Search</button>
-                            <button onClick={this.handleHide} className="bg-red-500 py-1 px-2 text-white mx-2 my-2 hover:bg-red-800">Hide Results</button> */}
+                            <button onClick={this.handleHide} className="bg-red-500 py-1 px-2 text-white mx-2 my-2 hover:bg-red-800">Hide Results</button>
                     </div>
                 </form>
                 {(this.state.data.length) ? <ArtistSearchTable data={this.state.data}/> : <div></div>}
