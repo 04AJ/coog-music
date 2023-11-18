@@ -108,7 +108,18 @@ const UpdateModal = () => {
 
             }
             else if (updateModal.type === 'playlist') {
+                // Patch playlist
+                axios.patch(`/api/uploadPlaylist?playlist_id=${updateModal.id}&playlist_name=${title}`)
+                    .then(() => {
+                        router.refresh();
+                        setIsLoading(false);
+                        toast.success('Playlist Successfully updated!')
+                        reset();
+                        updateModal.onClose();
+                        window.location.href = "/profile";
 
+
+                    })
             }
 
 

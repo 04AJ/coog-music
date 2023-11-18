@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import AlbumTracks from "@/components/AlbumTracks";
 import UpdateModal from "@/components/UpdateModal";
 import UpdateButton from "@/components/UpdateButton";
+import PlaylistTracks from "@/components/PlaylistTracks";
 
 
 export default function TracksPage() {
@@ -70,7 +71,7 @@ export default function TracksPage() {
                     <div className="text-6xl font-bold gap-2 justify-center flex flex-row mb-2">
                         {(user.activeTracksType === 'album') ?
 
-                            <div>
+                            <div className="flex flex-row">
                                 {user.activeAlbum.album_name}
                                 {(user.activeAlbum.artist_id === user.artistId) ? <UpdateButton name={user.activeAlbum.album_name} type={"album"} genre={undefined} id={user.activeAlbum.album_id} />
                                     : null
@@ -78,7 +79,15 @@ export default function TracksPage() {
 
                             </div>
 
-                            : null}
+                            :
+                            <div className="flex flex-row">
+                                {user.activePlaylist.playlist_name}
+                                {(user.activePlaylist.listener_id === user.listenerId) ? <UpdateButton name={user.activePlaylist.playlist_name} type={"playlist"} genre={undefined} id={user.activePlaylist.playlist_id} />
+                                    : null
+                                }
+
+                            </div>
+                        }
                     </div>
                     <div>
                         {(user.activeTracksType === 'album') ?
@@ -94,8 +103,12 @@ export default function TracksPage() {
 
                 </div>
 
+                {(user.activeTracksType === 'album') ?
+                    <AlbumTracks album_id={user.activeAlbum.album_id} />
+                    :
+                    <PlaylistTracks playlist_id={user.activePlaylist.playlist_id} />
 
-                <AlbumTracks album_id={user.activeAlbum.album_id} />
+                }
 
             </div >
 

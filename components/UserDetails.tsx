@@ -159,18 +159,20 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                     <h1 className="text-3xl font-bold mb-2">
                         Playlists
                     </h1>
+                    <div className="flex flex-row">
+                        {playlists?.map((playlist) =>
+                            <div key={playlist.playlist_id}>
 
-                    {playlists?.map((playlist) =>
-                        <div key={playlist.playlist_id}>
+                                <div className="p-3 border rounded w-fit cursor-pointer mr-2 hover:bg-red-500"
+                                    onClick={() => { user.setActivePlaylist(playlist); user.setActiveTracksType('playlist'); router.push('/tracks') }}
+                                >
+                                    {playlist.playlist_name}</div>
 
-                            <div className="p-3 border rounded w-min cursor-pointer hover:bg-red-500"
-                                onClick={() => { user.setActivePlaylist(playlist); user.setActiveTracksType('playlist'); router.push('/tracks') }}
-                            >
-                                {playlist.playlist_name}</div>
+                                {/* <PlaylistTracks playlist_id={playlist.playlist_id} /> */}
+                            </div>
+                        )}
+                    </div>
 
-                            <PlaylistTracks playlist_id={playlist.playlist_id} />
-                        </div>
-                    )}
                 </div>
 
                 : (profilePage && user.userRole === 'artist') ?
