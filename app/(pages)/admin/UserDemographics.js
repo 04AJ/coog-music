@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import UserRaceTable from './UserRaceTable';
-import UserGenderTable from './UserGenderTable';
+import UserRaceTable from './tables/UserRaceTable';
+import UserGenderTable from './tables/UserGenderTable';
 
 
 
@@ -50,6 +50,9 @@ class UserDemographics extends Component{
                 .then((res) => {
                     console.log(res.data);
                     this.setState({genderData:res.data});
+                    if(this.state.genderData.length + this.state.raceData.length === 0){
+                        this.setState({noData:true});
+                    } else {this.setState({noData:false})}
                 })
                 .catch((err) => {
                     console.error("this is an error ", err);
@@ -64,9 +67,6 @@ class UserDemographics extends Component{
         //     .catch((err) => {
         //         console.error("this is an error ", err);
         // });
-        if(this.state.genderData.length + this.state.raceData.length === 0){
-            this.setState({noData:true});
-        } else {this.setState({noData:false})}
     }
 
     render(){ //create multiple tables for demographic stats

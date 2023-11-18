@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import Collapsible from "./Collapsible";
-import PopularTracksTable from "./PopularTracksTable";
+import PopularTracksTable from "./tables/PopularTracksTable";
 
 class PopularTracks extends Component{
     constructor(props){

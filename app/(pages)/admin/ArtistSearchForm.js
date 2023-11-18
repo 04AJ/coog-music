@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import ArtistSearchTable from './ArtistSearchTable';
+import ArtistSearchTable from './tables/ArtistSearchTable';
 
 
 class ArtistSearchForm extends React.Component{

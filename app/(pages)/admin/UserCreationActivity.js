@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import UserCreationTable from './UserCreationTable';
+import UserCreationTable from './tables/UserCreationTable';
 
 
 class UserCreationActivity extends Component{

@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
 
     const trackRankings = await prisma.$queryRaw<Track[]>`
-        SELECT track_name, track.track_id, artist.artist_name, track.genre_id, COUNT(liked_tracks.track_id) AS likes
+        SELECT track_name, track.track_id, artist.artist_name, artist.artist_email, track.genre_id, track.streams, track.created_at, COUNT(liked_tracks.track_id) AS likes
         FROM track, liked_tracks, artist, gender, genre, user
         WHERE track.track_id = liked_tracks.track_id AND track.artist_id = artist.artist_id 
                 AND liked_tracks.user_id = user.user_id
