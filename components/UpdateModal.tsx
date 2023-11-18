@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,7 @@ import { User } from '@/types';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Box, FormControl, InputLabel, NativeSelect } from '@mui/material';
-import useUpdateModal from '@/hooks/useUpdateModal.tsx';
+import { useUpdateModal } from '@/hooks/useUpdateModal.tsx';
 
 
 
@@ -25,11 +25,13 @@ const UpdateModal = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const user = useUser();
+    const updateModal = useUpdateModal();
+
+
 
 
 
     //custom hook to change modal visibility  state
-    const updateModal = useUpdateModal();
 
     const router = useRouter();
 
@@ -37,12 +39,14 @@ const UpdateModal = () => {
         handleSubmit,
         control,
         reset } = useForm<FieldValues>({
-            defaultValues: {
-                title: updateModal.name,
-                genre: updateModal.genre,
+            // defaultValues: {
+            //     title: '',
+            //     genre: '',
 
-            }
+            // }
         })
+
+
 
     //triggered anytime 'x' or bg if clicked
     const onChange = (open: boolean) => {
@@ -63,28 +67,50 @@ const UpdateModal = () => {
             setIsLoading(true);
 
             const title = values.title;
-            const genre = values.genre;
+            let genre = values.genre;
 
+            if (updateModal.type !== 'track') {
+                genre = '';
+            }
 
-
-            if (!title || !genre) {
+            if (!title) {
                 toast.error('Missing fields');
                 return;
             }
 
+            if (updateModal.type === 'track') {
+                // Patch tracks
+                axios.patch(`/api/upload?track_id=${updateModal.id}&track_name=${title}&genre_id=${genre}`)
+                    .then(() => {
+                        router.refresh();
+                        setIsLoading(false);
+                        toast.success('Track Successfully updated!')
+                        reset();
+                        updateModal.onClose();
+                        window.location.href = "/";
 
-            // Patch!
-            axios.patch(`/api/upload?track_id=${updateModal.id}&track_name=${title}&genre_id=${genre}`)
-                .then(() => {
-                    router.refresh();
-                    setIsLoading(false);
-                    toast.success('Track Successfully updated!')
-                    reset();
-                    updateModal.onClose();
-                    window.location.href = "/";
+
+                    })
+            }
+            else if (updateModal.type === 'album') {
+                // Patch album
+                axios.patch(`/api/uploadAlbum?album_id=${updateModal.id}&album_name=${title}`)
+                    .then(() => {
+                        router.refresh();
+                        setIsLoading(false);
+                        toast.success('Album Successfully updated!')
+                        reset();
+                        updateModal.onClose();
+                        window.location.href = "/profile";
 
 
-                })
+                    })
+
+            }
+            else if (updateModal.type === 'playlist') {
+
+            }
+
 
         } catch (error) {
             toast.error("Something went wrong")
@@ -127,6 +153,7 @@ const UpdateModal = () => {
 
                                     render={({ field }) => (
                                         <NativeSelect {...field}
+                                            defaultValue={updateModal.genre}
                                             sx={{ color: 'grey' }}
                                             inputProps={{
                                                 name: 'genre',

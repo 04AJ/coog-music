@@ -27,6 +27,7 @@ export interface User {
 
 export interface Playlist {
     playlist_id: number;
+    listener_id: number;
     playlist_name: string;
     playlist_created_at: Date;
     playlist_updated_at: Date;
@@ -52,6 +53,7 @@ export interface SuperUser {
 
 export interface Album {
     album_id: number;
+    artist_id: number;
     album_name: string;
     album_created_at: Date;
     album_release_date: Date;

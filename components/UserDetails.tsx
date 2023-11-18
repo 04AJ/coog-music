@@ -156,13 +156,18 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
             {(profilePage && user.userRole === 'listener') ?
                 <div>
-                    <h1 className="text-3xl font-bold">
+                    <h1 className="text-3xl font-bold mb-2">
                         Playlists
                     </h1>
 
                     {playlists?.map((playlist) =>
                         <div key={playlist.playlist_id}>
-                            <li>{playlist.playlist_name}</li>
+
+                            <div className="p-3 border rounded w-min cursor-pointer hover:bg-red-500"
+                                onClick={() => { user.setActivePlaylist(playlist); user.setActiveTracksType('playlist'); router.push('/tracks') }}
+                            >
+                                {playlist.playlist_name}</div>
+
                             <PlaylistTracks playlist_id={playlist.playlist_id} />
                         </div>
                     )}
@@ -178,7 +183,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                             <div key={album.album_id}>
 
                                 <div
-                                    onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
+                                    onClick={() => { user.setActiveAlbum(album); user.setActiveTracksType('album'); router.push('/tracks') }}
 
                                     className="
                                  grid 

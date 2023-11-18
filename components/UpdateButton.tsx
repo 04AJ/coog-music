@@ -6,7 +6,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import Button from "./Button";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
-import useUpdateModal from "@/hooks/useUpdateModal.tsx";
+import { useUpdateModal } from "@/hooks/useUpdateModal.tsx";
 import { GoPencil } from "react-icons/go";
 import UpdateModal from "./UpdateModal";
 
@@ -38,7 +38,7 @@ const UploadProfileButton: React.FC<UpdateModalProps> = ({
 
     return (
 
-        <div className="p-3">
+        <div className="p-3 hover:scale-125">
 
             <GoPencil size={20} onClick={onClick} />
 

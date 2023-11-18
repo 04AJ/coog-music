@@ -1,5 +1,7 @@
 //zustand library is similar to redux - allows us to manage state of components
 import { create } from "zustand"
+import { persist, createJSONStorage } from 'zustand/middleware'
+
 
 interface UpdateModalStore {
     isOpen: boolean;
@@ -16,18 +18,24 @@ interface UpdateModalStore {
 
 };
 // custom Hook to trigger if modal is visible or not
-const useUpdateModal = create<UpdateModalStore>((set) => ({
-    id: 0,
-    name: "",
-    type: "track",
-    genre: 0,
-    isOpen: false,
-    setId: (id: number) => set({ id: id }),
-    setName: (name: string) => set({ name: name }),
-    setType: (type: 'track' | 'album' | 'playlist') => set({ type: type }),
-    setGenre: (genre: number | undefined) => set({ genre: genre }),
-    onOpen: () => set({ isOpen: true }),
-    onClose: () => set({ isOpen: false }),
-}));
+export const useUpdateModal = create<UpdateModalStore>()(
+    persist(
+        (set) => ({
+            id: 0,
+            name: "",
+            type: "track",
+            genre: 0,
+            isOpen: false,
+            setId: (id: number) => set({ id: id }),
+            setName: (name: string) => set({ name: name }),
+            setType: (type: 'track' | 'album' | 'playlist') => set({ type: type }),
+            setGenre: (genre: number | undefined) => set({ genre: genre }),
+            onOpen: () => set({ isOpen: true }),
+            onClose: () => set({ isOpen: false }),
+        }),
+        {
+            name: 'updateDetails'
+        }
+    )
+)
 
-export default useUpdateModal;
