@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     FROM track_to_playlist
     INNER JOIN track ON track.track_id = track_to_playlist.track_id
     INNER JOIN artist ON track.artist_id = artist.artist_id
-    WHERE track_to_playlist.playlist_id = 5;
+    WHERE track_to_playlist.playlist_id = ${playlist_id};
     `
     // console.log(tracks);
     return new Response(JSON.stringify(tracks))
