@@ -81,7 +81,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
                         />
                     </div>
                     {(user.userRole === "listener" && playlists) ? <PlaylistDropdown playlists={playlists} track_id={track.track_id} /> : null}
-                    <LikeButton trackId={track.track_id} />
+                    {(user.userRole === 'admin') ? null : <LikeButton trackId={track.track_id} />}
 
                 </div>
             ))}

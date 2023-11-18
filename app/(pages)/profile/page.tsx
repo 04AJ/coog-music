@@ -64,7 +64,7 @@ export default function ProfilePage() {
             )}
         >
 
-            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} /> : null}
+            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={true} /> : null}
 
             <div className="w-full h-full mb-4 flex-col items-center">
 

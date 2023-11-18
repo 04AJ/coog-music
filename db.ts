@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 
 
 export async function getTracks(): Promise<Track[]> {
+
   const tracks = await prisma.$queryRaw`
   SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
   FROM track, artist 

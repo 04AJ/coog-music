@@ -62,9 +62,9 @@ const CreatePlaylistModal = () => {
 
 
             // POST REQUEST
-            axios.post('/api/playlist', {
-                playlistName: values.name,
-                listenerId: user.listenerId
+            axios.post('/api/uploadPlaylist', {
+                title: values.name,
+                listener_id: user.listenerId
 
             }
             ).then(() => {

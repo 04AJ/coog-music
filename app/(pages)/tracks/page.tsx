@@ -12,6 +12,9 @@ import { RxCaretLeft } from "react-icons/rx"
 import { MdVerified } from "react-icons/md";
 import toast from "react-hot-toast";
 import AlbumTracks from "@/components/AlbumTracks";
+import UpdateModal from "@/components/UpdateModal";
+import UpdateButton from "@/components/UpdateButton";
+import PlaylistTracks from "@/components/PlaylistTracks";
 
 
 export default function TracksPage() {
@@ -45,6 +48,7 @@ export default function TracksPage() {
                 player.activeId && 'h-[calc(100%-80px)]'
             )}
         >
+            <UpdateModal />
             <div className="w-full h-full mb-4 flex-col items-center">
 
                 <button
@@ -65,19 +69,46 @@ export default function TracksPage() {
                 <div className="text-center mb-10">
 
                     <div className="text-6xl font-bold gap-2 justify-center flex flex-row mb-2">
+                        {(user.activeTracksType === 'album') ?
 
-                        {user.activeAlbum.album_name}
+                            <div className="flex flex-row">
+                                {user.activeAlbum.album_name}
+                                {(user.activeAlbum.artist_id === user.artistId) ? <UpdateButton name={user.activeAlbum.album_name} type={"album"} genre={undefined} id={user.activeAlbum.album_id} />
+                                    : null
+                                }
 
+                            </div>
+
+                            :
+                            <div className="flex flex-row">
+                                {user.activePlaylist.playlist_name}
+                                {(user.activePlaylist.listener_id === user.listenerId) ? <UpdateButton name={user.activePlaylist.playlist_name} type={"playlist"} genre={undefined} id={user.activePlaylist.playlist_id} />
+                                    : null
+                                }
+
+                            </div>
+                        }
                     </div>
-                    Created on: {user.activeAlbum.album_created_at.toString().substring(0, 10)}
+                    <div>
+                        {(user.activeTracksType === 'album') ?
+                            <div>Created on: {user.activeAlbum.album_created_at.toString().substring(0, 10)}</div>
+                            :
+                            <div>Updated on: {user.activePlaylist.playlist_updated_at.toString().substring(0, 10)}</div>
+
+                        }
+                    </div>
 
 
 
 
                 </div>
 
+                {(user.activeTracksType === 'album') ?
+                    <AlbumTracks album_id={user.activeAlbum.album_id} />
+                    :
+                    <PlaylistTracks playlist_id={user.activePlaylist.playlist_id} />
 
-                <AlbumTracks album_id={user.activeAlbum.album_id} />
+                }
 
             </div >
 

@@ -156,16 +156,23 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
             {(profilePage && user.userRole === 'listener') ?
                 <div>
-                    <h1 className="text-3xl font-bold">
+                    <h1 className="text-3xl font-bold mb-2">
                         Playlists
                     </h1>
+                    <div className="flex flex-row">
+                        {playlists?.map((playlist) =>
+                            <div key={playlist.playlist_id}>
 
-                    {playlists?.map((playlist) =>
-                        <div key={playlist.playlist_id}>
-                            <li>{playlist.playlist_name}</li>
-                            <PlaylistTracks playlist_id={playlist.playlist_id} />
-                        </div>
-                    )}
+                                <div className="p-3 border rounded w-fit cursor-pointer mr-2 hover:bg-red-500"
+                                    onClick={() => { user.setActivePlaylist(playlist); user.setActiveTracksType('playlist'); router.push('/tracks') }}
+                                >
+                                    {playlist.playlist_name}</div>
+
+                                {/* <PlaylistTracks playlist_id={playlist.playlist_id} /> */}
+                            </div>
+                        )}
+                    </div>
+
                 </div>
 
                 : (profilePage && user.userRole === 'artist') ?
@@ -178,7 +185,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                             <div key={album.album_id}>
 
                                 <div
-                                    onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
+                                    onClick={() => { user.setActiveAlbum(album); user.setActiveTracksType('album'); router.push('/tracks') }}
 
                                     className="
                                  grid 
@@ -210,19 +217,19 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                             )}
                         </div>
 
-                        :
+                        : (!profilePage && user.activeUser.is_artist === 1) ?
 
-                        <div>
-                            <h1 className="text-3xl font-bold">
-                                Albums
-                            </h1>
-                            {albums?.map((album) =>
-                                <div key={album.album_id}>
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    Albums
+                                </h1>
+                                {albums?.map((album) =>
+                                    <div key={album.album_id}>
 
-                                    <div
-                                        onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
+                                        <div
+                                            onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
 
-                                        className="
+                                            className="
                                         grid 
                                         grid-cols-1 
                                         sm:grid-cols-2 
@@ -233,14 +240,14 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                                         gap-4 
                                         mt-4
                                 "
-                                    >
-                                        <AlbumItem data={album} />
+                                        >
+                                            <AlbumItem data={album} />
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
+                                )}
+                            </div>
 
-
+                            : null
 
 
 

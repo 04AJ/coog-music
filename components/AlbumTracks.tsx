@@ -46,6 +46,11 @@ const AlbumTracks: React.FC<AlbumTracksProps> = ({
             })
 
     }, [album_id]);
+    if (albumTracks?.length === 0) {
+        return (
+            <div className="mt-4 text-neutral-400">No tracks available.</div>
+        )
+    };
 
 
     return (

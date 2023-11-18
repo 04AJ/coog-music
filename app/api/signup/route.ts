@@ -14,6 +14,9 @@ interface reqFormat {
 
 interface updateFormat {
   userId: number;
+  user_name: string;
+  email: string;
+  password: string
   race_id: number;
   ethnicity_id: number;
   gender_id: number;
@@ -64,7 +67,7 @@ export async function PATCH(req: Request) {
   const data: updateFormat = await req.json();
 
   const result = await prisma.$executeRaw`
-  UPDATE user SET gender_id = ${data.gender_id}, ethnicity_id = ${data.ethnicity_id}, race_id = ${data.race_id}
+  UPDATE user SET user_name = ${data.user_name}, email = ${data.email}, password = ${data.password}, gender_id = ${data.gender_id}, ethnicity_id = ${data.ethnicity_id}, race_id = ${data.race_id}
   WHERE user_id = ${data.userId}
    `;
 
