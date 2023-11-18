@@ -2,7 +2,12 @@
 import prisma from '@/client'
 import { Playlist } from '@/types';
 import { NextRequest } from "next/server";
+import { Interface } from 'readline';
 
+interface updateFormat{
+    album_id: number;
+    archive: number;
+};
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
@@ -29,3 +34,14 @@ export async function POST(req: NextRequest) {
 
     return new Response(JSON.stringify(affected));
 }
+
+export async function PATCH(req: Request) {
+    const data: updateFormat = await req.json();
+
+    const result = await prisma.$executeRaw`
+    UPDATE album
+    SET archive = ${data.archive}
+    WHERE track_id = ${data.album_id};
+    `;
+    return new Response(JSON.stringify(result));
+};
