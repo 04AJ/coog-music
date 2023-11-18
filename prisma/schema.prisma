@@ -22,6 +22,7 @@ model album {
   album_created_at   DateTime         @db.DateTime(0)
   album_release_date DateTime?        @db.Date
   album_cover_path   String?          @db.VarChar(255)
+  archive            Int?             @default(0) @db.TinyInt
   artist             artist?          @relation(fields: [artist_id], references: [artist_id], onDelete: NoAction, onUpdate: NoAction, map: "album_ibfk_1")
   track_to_album     track_to_album[]
 
@@ -122,6 +123,7 @@ model playlist {
   listener_id         Int?
   playlist_created_at DateTime            @db.DateTime(0)
   playlist_updated_at DateTime            @db.DateTime(0)
+  archive             Int?                @default(0) @db.TinyInt
   listener            listener?           @relation(fields: [listener_id], references: [listener_id], onDelete: NoAction, onUpdate: NoAction, map: "playlist_ibfk_1")
   track_to_playlist   track_to_playlist[]
 
@@ -157,6 +159,7 @@ model track {
   streams           BigInt?
   track_img_path    String?             @db.VarChar(255)
   genre_id          Int?
+  archive           Int?                @default(0) @db.TinyInt
   liked_tracks      liked_tracks[]
   rating            rating[]
   genre             genre?              @relation(fields: [genre_id], references: [genre_id], onDelete: NoAction, onUpdate: NoAction, map: "genre")
@@ -202,6 +205,7 @@ model user {
   gender_id         Int?
   is_artist         Int?                @db.TinyInt
   is_admin          Int?                @db.TinyInt
+  archive           Int?                @default(0) @db.TinyInt
   admin             admin[]
   artist            artist[]
   liked_tracks      liked_tracks[]
