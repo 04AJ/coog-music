@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const tracks = await prisma.$queryRaw<Playlist[]>`
     SELECT playlist_id, listener_id, playlist_name, playlist_created_at, playlist_updated_at 
     FROM playlist
-    WHERE listener_id = ${listener_id};`
+    WHERE listener_id = ${listener_id} AND archive != 1;`
     // console.log(tracks);
     return new Response(JSON.stringify(tracks))
 
