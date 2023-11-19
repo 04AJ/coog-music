@@ -3,7 +3,10 @@ import prisma from '@/client'
 import { Track } from '@/types';
 import { NextRequest } from "next/server";
 
-
+interface updateFormat {
+    playlist_id: number;
+    archive: number;
+};
 
 // export async function GET(req: NextRequest) {
 //     const searchParams = req.nextUrl.searchParams;
@@ -43,3 +46,13 @@ export async function DELETE(req: NextRequest) {
 
     return new Response(JSON.stringify(affected));
 }
+
+export async function PATCH(req: Request) {
+    const data: updateFormat = await req.json();
+
+    const result = await prisma.$executeRaw`
+    UPDATE playlist
+    SET archive = ${data.archive}
+    WHERE playlist_id = ${data.playlist_id};`;
+    return new Response(JSON.stringify(result));
+};

@@ -3,6 +3,10 @@ import prisma from '@/client'
 import { User } from '@/types';
 import { NextRequest } from "next/server";
 
+interface updateFormat {
+    user_id: number;
+    archive:number
+}
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
@@ -17,8 +21,13 @@ export async function GET(req: NextRequest) {
 
 };
 
+export async function PATCH(req: Request) {
+    const data: updateFormat = await req.json();
 
-export async function DELETE(req: NextRequest) {
-    // NEED TO IMPLEMENT
-    return new Response(JSON.stringify(""));
-}
+    const result = await prisma.$executeRaw`
+    UPDATE user
+    SET archive = ${data.archive}
+    WHERE user_id = ${data.user_id};
+    `;
+    return new Response(JSON.stringify(result));
+};
