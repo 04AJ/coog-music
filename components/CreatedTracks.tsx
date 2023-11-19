@@ -63,7 +63,6 @@ const CreatedTracks = () => {
 
     }, [user.userId, user.artistId, user.userRole])
 
-    console.log(albums);
 
     return (
         <div >

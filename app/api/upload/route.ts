@@ -31,7 +31,7 @@ export async function PATCH(req: NextRequest) {
     WHERE track_id = ${track_id}
      `;
 
-    console.log(result);
+    //console.log(result);
 
     return new Response(JSON.stringify(result));
 }
