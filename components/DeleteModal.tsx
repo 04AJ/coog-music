@@ -129,6 +129,28 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
             else if (deleteModal.type === 'playlist') {
 
             }
+            else if (deleteModal.type === 'track from album') {
+
+                //remove track from album
+                axios.delete(`/api/albumTracks?track_id=${deleteModal.id}&album_id=${deleteModal.id2}`)
+                    .then(() => {
+
+                        router.refresh();
+                        setIsLoading(false);
+                        toast.success('Removed track from album')
+                        reset();
+                        deleteModal.onClose();
+
+                        window.location.href = "/tracks";
+
+
+                    })
+                    .catch(Error => console.error(Error))
+
+            }
+            else if (deleteModal.type === 'track from playlist') {
+
+            }
 
 
         } catch (error) {
@@ -145,8 +167,8 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
         <>
             <div><Toaster /></div>
             <Modal
-                title={"Delete " + deleteModal.type}
-                description={"Do you want to delete " + deleteModal.name + "?"}
+                title={(deleteModal.remove) ? "Remove " + deleteModal.type : "Delete " + deleteModal.type}
+                description={(deleteModal.remove) ? "Do you want to remove " + deleteModal.name + " " + deleteModal.type + "?" : "Do you want to delete " + deleteModal.name + "?"}
                 isOpen={deleteModal.isOpen}
                 onChange={onChange}
 

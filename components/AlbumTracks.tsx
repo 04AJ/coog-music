@@ -12,6 +12,7 @@ import PlaylistDropdown from "./PlaylistDropdown";
 import LikeButton from "./LikeButton";
 import useOnPlay from "@/hooks/useOnPlay";
 import usePlayer from "@/hooks/usePlayer";
+import RemoveButton from "./RemoveButton";
 
 
 
@@ -69,8 +70,10 @@ const AlbumTracks: React.FC<AlbumTracksProps> = ({
                                 data={track}
                             />
                         </div>
-                        {(user.userRole === 'admin') ? null :
-                            <LikeButton trackId={track.track_id} />
+                        {(user.userRole === 'listener') ? <LikeButton trackId={track.track_id} /> :
+
+                            <RemoveButton id={track.track_id} id2={album_id} type={'track from album'} name={track.track_name} />
+
 
                         }
 
