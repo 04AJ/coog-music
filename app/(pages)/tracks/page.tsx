@@ -15,6 +15,8 @@ import AlbumTracks from "@/components/AlbumTracks";
 import UpdateModal from "@/components/UpdateModal";
 import UpdateButton from "@/components/UpdateButton";
 import PlaylistTracks from "@/components/PlaylistTracks";
+import DeleteButton from "@/components/DeleteButton";
+import DeleteModal from "@/components/DeleteModal";
 
 
 export default function TracksPage() {
@@ -48,7 +50,8 @@ export default function TracksPage() {
                 player.activeId && 'h-[calc(100%-80px)]'
             )}
         >
-            <UpdateModal />
+            <UpdateModal isHomePage={false} />
+            <DeleteModal isHomePage={false} />
             <div className="w-full h-full mb-4 flex-col items-center">
 
                 <button
@@ -73,7 +76,13 @@ export default function TracksPage() {
 
                             <div className="flex flex-row">
                                 {user.activeAlbum.album_name}
-                                {(user.activeAlbum.artist_id === user.artistId) ? <UpdateButton name={user.activeAlbum.album_name} type={"album"} genre={undefined} id={user.activeAlbum.album_id} />
+                                {(user.userRole === 'admin' || (user.activeAlbum.artist_id === user.artistId)) ?
+
+                                    <div className="flex flex-row">
+                                        <UpdateButton name={user.activeAlbum.album_name} type={"album"} genre={undefined} id={user.activeAlbum.album_id} />
+                                        <DeleteButton type={"album"} id={user.activeAlbum.album_id} name={user.activeAlbum.album_name} />
+
+                                    </div>
                                     : null
                                 }
 
@@ -82,7 +91,8 @@ export default function TracksPage() {
                             :
                             <div className="flex flex-row">
                                 {user.activePlaylist.playlist_name}
-                                {(user.activePlaylist.listener_id === user.listenerId) ? <UpdateButton name={user.activePlaylist.playlist_name} type={"playlist"} genre={undefined} id={user.activePlaylist.playlist_id} />
+                                {(user.userRole === 'admin' || (user.activePlaylist.listener_id === user.listenerId)) ?
+                                    <UpdateButton name={user.activePlaylist.playlist_name} type={"playlist"} genre={undefined} id={user.activePlaylist.playlist_id} />
                                     : null
                                 }
 

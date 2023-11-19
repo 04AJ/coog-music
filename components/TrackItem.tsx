@@ -8,6 +8,7 @@ import AlbumDropdown from "./AlbumDropdown";
 import { useUser } from "@/hooks/useUser";
 import UpdateModal from "./UpdateModal";
 import UpdateButton from "./UpdateButton";
+import DeleteButton from "./DeleteButton";
 
 
 interface TrackItemProps {
@@ -118,8 +119,8 @@ const TrackItem: React.FC<TrackItemProps> = ({
                 < div
                     className="
 absolute
-bottom-10
-right-1
+bottom-1
+right-8
 "
                 >
 
@@ -127,6 +128,21 @@ right-1
 
                 </div> : null
             }
+            {(user.userRole === 'admin' || (user.userRole === 'artist' && data.artist_id === user.artistId)) ?
+
+                < div
+                    className="
+absolute
+bottom-1
+right-15
+"
+                >
+
+                    <DeleteButton id={data.track_id} type={"track"} name={data.track_name} />
+
+                </div> : null
+            }
+
 
         </div >
     );

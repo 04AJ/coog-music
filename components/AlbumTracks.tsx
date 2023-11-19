@@ -69,7 +69,10 @@ const AlbumTracks: React.FC<AlbumTracksProps> = ({
                                 data={track}
                             />
                         </div>
-                        <LikeButton trackId={track.track_id} />
+                        {(user.userRole === 'admin') ? null :
+                            <LikeButton trackId={track.track_id} />
+
+                        }
 
                     </div>
                 ))

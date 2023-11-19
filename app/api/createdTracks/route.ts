@@ -5,7 +5,6 @@ import { NextRequest } from "next/server";
 
 interface updateFormat {
     track_id: number;
-    artist_id: number;
     archive: number;
 }
 
@@ -27,7 +26,7 @@ export async function PATCH(req: Request) {
     const result = await prisma.$executeRaw`
     UPDATE track
     SET archive = ${data.archive}
-    WHERE track_id = ${data.track_id} AND artist = ${data.artist_id};
+    WHERE track_id = ${data.track_id};
     `;
     return new Response(JSON.stringify(result));
 };

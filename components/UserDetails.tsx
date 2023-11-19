@@ -8,6 +8,8 @@ import AlbumTracks from "./AlbumTracks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import AlbumItem from "./AlbumItem";
+import { useUpdateModal } from "@/hooks/useUpdateModal.tsx";
+import { useDeleteModal } from "@/hooks/useDeleteModal";
 
 interface UserDetailsProps {
     userDetails: User | SuperUser,
@@ -19,6 +21,9 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 }) => {
 
     const user = useUser();
+    const updateModal = useUpdateModal();
+    const deleteModal = useDeleteModal();
+
     const [playlists, setPlaylists] = useState<Playlist[]>();
     const [albums, setAlbums] = useState<Album[]>();
     const router = useRouter();
@@ -26,6 +31,15 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
     //get playlistIds or albumId's
     useEffect(() => {
+        if (user.userRole === 'admin') {
+            updateModal.setIsAdmin(true);
+            deleteModal.setIsAdmin(true);
+        }
+        else {
+            updateModal.setIsAdmin(false);
+            deleteModal.setIsAdmin(false);
+
+        }
 
         if (profilePage && user.userRole === 'listener') {
             //get playList or albumId's
@@ -207,14 +221,23 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
                     : (!profilePage && user.activeUser.is_artist === 0) ?
                         <div>
-                            <h1 className="text-3xl font-bold">Playlists</h1>
+                            <h1 className="text-3xl font-bold mb-2">
+                                Playlists
+                            </h1>
+                            <div className="flex flex-row">
+                                {playlists?.map((playlist) =>
+                                    <div key={playlist.playlist_id}>
 
-                            {playlists?.map((playlist) =>
-                                <div key={playlist.playlist_id}>
-                                    <li>{playlist.playlist_name}</li>
-                                    <PlaylistTracks playlist_id={playlist.playlist_id} />
-                                </div>
-                            )}
+                                        <div className="p-3 border rounded w-fit cursor-pointer mr-2 hover:bg-red-500"
+                                            onClick={() => { user.setActivePlaylist(playlist); user.setActiveTracksType('playlist'); router.push('/tracks') }}
+                                        >
+                                            {playlist.playlist_name}</div>
+
+                                        {/* <PlaylistTracks playlist_id={playlist.playlist_id} /> */}
+                                    </div>
+                                )}
+                            </div>
+
                         </div>
 
                         : (!profilePage && user.activeUser.is_artist === 1) ?
@@ -227,7 +250,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                                     <div key={album.album_id}>
 
                                         <div
-                                            onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
+                                            onClick={() => { user.setActiveAlbum(album); user.setActiveTracksType('album'); router.push('/tracks') }}
 
                                             className="
                                         grid 

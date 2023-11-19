@@ -20,8 +20,14 @@ import { useUpdateModal } from '@/hooks/useUpdateModal.tsx';
 
 
 
+interface UpdateModalProps {
+    isHomePage: Boolean
+}
 
-const UpdateModal = () => {
+const UpdateModal: React.FC<UpdateModalProps> = ({
+    isHomePage
+}) => {
+
 
     const [isLoading, setIsLoading] = useState(false);
     const user = useUser();
@@ -87,7 +93,14 @@ const UpdateModal = () => {
                         toast.success('Track Successfully updated!')
                         reset();
                         updateModal.onClose();
-                        window.location.href = "/";
+                        if (isHomePage) {
+                            window.location.href = "/";
+
+                        }
+                        else {
+                            window.location.href = "/search";
+
+                        }
 
 
                     })
@@ -101,7 +114,14 @@ const UpdateModal = () => {
                         toast.success('Album Successfully updated!')
                         reset();
                         updateModal.onClose();
-                        window.location.href = "/profile";
+                        if (updateModal.isAdmin) {
+                            window.location.href = "/userProfile";
+
+                        }
+                        else {
+                            window.location.href = "/profile";
+
+                        }
 
 
                     })
@@ -116,8 +136,14 @@ const UpdateModal = () => {
                         toast.success('Playlist Successfully updated!')
                         reset();
                         updateModal.onClose();
-                        window.location.href = "/profile";
+                        if (updateModal.isAdmin) {
+                            window.location.href = "/userProfile";
 
+                        }
+                        else {
+                            window.location.href = "/profile";
+
+                        }
 
                     })
             }

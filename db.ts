@@ -50,7 +50,7 @@ export async function getTracksByTitle(title: string): Promise<Track[]> {
   const tracks = await prisma.$queryRaw`
   SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
   FROM track, artist 
-  WHERE track.artist_id = artist.artist_id AND (track_name LIKE ${query} OR artist_name LIKE ${query});`
+  WHERE track.artist_id = artist.artist_id AND (track_name LIKE ${query} OR artist_name LIKE ${query}) AND track.archive = 0;`
   // console.log(tracks);
   // return new Response(JSON.stringify(tracks))
 

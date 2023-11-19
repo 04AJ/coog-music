@@ -7,31 +7,28 @@ import Button from "./Button";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
 import { useUpdateModal } from "@/hooks/useUpdateModal.tsx";
-import { GoPencil } from "react-icons/go";
-import UpdateModal from "./UpdateModal";
-
+import { AiOutlineDelete } from "react-icons/ai";
+import DeleteModal from "./DeleteModal";
+import { useDeleteModal } from "@/hooks/useDeleteModal";
 
 interface UpdateModalProps {
-    name: string;
     id: number;
     type: 'track' | 'album' | 'playlist';
-    genre: number | undefined
+    name: string;
 }
 
-const UpdateButton: React.FC<UpdateModalProps> = ({
-    name, type, genre, id
+const UploadProfileButton: React.FC<UpdateModalProps> = ({
+    type, id, name
 
 }) => {
-    const updateModal = useUpdateModal();
-
+    const deleteModal = useDeleteModal();
 
 
     const onClick = () => {
-        updateModal.setId(id);
-        updateModal.setName(name);
-        updateModal.setType(type);
-        updateModal.setGenre(genre);
-        return updateModal.onOpen();
+        deleteModal.setId(id);
+        deleteModal.setName(name);
+        deleteModal.setType(type);
+        return deleteModal.onOpen();
     }
 
 
@@ -40,7 +37,7 @@ const UpdateButton: React.FC<UpdateModalProps> = ({
 
         <div className="p-3 hover:scale-125">
 
-            <GoPencil size={20} onClick={onClick} />
+            <AiOutlineDelete size={20} onClick={onClick} />
 
         </div>
 
@@ -50,4 +47,4 @@ const UpdateButton: React.FC<UpdateModalProps> = ({
     );
 }
 
-export default UpdateButton;
+export default UploadProfileButton;
