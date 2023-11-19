@@ -173,6 +173,7 @@ export default function LoginPage() {
       router.push('/');
     } catch (err) {
       console.error("Error logging in USER", err);
+      alert("USER DOES NOT EXIST");
       user.setUserRole("na");
 
     }
