@@ -49,7 +49,7 @@ const PlaylistTracks: React.FC<PlaylistTrackProps> = ({
     if (playlistTracks?.length === 0) {
         return (
             <p className="mt-4 text-neutral-400">No tracks available. <br />
-                To add tracks to your playlist, go the "Search" page and click the "+" button next to tracks you want to add to this playlist.</p >
+                To add tracks to your playlist, go the Search page and click the + button next to tracks you want to add to this playlist.</p >
         )
     };
 
