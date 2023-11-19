@@ -18,7 +18,7 @@ interface UpdateModalProps {
     genre: number | undefined
 }
 
-const UploadProfileButton: React.FC<UpdateModalProps> = ({
+const UpdateButton: React.FC<UpdateModalProps> = ({
     name, type, genre, id
 
 }) => {
@@ -50,4 +50,4 @@ const UploadProfileButton: React.FC<UpdateModalProps> = ({
     );
 }
 
-export default UploadProfileButton;
+export default UpdateButton;

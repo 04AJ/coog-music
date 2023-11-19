@@ -4,19 +4,20 @@ import { useUser } from "@/hooks/useUser"
 import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Track } from "@/types";
+import { Playlist, Track } from "@/types";
 import Carousel from "./Carousel";
 import useOnPlay from "@/hooks/useOnPlay";
 import usePlayer from "@/hooks/usePlayer";
 import LikeButton from "./LikeButton";
 import MediaItem from "./MediaItem";
+import RemoveButton from "./RemoveButton";
 
 
 interface PlaylistTrackProps {
-    playlist_id: number;
+    playlist: Playlist;
 }
 const PlaylistTracks: React.FC<PlaylistTrackProps> = ({
-    playlist_id
+    playlist
 }) => {
 
 
@@ -31,7 +32,7 @@ const PlaylistTracks: React.FC<PlaylistTrackProps> = ({
 
     //consume likedTracks api endpoint
     useEffect(() => {
-        axios.get<Track[]>(`/api/playlistTracks?playlist_id=${playlist_id}`)
+        axios.get<Track[]>(`/api/playlistTracks?playlist_id=${playlist.playlist_id}`)
             .then(response => {
 
                 if (response.data) {
@@ -43,11 +44,12 @@ const PlaylistTracks: React.FC<PlaylistTrackProps> = ({
                 alert("error fetching data");
             })
 
-    }, [playlist_id]);
+    }, [playlist.playlist_id]);
 
     if (playlistTracks?.length === 0) {
         return (
-            <div className="mt-4 text-neutral-400">No tracks available.</div>
+            <p className="mt-4 text-neutral-400">No tracks available. <br />
+                To add tracks to your playlist, go the Search page and click the + button next to tracks you want to add to this playlist.</p >
         )
     };
 
@@ -68,8 +70,14 @@ const PlaylistTracks: React.FC<PlaylistTrackProps> = ({
                                 data={track}
                             />
                         </div>
-                        <LikeButton trackId={track.track_id} />
+                        {(user.userRole === 'admin' || (user.listenerId === playlist.listener_id)) ?
+                            <RemoveButton id={track.track_id} id2={playlist.playlist_id} type={'track from playlist'} name={track.track_name} />
+                            :
 
+                            <LikeButton trackId={track.track_id} />
+
+
+                        }
                     </div>
                 ))
                 :

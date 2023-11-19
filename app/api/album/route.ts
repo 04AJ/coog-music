@@ -4,7 +4,7 @@ import { Album } from '@/types';
 import { NextRequest } from "next/server";
 import { Interface } from 'readline';
 
-interface updateFormat{
+interface updateFormat {
     album_id: number;
     archive: number;
 };
@@ -42,7 +42,7 @@ export async function PATCH(req: Request) {
     const result = await prisma.$executeRaw`
     UPDATE album
     SET archive = ${data.archive}
-    WHERE track_id = ${data.album_id};
+    WHERE album_id = ${data.album_id};
     `;
     return new Response(JSON.stringify(result));
 };
