@@ -149,11 +149,27 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
 
             }
             else if (deleteModal.type === 'track from playlist') {
+                //remove track from album
+                axios.delete(`/api/playlistTracks?track_id=${deleteModal.id}&playlist_id=${deleteModal.id2}`)
+                    .then(() => {
+
+                        router.refresh();
+                        setIsLoading(false);
+                        toast.success('Removed track from playlist')
+                        reset();
+                        deleteModal.onClose();
+
+                        window.location.href = "/tracks";
+
+
+                    })
+                    .catch(Error => console.error(Error))
 
             }
+        }
 
 
-        } catch (error) {
+        catch (error) {
             toast.error("Something went wrong")
         } finally {
             setIsLoading(false);

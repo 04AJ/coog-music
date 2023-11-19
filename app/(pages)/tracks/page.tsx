@@ -116,7 +116,7 @@ export default function TracksPage() {
                 {(user.activeTracksType === 'album') ?
                     <AlbumTracks album_id={user.activeAlbum.album_id} />
                     :
-                    <PlaylistTracks playlist_id={user.activePlaylist.playlist_id} />
+                    <PlaylistTracks playlist={user.activePlaylist} />
 
                 }
 
