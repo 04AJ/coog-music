@@ -33,6 +33,8 @@ const Logout = () => {
 
     const onClickLogout = () => {
         user.setUserId(undefined);
+        user.setListenerId(0);
+        user.setArtistId(0);
         user.setUserRole('na')
         router.refresh();
 

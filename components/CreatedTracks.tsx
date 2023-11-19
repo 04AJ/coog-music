@@ -66,7 +66,7 @@ const CreatedTracks = () => {
     console.log(albums);
 
     return (
-        <div >
+        <div className="mt-5">
             {(user.userRole === 'artist') ?
                 <h1 className="text-2xl">Your Tracks</h1> :
                 ""

@@ -43,6 +43,8 @@ const CreatePlaylistModal = () => {
             //reset form
             reset();
             playlistModal.onClose();
+            window.location.href = "/";
+
         }
     }
 

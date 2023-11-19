@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
     const playlist_id = searchParams.get('playlist_id');
     let curDate = new Date();
     const affected = await prisma.$executeRaw`INSERT INTO track_to_playlist(playlist_id, track_id,track_inserted_at ) VALUES (${playlist_id}, ${track_id}, ${curDate})`
+    const updated = await prisma.$executeRaw`UPDATE PLAYLIST SET playlist_updated_at = ${curDate} WHERE playlist_id = ${playlist_id}`;
     return new Response(JSON.stringify(affected));
 }
 

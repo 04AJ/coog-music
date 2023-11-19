@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Track } from "@/types";
 import Carousel from "./Carousel";
 import Image from "next/image";
+import usePlayer from "@/hooks/usePlayer";
 
 
 
@@ -60,7 +61,7 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
     complete_tracks
 }) => {
 
-
+    const player = usePlayer();
     const [genreTracks, setgenreTracks] = useState<Track[]>();
     const [genreName, setGenreName] = useState("Complete List of tracks");
     const [all, setAll] = useState(true);
@@ -80,7 +81,8 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
             })
     }
     return (
-        <div className="mt-5">
+        <div className={(player.activeId) ? 'h-[calc(100%-80px)] mt-5' : 'h-full mt-5'}
+        >
 
             <h1 className="text-2xl mb-2">{genreName}</h1>
             <div className="flex flex-row justify-around cursor-pointer">

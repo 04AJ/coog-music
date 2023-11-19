@@ -105,7 +105,7 @@ const TrackItem: React.FC<TrackItemProps> = ({
                 < div
                     className="
             absolute
-            bottom-1
+            bottom-0
             right-1
             "
                 >
@@ -119,7 +119,7 @@ const TrackItem: React.FC<TrackItemProps> = ({
                 < div
                     className="
 absolute
-bottom-1
+bottom-0
 right-8
 "
                 >
@@ -133,7 +133,7 @@ right-8
                 < div
                     className="
 absolute
-bottom-1
+bottom-0
 right-15
 "
                 >

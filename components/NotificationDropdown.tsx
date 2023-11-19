@@ -7,50 +7,77 @@ import { VscBell, VscBellDot } from "react-icons/vsc"
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 
 
 const NotificationDropdown = () => {
     const user = useUser();
     const [notifications, setNotifications] = useState<Notification[]>();
+    const router = useRouter();
 
     useEffect(() => {
         axios.get<Notification[]>(`/api/notifications?listener_id=${user.listenerId}`)
             .then(response => {
                 if (response.data) {
-                    setNotifications(response.data); 
+                    setNotifications(response.data);
                 }
             })
             .catch(error => {
                 alert("error fetching data");
             })
     }, [])
+    const query = async () => {
+        await axios.get<Notification[]>(`/api/notifications?listener_id=${user.listenerId}`)
+            .then(response => {
+                if (response.data) {
+                    setNotifications(response.data);
+                }
+            })
+            .catch(error => {
+                alert("error fetching data");
+            })
+    }
 
-    
-
-    const handleSubmit = async () => {
 
 
-        // axios.post(`/api/playlist?track_id=${track_id}&playlist_id=${playlist_id}`)
-        //     .then(() => {
 
-        //         toast.success("Added to playlist!");
 
-        //     })
-        //     .catch(error => toast.error("Track already exists in playlist"))
+    const handleSubmit = async (id: number) => {
+
+        if (user.userRole === 'admin') {
+            //remove track from album
+            axios.delete(`/api/notifications?NotificationID=${id}`)
+                .then(() => {
+
+                    router.refresh();
+                    toast.success('Deleted notification')
+                    window.location.href = "/";
+
+
+                })
+                .catch(Error => console.error(Error))
+        }
+
     }
 
     return (
         <div className="z-500 ">
             <header className=" border-gray-100">
                 <Dropdown>
-                    <Dropdown.Button>{(notifications) ? <VscBellDot /> : <VscBell />}</Dropdown.Button>
+                    {(user.userRole !== 'na') ?
 
+
+                        <Dropdown.Button> {(notifications) ? <VscBellDot color='red' /> : <VscBell />}</Dropdown.Button>
+                        :
+
+                        null
+                    }
                     <Dropdown.Menu >
                         <p className="text-red-900">Notifications:</p>
                         {(notifications) ?
                             notifications.map((notification) =>
-                                <Dropdown.MenuItem key={notification.n_id} onSelect={() => handleSubmit()}>
+                                <Dropdown.MenuItem key={notification.NotificationID} onSelect={() => handleSubmit(notification.NotificationID)}>
                                     {notification.Message}
                                 </Dropdown.MenuItem>
                             ) : null}

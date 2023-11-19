@@ -37,6 +37,9 @@ export async function DELETE(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const track_id = searchParams.get('track_id');
     const playlist_id = searchParams.get('playlist_id');
-    const affected = await prisma.$executeRaw`DELETE FROM track_to_playlist WHERE track_id = ${track_id} AND playlist_id = ${playlist_id}`
+    let curDate = new Date();
+    const affected = await prisma.$executeRaw`DELETE FROM track_to_playlist WHERE track_id = ${track_id} AND playlist_id = ${playlist_id}`;
+    const updated = await prisma.$executeRaw`UPDATE PLAYLIST SET playlist_updated_at = ${curDate} WHERE playlist_id = ${playlist_id}`;
+
     return new Response(JSON.stringify(affected));
 }

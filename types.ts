@@ -68,9 +68,9 @@ export interface Artist {
 }
 
 export interface Notification {
-    artist_name: string;
-    n_id: number;
-    n_time: Date;
+    artist_id: string;
+    NotificationID: number;
+    NotificationTime: Date;
     Message: string;
     sendAll: number;
 }
