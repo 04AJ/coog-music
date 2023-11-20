@@ -127,6 +127,29 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
 
             }
             else if (deleteModal.type === 'playlist') {
+                // archive album
+                axios.patch('/api/playlistTracks', {
+                    playlist_id: deleteModal.id,
+                    archive: 1
+
+                }
+                ).then(() => {
+                    router.refresh();
+                    setIsLoading(false);
+                    toast.success('Deleted Playlist')
+                    reset();
+                    deleteModal.onClose();
+                    if (deleteModal.isAdmin) {
+                        window.location.href = "/userProfile";
+
+                    }
+                    else {
+                        window.location.href = "/profile";
+
+                    }
+
+
+                })
 
             }
             else if (deleteModal.type === 'track from album') {

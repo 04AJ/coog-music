@@ -92,7 +92,11 @@ export default function TracksPage() {
                             <div className="flex flex-row">
                                 {user.activePlaylist.playlist_name}
                                 {(user.userRole === 'admin' || (user.activePlaylist.listener_id === user.listenerId)) ?
-                                    <UpdateButton name={user.activePlaylist.playlist_name} type={"playlist"} genre={undefined} id={user.activePlaylist.playlist_id} />
+                                    <div className="flex flex-row">
+                                        <UpdateButton name={user.activePlaylist.playlist_name} type={"playlist"} genre={undefined} id={user.activePlaylist.playlist_id} />
+                                        <DeleteButton type={"playlist"} id={user.activePlaylist.playlist_id} name={user.activePlaylist.playlist_name} />
+
+                                    </div>
                                     : null
                                 }
 

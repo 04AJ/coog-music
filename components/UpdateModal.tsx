@@ -115,11 +115,13 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         reset();
                         updateModal.onClose();
                         if (updateModal.isAdmin) {
-                            window.location.href = "/userProfile";
+                            // window.location.href = "/userProfile";
+                            router.push("/userProfile");
 
                         }
                         else {
-                            window.location.href = "/profile";
+                            router.push("/profile");
+                            // window.location.href = "/profile";
 
                         }
 
@@ -137,11 +139,13 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         reset();
                         updateModal.onClose();
                         if (updateModal.isAdmin) {
-                            window.location.href = "/userProfile";
+                            // window.location.href = "/userProfile";
+                            router.push("/userProfile");
 
                         }
                         else {
-                            window.location.href = "/profile";
+                            router.push("/profile");
+                            // window.location.href = "/profile";
 
                         }
 

@@ -50,8 +50,16 @@ const Album = () => {
 
     if (albums?.length === 0) {
         return (
-            <div className="mt-4 text-neutral-400">No albums available.</div>
+            <div>
+                <h1 className="text-2xl mb-2">
+                    Your Albums
+                </h1>
+                <div className="mt-4 text-neutral-400">No albums available.</div>
+            </div>
+
         )
+
+
     };
 
 
