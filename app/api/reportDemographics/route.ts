@@ -9,14 +9,15 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const artist_id = searchParams.get('artist_id');
-    const query = `${artist_id}`;
+
+
     const race = await prisma.$queryRaw<User[]>`
-        SELECT race_name, COUNT(*) AS Total , ((COUNT(*) / (SELECT COUNT(*)
-                                                            FROM artist as A, race as R, user as U, listener_follows_artists as LFA, listener as L
-                                                            WHERE A.artist_email = ${query} AND LFA.artist_id = A.artist_id AND U.user_id = L.user_id AND LFA.listener_id = L.listener_id AND U.race_id = R.race_id)) * 100) AS PERCENT
-        FROM race as R, user as U, listener_follows_artists as LFA, listener as L
-        WHERE A.artist_email = ${query} AND LFA.artist_id = A.artist_id AND U.user_id = L.user_id AND LFA.listener_id = L.listener_id AND U.race_id = R.race_id
-        GROUP BY race_name;`;
+    // SELECT t.genre_id, genre_name , COUNT(genre_name) AS count
+    // FROM liked_tracks AS lt, track AS t, genre AS g, user AS u
+    // WHERE lt.track_id = t.track_id AND t.genre_id = g.genre_id AND lt.user_id = u.user_id 
+        AND YEAR(u.birth_date) BETWEEN
+    // GROUP BY t.genre_id
+    // ORDER BY count DESC;`;
     const result = JSON.parse(JSON.stringify(race, (key, value) =>
         typeof value === 'bigint'
             ? value.toString()
@@ -47,3 +48,5 @@ export async function GET(req: NextRequest) {
 // where lt.track_id = t.track_id and t.genre_id = g.genre_id and lt.user_id = u.user_id and YEAR(u.birth_date) = 2001
 // group by t.genre_id
 // order by count desc;
+                    //for people 22 yrs old
+        // and YEAR(u.birth_date) between (YEAR(CURDATE())-23) and (YEAR(CURDATE())-22)

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import PopularTracksTable from "./tables/PopularTracksTable";
+import {ListenerHabitsGenreTable, ListenerHabitsArtistTable} from "./tables/ListenerHabitsTable";
 
 class ListenerHabits extends Component{
     constructor(props){
         super(props);
-        this.state = { ageGroup: '0', gender: '0', ethnicity: '0', artistOrGenre:'0' ,data: []};
+        this.state = { ageGroup: '0', gender: '0', ethnicity: '0', artistOrGenre:'0', genreData: [], artistData: []};
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleHide = this.handleHide.bind(this);
@@ -14,11 +14,51 @@ class ListenerHabits extends Component{
     async handleSubmit(e){
         e.preventDefault(); 
         const state = this.state;
-        axios
-            .get(`/api/reportListenerHabits?ageGroup=${state.ageGroup}&gender=${state.gender}&ethnicity=${state.ethnicity}`)
+
+        let ageOne, ageTwo;
+        switch(state.ageGroup){
+            case '0':
+                ageOne=0;
+                ageTwo=999;
+                break;
+            case '1':
+                ageOne=0;
+                ageTwo=15;
+                break;
+            case '2':
+                ageOne=16;
+                ageTwo=25;
+                break;
+            case '3':
+                ageOne=26;
+                ageTwo=35;
+                break;
+            case '4':
+                ageOne=36;
+                ageTwo=45;
+                break;
+            case '5':
+                ageOne=46;
+                ageTwo=999;
+                break;
+        }
+
+        console.log(`age is ${ageOne} - ${ageTwo}`)
+        axios //QUERY FOR GENRES TABLE
+            .get(`/api/reportListenerHabitsGenre?ageOne=${ageOne}&ageTwo=${ageTwo}&gender=${state.gender}&ethnicity=${state.ethnicity}`)
             .then((res) => {
                 console.log(res.data);
-                this.setState({data:res.data});
+                this.setState({genreData:res.data});
+            })
+            .catch((err) => {
+                console.error("this is an error ", err);
+        });
+
+        axios //QUERY FOR TOP ARTISTS
+            .get(`/api/reportListenerHabitsArtist?ageOne=${ageOne}&ageTwo=${ageTwo}&gender=${state.gender}&ethnicity=${state.ethnicity}`)
+            .then((res) => {
+                console.log(res.data);
+                this.setState({artistData:res.data});
             })
             .catch((err) => {
                 console.error("this is an error ", err);
@@ -29,10 +69,11 @@ class ListenerHabits extends Component{
         e.preventDefault();
         this.setState({[e.target.name] : e.target.value});
     }
+    
 
     async handleHide(e) {
         e.preventDefault();
-        this.setState({data:[]});
+        this.setState({genreData:[], artistData:[]});
     }
 
     render(){
@@ -72,7 +113,10 @@ class ListenerHabits extends Component{
                         </div>
                     </form>
                 </div>
-                {(this.state.data.length) ? <PopularTracksTable data ={this.state.data}/> : <div></div>}
+                <div className="flex flex-row space-x-5 my-5">
+                {(this.state.genreData.length) ? <ListenerHabitsGenreTable data ={this.state.genreData}/> : <div></div>}
+                {(this.state.artistData.length) ? <ListenerHabitsArtistTable data ={this.state.artistData}/> : <div></div>}
+                </div>
             </div>
         );
     }
