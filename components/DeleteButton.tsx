@@ -13,7 +13,7 @@ import { useDeleteModal } from "@/hooks/useDeleteModal";
 
 interface DeleteButtonProps {
     id: number;
-    type: 'track' | 'album' | 'playlist' | 'track from album' | 'track from playlist';
+    type: 'track' | 'album' | 'playlist' | 'track from album' | 'track from playlist' | 'user';
     name: string;
 }
 

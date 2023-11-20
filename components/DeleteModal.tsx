@@ -189,6 +189,28 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                     .catch(Error => console.error(Error))
 
             }
+            else if (deleteModal.type === 'user') {
+                // archive album
+                axios.patch('/api/user', {
+                    user_id: deleteModal.id,
+                    archive: 1
+
+                }
+                ).then(() => {
+                    router.refresh();
+                    setIsLoading(false);
+                    toast.success('Deleted User')
+                    reset();
+                    deleteModal.onClose();
+                    window.location.href = "/explore";
+
+
+
+
+
+                })
+
+            }
         }
 
 

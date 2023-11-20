@@ -1,3 +1,4 @@
+import DeleteModal from "@/components/DeleteModal";
 import Header from "@/components/Header";
 import SearchContent from "@/components/SearchContent";
 import UserDetails from "@/components/UserDetails";
@@ -20,6 +21,8 @@ const ExplorePage = async ({ searchParams }: SearchProps) => {
 
     return (
         <>
+            <DeleteModal isHomePage={false} />
+
             <div className="p-5 bg-neutral-900/80 ">
                 <div className="pb-10">
                     <Header title="Explore" description="Find your favorite artists and listeners here"></Header>
