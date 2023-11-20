@@ -6,24 +6,26 @@ import UserDemographics from './UserDemographics';
 import MostLikedSongs from './MostLikedSongs';
 import UserCreationActivity from './UserCreationActivity';
 import PopularTracks from './PopularTracks';
+import ListenerHabits from './ListenerHabits'
 
 export default function AdminPage() {
     
     return (
         <div>
-            <Header title="Admin Center" description="Data reports"></Header>
+            <Header title="Admin Center" description="hi hello :DDD hiii hii heyy hii"></Header>
             <div className="flex flex-row space-x-7 my-7">
                 <ArtistSearchForm/>
-                <MostLikedSongs/>
+                {/* <MostLikedSongs/> */}
                 <UserCreationActivity/>
             </div>
-            <div>
+            <div className="flex flex-row space-x-7 my-7">
                 <UserDemographics/>
+                <ListenerHabits/>
             </div>
             <div className="flex flex-row space-x-7 my-7">
                 <PopularTracks/>
             </div>
-        </div>
+    </div>
     );
 }
 
