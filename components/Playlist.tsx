@@ -12,9 +12,14 @@ import LikeButton from "./LikeButton";
 import MediaItem from "./MediaItem";
 import RemoveButton from "./RemoveButton";
 
+interface playlistRequest {
+    setUpdate: (i: number) => void;
+    update: number;
+}
 
-
-const Playlist = () => {
+const Playlist: React.FC<playlistRequest> = ({
+    setUpdate, update
+}) => {
 
 
     const [playlists, setPlaylists] = useState<Playlist[]>();
@@ -41,7 +46,7 @@ const Playlist = () => {
             })
 
 
-    }, [user.listenerId]);
+    }, [user.listenerId, update]);
 
     if (user.userRole !== 'listener') {
         return null;

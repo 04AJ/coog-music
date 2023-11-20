@@ -13,6 +13,7 @@ import { MdVerified } from "react-icons/md";
 import toast from "react-hot-toast";
 import UpdateProfileButton from "@/components/UpdateProfileButton";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
+import { setuid } from "process";
 
 interface response {
     streams: number
@@ -23,6 +24,7 @@ export default function UserProfilePage() {
     const player = usePlayer();
     const router = useRouter();
 
+    const [update, setUpdate] = useState(0);
     const [userDetails, setUserDetails] = useState<User[]>();
     const [isFollowing, setIsFollowing] = useState(false);
     const [streamCount, setStreamCount] = useState(0);
@@ -186,7 +188,7 @@ export default function UserProfilePage() {
                 player.activeId && 'h-[calc(100%-80px)]'
             )}
         >
-            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={false} /> : null}
+            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={false} setUserDetails={setUserDetails} update={update} setUpdate={setUpdate} /> : null}
 
             <div className="w-full h-full mb-4 flex-col items-center">
 

@@ -22,10 +22,13 @@ import { Box, FormControl, InputLabel, NativeSelect } from '@mui/material';
 interface UpdateProfileProps {
     user_info: User;
     isProfile: Boolean
+    setUpdate: (i: number) => void;
+    update: number;
+    setUserDetails: (i: User[]) => void;
 }
 
 const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
-    user_info, isProfile
+    user_info, isProfile, setUpdate, setUserDetails, update
 }) => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -103,7 +106,7 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
                 return;
             }
 
-            console.log(values);
+            // console.log(values);
 
 
 
@@ -125,8 +128,20 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
                 toast.success('Updated User Details')
                 reset();
                 profileModal.onClose();
+
+                // setUserDetails([
+
+                //     {
+                //         ...user_info,
+                //         user_name: user_name,
+                //         email: email,
+                //         password: password,
+
+                //     }
+                // ])
+
                 if (isProfile) {
-                    window.location.href = "/profile";
+                    // window.location.href = "/profile";
                     // router.push("/profile");
 
                 }
@@ -137,6 +152,7 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
                 }
 
             })
+            setUpdate(update + 1);
 
 
 

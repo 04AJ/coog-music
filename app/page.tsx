@@ -20,6 +20,7 @@ import UpdateModal from '@/components/UpdateModal';
 import DeleteModal from '@/components/DeleteModal';
 import Playlist from '@/components/Playlist';
 import Album from '@/components/Album';
+import MainPage from '@/components/MainPage';
 
 //this means page will not be cached
 export const revalidate = 0;
@@ -36,38 +37,7 @@ export default async function Home() {
     <div className="p-5 bg-neutral-900 ">
       <div><Toaster /></div>
 
-      <Logout />
-
-
-
-      <Header title="Coog Music Library" description="Welcome back"></Header>
-
-      <div className="
-      
-      ">
-        <div className='grid grid-row-2'>
-          <CreateAlbumButton />
-          <UploadTrackButton />
-
-        </div>
-        <CreatePlaylistButton />
-
-
-      </div>
-
-
-
-      <Playlist />
-      <Album />
-
-      <CreatedTracks />
-
-      <LikedTracks />
-      <GenreTracks complete_tracks={tracks} />
-      <UpdateModal isHomePage={true} />
-      <DeleteModal isHomePage={true} />
-
-
+      <MainPage tracks={tracks} />
 
 
     </div >

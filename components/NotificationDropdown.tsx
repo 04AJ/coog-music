@@ -15,9 +15,11 @@ const NotificationDropdown = () => {
     const user = useUser();
     const [notifications, setNotifications] = useState<Notification[]>();
     const router = useRouter();
+    const [update, setUpdate] = useState(0);
 
     useEffect(() => {
-        axios.get<Notification[]>(`/api/notifications?listener_id=${user.listenerId}`)
+
+        axios.get<Notification[]>(`/api/notifications?isAdmin=${(user.userRole === 'admin') ? 1 : 0}&isArtist=${(user.userRole === 'artist') ? 1 : 0}&listener_id=${user.listenerId}`)
             .then(response => {
                 if (response.data) {
                     setNotifications(response.data);
@@ -26,18 +28,7 @@ const NotificationDropdown = () => {
             .catch(error => {
                 alert("error fetching data");
             })
-    }, [])
-    const query = async () => {
-        await axios.get<Notification[]>(`/api/notifications?listener_id=${user.listenerId}`)
-            .then(response => {
-                if (response.data) {
-                    setNotifications(response.data);
-                }
-            })
-            .catch(error => {
-                alert("error fetching data");
-            })
-    }
+    }, [update])
 
 
 
@@ -52,7 +43,8 @@ const NotificationDropdown = () => {
 
                     router.refresh();
                     toast.success('Deleted notification')
-                    window.location.href = "/";
+                    // window.location.href = "/";
+                    setUpdate(update + 1);
 
 
                 })

@@ -18,6 +18,8 @@ import { twMerge } from "tailwind-merge";
 export default function ProfilePage() {
     const user = useUser();
     const player = usePlayer();
+    const [update, setUpdate] = useState(0);
+
     //call api to get user details  
     const [userDetails, setUserDetails] = useState<User[]>();
     const router = useRouter();
@@ -36,7 +38,7 @@ export default function ProfilePage() {
                 alert("error fetching data");
             })
 
-    }, [user.userId]);
+    }, [user.userId, update]);
 
 
     const { register,
@@ -63,8 +65,8 @@ export default function ProfilePage() {
                 player.activeId && 'h-[calc(100%-80px)]'
             )}
         >
-
-            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={true} /> : null}
+            State: {update}
+            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={true} setUpdate={setUpdate} setUserDetails={setUserDetails} update={update} /> : null}
 
             <div className="w-full h-full mb-4 flex-col items-center">
 

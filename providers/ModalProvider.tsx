@@ -27,8 +27,7 @@ const ModalProvider = () => {
     return (
         <>
             <UploadTrackModal />
-            <CreatePlaylistModal />
-            <CreateAlbumModal />
+
         </>
     )
 }
