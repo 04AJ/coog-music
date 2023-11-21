@@ -80,16 +80,16 @@ class ListenerHabits extends Component{
         return(
             <div>
                 <h1>Top Genres/Artists Based On User</h1>
-                <div className="flex-1 items-center text-center border rounded w-auto py-2 px-2">
+                <div className="flex-1 items-center text-center border rounded w-auto p-3 border-slate-600 bg-neutral-900 ">
                     <form onSubmit={this.handleSubmit} className="flex-1 items-center">
-                        <label className="form-label">Gender:</label>
+                        <label className="form-label">Users Gender:</label>
                         <select className="ml-2 mr-4" name="gender" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
                             <option value="1">Male</option>
                             <option value="2">Female</option>
                         </select>
 
-                        <label className="form-label">Ethnicity:</label>
+                        <label className="form-label">Users Ethnicity:</label>
                         <select className="ml-2 mr-4" name="ethnicity" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
                             <option value="1">Asian</option>
@@ -98,7 +98,7 @@ class ListenerHabits extends Component{
                             <option value="4">White</option>
                         </select>
 
-                        <label className="form-label">Age: </label>
+                        <label className="form-label">Users Age: </label>
                         <select className="ml-2 mr-4" name="ageGroup" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
                             <option value="1">0-15</option>
@@ -113,9 +113,9 @@ class ListenerHabits extends Component{
                         </div>
                     </form>
                 </div>
-                <div className="flex justify-center space-x-8 mt-6">
-                {(this.state.genreData.length) ? <ListenerHabitsGenreTable data ={this.state.genreData}/> : <div></div>}
-                {(this.state.artistData.length) ? <ListenerHabitsArtistTable data ={this.state.artistData}/> : <div></div>}
+                <div className="flex mb-4 justify-center space-x-8 mt-6 w-auto">
+                    <div className='w-1/4'>{(this.state.genreData.length) ? <ListenerHabitsGenreTable data ={this.state.genreData}/> : <div></div>}</div>
+                    <div className='w-3/4'>{(this.state.artistData.length) ? <ListenerHabitsArtistTable className='w-3/4' data ={this.state.artistData}/> : <div></div>}</div>
                 </div>
             </div>
         );

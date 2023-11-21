@@ -6,15 +6,15 @@ const ListenerHabitsGenreTable = ({ data }) => {
       return (
         <div>
             <h2>top genres</h2>
-            <table className="table-auto border w-1/4 text-left">
+            <table className="table-auto w-full text-left">
               <tbody>
                 <tr className="text-white">
-                  <th className="border">Genre</th>
+                  <th className="">Genre</th>
                   <th>Likes</th>
                 </tr>
                 {data.map((item) => (
                   <tr key={item.id} className="border">
-                    <td className="border">{item.genre_name}</td>
+                    <td className="border border-slate-500">{item.genre_name}</td>
                     <td>{item.count}</td>
                   </tr>
                 ))}
@@ -30,24 +30,24 @@ const ListenerHabitsArtistTable = ({ data }) => {
         return (
         <div>
             <h2>top artists</h2>
-            <table className="table-auto border text-left">
+            <table className="table-auto w-full text-left">
                 <tbody>
                 <tr className="text-white">
-                    <th className="border">Artist</th>
-                    <th className="border">Age</th>
-                    <th className="border">Ethnicity</th>
-                    <th className="border">Gender</th>
-                    <th className="border">Genre</th>
-                    <th className="border">Likes from Specified Users</th>
+                    <th className="">Artist</th>
+                    <th className="">Age</th>
+                    <th className="">Ethnicity</th>
+                    <th className="">Gender</th>
+                    <th className="">Genre</th>
+                    <th className="">Likes from Specified Users</th>
                 </tr>
                 {data.map((item) => (
                     <tr key={item.id} className="border">
-                    <td className="border">{item.artist}</td>
-                    <td className="border">{item.age}</td>
-                    <td className="border">{item.ethn}</td>
-                    <td className="border">{item.gender}</td>
-                    <td className="border">{item.genre}</td>
-                    <td className="border">{item.likes}</td>
+                    <td className="border border-slate-500">{item.artist}</td>
+                    <td className="border border-slate-500">{item.age}</td>
+                    <td className="border border-slate-500">{item.ethn}</td>
+                    <td className="border border-slate-500">{item.gender}</td>
+                    <td className="border border-slate-500">{item.genre}</td>
+                    <td className="border border-slate-500">{item.likes}</td>
                     </tr>
                 ))}
                 </tbody>

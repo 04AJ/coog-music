@@ -60,10 +60,10 @@ export default function AdminPage() {
             <h1 className="flex mt-11 justify-center text-white text-3xl font-semibold">Data Reports</h1>
 
             <div className="flex my-6 justify-center">
-                <button onClick={showDemographics} className="bg-red-500 py-1 px-4 mx-4 text-white hover:bg-red-800">Demographics of Artist's Followers</button>
-                <button onClick={showPopularTracks} className="bg-red-500 py-1 px-4 mx-4 text-white hover:bg-red-800">Popular Tracks Based on Artist</button>
-                <button onClick={showListenerHabits} className="bg-red-500 py-1 px-4 mx-4 text-white hover:bg-red-800">Listener Habits</button>
-                <button onClick={showUserCreation} className="bg-red-500 py-1 px-4 mx-4 text-white hover:bg-red-800">User Creation Activity</button>
+                <button onClick={showDemographics} className="bg-red-500 py-1 px-4 mx-4 text-white hover:bg-red-800 rounded">Demographics of Artist's Followers</button>
+                <button onClick={showPopularTracks} className="bg-red-500 py-1 px-4 mx-4 text-white hover:bg-red-800 rounded">Popular Tracks Based on Artist</button>
+                <button onClick={showListenerHabits} className="bg-red-500 py-1 px-4 mx-4 text-white hover:bg-red-800 rounded">Listener Habits</button>
+                <button onClick={showUserCreation} className="bg-red-500 py-1 px-4 mx-4 text-white hover:bg-red-800 rounded">User Creation Activity</button>
             </div>
 
             <div>

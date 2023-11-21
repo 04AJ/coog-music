@@ -59,34 +59,44 @@ class UserDemographics extends Component{
                     console.error("this is an error ", err);
             });
         } else {this.setState({genderData:[]})}
-        axios //AGE QUERY
+        if(this.state.showAge){
+            axios //AGE QUERY
             .get(`/api/reportAge?artist_id=${passedID}`)
             .then((res) => {
                 console.log(res.data);
-                this.setState({ageData:res.data});
-                if(this.state.genderData.length + this.state.raceData.length === 0){
+                if(res.data[0].one === null){
                     this.setState({noData:true});
-                } else {this.setState({noData:false})}
+                } else {
+                    this.setState({noData:false});
+                    this.setState({ageData:res.data});
+                }
             })
             .catch((err) => {
                 console.error("this is an error ", err);
-        });
+            });
+        } else {this.setState({ageData:[]})}
     }
 
     render(){ //create multiple tables for demographic stats
         return(
             <div className="">
-                <form onSubmit={this.handleSubmit} className="w-auto">
+                <form onSubmit={this.handleSubmit} className="w-auto p-2 ">
                     <h1>User Demographics</h1>
-                    <div className="flex-1 items-center text-center border rounded py-2">
+                    <div className="flex-1 items-center text-center border rounded p-4 border-slate-600 bg-neutral-900 ">
                         <input onChange={this.handleChange} name="passedID" className="relative bg-white text-black mr-1 py-1 px-2 w-80" type="text" placeholder="Artist Email"></input>
-                        <div className="space-x-2">
-                            <label htmlFor='showRace'>Race</label>
-                            <input id="showRace" type="checkbox" onChange={this.handleToggle} name="showRace" checked={this.state.showRace}/>
-                            <label htmlFor='showGender'>Gender</label>
-                            <input id="showGender" type="checkbox" onChange={this.handleToggle} name="showGender" checked={this.state.showGender}/>
-                            <label htmlFor='showAge'>Age</label>
-                            <input id="showAge" type="checkbox" onChange={this.handleToggle} name="showAge" checked={this.state.showAge}/>
+                        <div className="flex flex-row space-x-4 justify-center">
+                            <div>
+                                <label htmlFor='showRace'>Race </label>
+                                <input id="showRace" type="checkbox" onChange={this.handleToggle} name="showRace" checked={this.state.showRace}/>
+                            </div>
+                            <div>
+                                <label htmlFor='showGender'>Gender </label>
+                                <input id="showGender" type="checkbox" onChange={this.handleToggle} name="showGender" checked={this.state.showGender}/>
+                            </div>
+                            <div>
+                                <label htmlFor='showAge'>Age </label>
+                                <input id="showAge" type="checkbox" onChange={this.handleToggle} name="showAge" checked={this.state.showAge}/>
+                            </div>
                         </div>
                         <button type="submit" className="bg-red-500 py-1 px-2 text-white hover:bg-red-800">Search</button>
                         <button onClick={this.handleHide} className="bg-red-500 py-1 px-2 text-white mx-2 my-2 hover:bg-red-800">Hide Results</button>

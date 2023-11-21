@@ -39,7 +39,7 @@ class PopularTracks extends Component{
         return(
             <div>
                 <h1>Popular Tracks Based On Artist</h1>
-                <div className="flex-1 items-center text-center border rounded w-auto py-2 px-2">
+                <div className="flex-1 items-center text-center border border-slate-600 bg-neutral-900 rounded w-auto p-3">
                     <form onSubmit={this.handleSubmit} className="flex-1 items-center">
                         <label className="form-label">Artist Gender:</label>
                         <select className="ml-2 mr-4" name="gender" onChange={this.handleChange} defaultValue="0">
@@ -57,7 +57,7 @@ class PopularTracks extends Component{
                             <option value="4">White</option>
                         </select>
 
-                        <label className="form-label">Genre:</label>
+                        <label className="form-label">Track Genre:</label>
                         <select className="ml-2 mr-4" name="genre" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
                             <option value="1">Hip Hop</option>

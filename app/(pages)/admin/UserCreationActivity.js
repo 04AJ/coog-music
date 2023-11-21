@@ -59,8 +59,8 @@ class UserCreationActivity extends Component{
         return(
             <div>
                 <h1>User Registration Activity</h1>
-                <form onSubmit={this.handleSubmit} className="w-80">
-                    <div className="flex-1 text-center border rounded py-2">
+                <form onSubmit={this.handleSubmit} className="w-auto">
+                    <div className="flex-1 text-center border rounded py-4 border-slate-600 bg-neutral-900 ">
                         <div>
                             <label htmlFor="fromdate">From: </label>
                             <input onChange={this.handleChange} id="fromdate" name="fDate" className="bg-white text-black mr-1 py-1 px-2 w-36" type="date"></input>
@@ -79,7 +79,9 @@ class UserCreationActivity extends Component{
                         <button onClick={this.handleHide} className="bg-red-500 py-1 px-2 text-white mx-2 my-2 hover:bg-red-800">Hide Results</button>
                     </div>
                 </form>
-                {(this.state.data.length) ? <UserCreationTable data ={this.state.data}/> : <div></div>}
+                <div className="flex mb-4 justify-center space-x-8 mt-6">
+                    <div className='w-1/2'>{(this.state.data.length) ? <UserCreationTable data ={this.state.data}/> : <div></div>}</div>
+                </div>
             </div>
         );
     }
