@@ -6,7 +6,7 @@ const ListenerHabitsGenreTable = ({ data }) => {
       return (
         <div>
             <h2>top genres</h2>
-            <table className="table-auto border w-auto text-left">
+            <table className="table-auto border w-1/4 text-left">
               <tbody>
                 <tr className="text-white">
                   <th className="border">Genre</th>
@@ -30,7 +30,7 @@ const ListenerHabitsArtistTable = ({ data }) => {
         return (
         <div>
             <h2>top artists</h2>
-            <table className="table-auto border w-auto text-left">
+            <table className="table-auto border text-left">
                 <tbody>
                 <tr className="text-white">
                     <th className="border">Artist</th>

@@ -113,7 +113,7 @@ class ListenerHabits extends Component{
                         </div>
                     </form>
                 </div>
-                <div className="flex flex-row space-x-5 my-5">
+                <div className="flex justify-center space-x-8 mt-6">
                 {(this.state.genreData.length) ? <ListenerHabitsGenreTable data ={this.state.genreData}/> : <div></div>}
                 {(this.state.artistData.length) ? <ListenerHabitsArtistTable data ={this.state.artistData}/> : <div></div>}
                 </div>

@@ -77,7 +77,9 @@ class PopularTracks extends Component{
                         </div>
                     </form>
                 </div>
-                {(this.state.data.length) ? <PopularTracksTable data ={this.state.data}/> : <div></div>}
+                <div className='flex justify-center space-x-8 mt-6'>
+                    {(this.state.data.length) ? <PopularTracksTable data ={this.state.data}/> : <div></div>}
+                </div>
             </div>
         );
     }

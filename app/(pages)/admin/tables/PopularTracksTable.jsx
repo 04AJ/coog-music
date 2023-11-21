@@ -4,7 +4,7 @@ const PopularTracksTable = ({ data }) => {
   6:'R&B',7:'Jazz',8:'Metal',9:'Classical',10:'Punk'};
   
     return (
-      <table className="table-auto border w-auto text-left">
+      <table className="table-auto border w-full text-left">
         <tbody>
           <tr className="text-white">
             <th className="border">Name</th>
