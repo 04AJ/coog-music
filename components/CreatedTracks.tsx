@@ -10,12 +10,20 @@ import { Album, Track } from "@/types";
 import Carousel from "./Carousel";
 
 
+interface props {
+    setUpdate: (i: number) => void;
+    update: number;
+}
 
-const CreatedTracks = () => {
+const CreatedTracks: React.FC<props> = ({
+    setUpdate, update
+}) => {
     const user = useUser();
     const router = useRouter();
 
     const [createdTracks, setCreatedTracks] = useState<Track[]>();
+    const [albums, setAlbums] = useState<Album[]>();
+
     //CAREFUL: setting state inside useEffect = infinite loop. Need to use dependency array[]
 
 
@@ -30,22 +38,12 @@ const CreatedTracks = () => {
                         setCreatedTracks(response.data);
                     }
 
+
+
                 })
                 .catch(error => {
                     alert("error fetching data");
                 })
-        }
-
-    }, [user.userId, user.userRole, user.artistId]);
-
-
-    const [albums, setAlbums] = useState<Album[]>();
-
-    useEffect(() => {
-
-        if (user.userRole === 'artist') {
-            //get playList or albumId's
-
             axios.get<Album[]>(`/api/album?artist_id=${user.artistId}`)
                 .then(response => {
 
@@ -58,10 +56,13 @@ const CreatedTracks = () => {
                 .catch(error => {
                     alert("error fetching data");
                 })
-
         }
 
-    }, [user.userId, user.artistId, user.userRole])
+    }, [user.userId, user.userRole, user.artistId, user.userId, user.artistId, user.userRole, update]);
+
+
+
+
 
 
     return (

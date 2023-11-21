@@ -22,11 +22,13 @@ import UpdateModal from './UpdateModal';
 
 
 interface DeleteModalProps {
-    isHomePage: Boolean
+    isHomePage: Boolean;
+    setUpdate: (i: number) => void;
+    update: number;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
-    isHomePage
+    isHomePage, update, setUpdate
 }) => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +90,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                     reset();
                     deleteModal.onClose();
                     if (isHomePage) {
-                        window.location.href = "/";
+                        // window.location.href = "/";
+                        setUpdate(update + 1);
+
 
                     }
                     else {

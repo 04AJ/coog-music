@@ -15,6 +15,7 @@ import UploadTrackButton from './UploadTrackButton'
 import { Track } from '@/types'
 import CreateAlbumModal from './CreateAlbumModal'
 import CreatePlaylistModal from './CreatePlaylistModal'
+import UploadTrackModal from './UploadTrackModal'
 
 interface MainPageProps {
     tracks: Track[]
@@ -29,9 +30,11 @@ const MainPage: React.FC<MainPageProps> = ({
     return (
         <div>
             <CreatePlaylistModal update={update} setUpdate={setUpdate} />
-            <CreateAlbumModal />
+            <CreateAlbumModal update={update} setUpdate={setUpdate} />
+            <UploadTrackModal update={update} setUpdate={setUpdate} />
+
             State: {update}
-            <Logout />
+            <Logout update={update} setUpdate={setUpdate} />
 
 
 
@@ -53,14 +56,14 @@ const MainPage: React.FC<MainPageProps> = ({
 
 
             <Playlist update={update} setUpdate={setUpdate} />
-            <Album />
+            <Album update={update} setUpdate={setUpdate} />
 
-            <CreatedTracks />
+            <CreatedTracks update={update} setUpdate={setUpdate} />
 
             <LikedTracks />
             <GenreTracks complete_tracks={tracks} />
-            <UpdateModal isHomePage={true} />
-            <DeleteModal isHomePage={true} />
+            <UpdateModal isHomePage={true} update={update} setUpdate={setUpdate} />
+            <DeleteModal isHomePage={true} update={update} setUpdate={setUpdate} />
 
 
         </div>

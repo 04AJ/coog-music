@@ -141,7 +141,7 @@ const UpdateProfileModal: React.FC<UpdateProfileProps> = ({
                 // ])
 
                 if (isProfile) {
-                    // window.location.href = "/profile";
+                    window.location.href = "/profile";
                     // router.push("/profile");
 
                 }

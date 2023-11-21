@@ -12,9 +12,14 @@ import LikeButton from "./LikeButton";
 import MediaItem from "./MediaItem";
 import RemoveButton from "./RemoveButton";
 
+interface albumRequest {
+    setUpdate: (i: number) => void;
+    update: number;
+}
 
-
-const Album = () => {
+const Album: React.FC<albumRequest> = ({
+    setUpdate, update
+}) => {
 
 
     const [albums, setAlbums] = useState<Album[]>();
@@ -42,7 +47,7 @@ const Album = () => {
             })
 
 
-    }, [user.artistId]);
+    }, [user.artistId, update]);
 
     if (user.userRole !== 'artist') {
         return null;

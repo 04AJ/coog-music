@@ -30,7 +30,15 @@ interface trackRequest {
 
 
 
-const UploadTrackModal = () => {
+
+interface props {
+    setUpdate: (i: number) => void;
+    update: number;
+}
+
+const UploadTrackModal: React.FC<props> = ({
+    setUpdate, update
+}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [image, setImage] = useState<{
         fileUrl: string;
@@ -105,7 +113,8 @@ const UploadTrackModal = () => {
                 toast.success('Track Successfully uploaded!')
                 reset();
                 uploadModal.onClose();
-                window.location.href = "/";
+                // window.location.href = "/";
+                setUpdate(update + 1);
 
 
             })

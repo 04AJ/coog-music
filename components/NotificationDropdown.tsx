@@ -11,11 +11,17 @@ import { useRouter } from "next/navigation";
 
 
 
-const NotificationDropdown = () => {
+interface props {
+    setUpdate: (i: number) => void;
+    update: number;
+}
+
+const NotificationDropdown: React.FC<props> = ({
+    setUpdate, update
+}) => {
     const user = useUser();
     const [notifications, setNotifications] = useState<Notification[]>();
     const router = useRouter();
-    const [update, setUpdate] = useState(0);
 
     useEffect(() => {
 

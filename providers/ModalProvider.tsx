@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 const ModalProvider = () => {
 
     const [isMounted, setIsMounted] = useState(false);
+    const [update, setUpdate] = useState(0);
+
     //this is prevent that modals don't cause hydration errors (server side rendering)
     //NEVER want to render modal if it is server side rendering
 
@@ -26,7 +28,7 @@ const ModalProvider = () => {
     //else return modal in client side
     return (
         <>
-            <UploadTrackModal />
+
 
         </>
     )

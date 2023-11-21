@@ -22,10 +22,12 @@ import { useUpdateModal } from '@/hooks/useUpdateModal.tsx';
 
 interface UpdateModalProps {
     isHomePage: Boolean
+    setUpdate: (i: number) => void;
+    update: number;
 }
 
 const UpdateModal: React.FC<UpdateModalProps> = ({
-    isHomePage
+    isHomePage, setUpdate, update
 }) => {
 
 
@@ -45,11 +47,11 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
         handleSubmit,
         control,
         reset } = useForm<FieldValues>({
-            // defaultValues: {
-            //     title: '',
-            //     genre: '',
+            defaultValues: {
+                // title: updateModal.name,
+                // genre: updateModal.genre,
 
-            // }
+            }
         })
 
 
@@ -80,7 +82,11 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
             }
 
             if (!title) {
-                toast.error('Missing fields');
+                toast.error('Missing updated title');
+                return;
+            }
+            if (!genre) {
+                toast.error('Missing updated genre');
                 return;
             }
 
@@ -94,7 +100,8 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         reset();
                         updateModal.onClose();
                         if (isHomePage) {
-                            window.location.href = "/";
+                            // window.location.href = "/";
+                            setUpdate(update + 1);
 
                         }
                         else {

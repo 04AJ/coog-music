@@ -9,8 +9,14 @@ import { useRouter } from 'next/navigation'
 import { Underdog } from 'next/font/google'
 import NotificationDropdown from './NotificationDropdown'
 
-const Logout = () => {
+interface props {
+    setUpdate: (i: number) => void;
+    update: number;
+}
 
+const Logout: React.FC<props> = ({
+    setUpdate, update
+}) => {
     const user = useUser();
     const router = useRouter();
     const [userDetails, setUserDetails] = useState<User[]>();
@@ -36,7 +42,10 @@ const Logout = () => {
         user.setListenerId(0);
         user.setArtistId(0);
         user.setUserRole('na')
-        router.refresh();
+        setUpdate(update + 1);
+        window.location.href = "/";
+
+
 
     }
 
@@ -49,7 +58,7 @@ const Logout = () => {
 
         <div className="flex fixed top-2 right-2 z-500 bg-black gap-1 border rounded-md p-2">
             <div>
-                <NotificationDropdown />
+                <NotificationDropdown update={update} setUpdate={setUpdate} />
             </div>
             <div className='flex flex-col '>
                 <div>

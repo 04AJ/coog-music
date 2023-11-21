@@ -18,14 +18,15 @@ import { useUser } from '@/hooks/useUser';
 
 
 
+
 interface albumRequest {
-    title: string,
-    artist_id: number,
-    image_url: string
+    setUpdate: (i: number) => void;
+    update: number;
 }
 
-
-const CreateAlbumModal = () => {
+const CreateAlbumModal: React.FC<albumRequest> = ({
+    setUpdate, update
+}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [image, setImage] = useState<{
         fileUrl: string;
@@ -88,7 +89,8 @@ const CreateAlbumModal = () => {
                 toast.success('Album Successfully created!')
                 reset();
                 albumModal.onClose();
-                window.location.href = "/";
+                // window.location.href = "/";
+                setUpdate(update + 1);
 
 
             })
