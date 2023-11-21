@@ -1,6 +1,6 @@
 "use client"
 import { useUser } from "@/hooks/useUser";
-import { Album, Playlist, SuperUser, User } from "@/types";
+import { Album, Playlist, SuperUser, Track, User } from "@/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PlaylistTracks from "./PlaylistTracks";
@@ -8,24 +8,46 @@ import AlbumTracks from "./AlbumTracks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import AlbumItem from "./AlbumItem";
+import { useUpdateModal } from "@/hooks/useUpdateModal.tsx";
+import { useDeleteModal } from "@/hooks/useDeleteModal";
+import Carousel from "./Carousel";
+import DeleteModal from "./DeleteModal";
+import UpdateModal from "./UpdateModal";
 
 interface UserDetailsProps {
     userDetails: User | SuperUser,
-    profilePage: boolean
+    profilePage: boolean,
+    setUpdate: (i: number) => void,
+    update: number
 }
 const UserDetails: React.FC<UserDetailsProps> = ({
     userDetails,
-    profilePage
+    profilePage,
+    setUpdate,
+    update
 }) => {
 
     const user = useUser();
+    const updateModal = useUpdateModal();
+    const deleteModal = useDeleteModal();
+
     const [playlists, setPlaylists] = useState<Playlist[]>();
     const [albums, setAlbums] = useState<Album[]>();
+    const [tracks, setTracks] = useState<Track[]>();
     const router = useRouter();
 
 
     //get playlistIds or albumId's
     useEffect(() => {
+        if (user.userRole === 'admin') {
+            updateModal.setIsAdmin(true);
+            deleteModal.setIsAdmin(true);
+        }
+        else {
+            updateModal.setIsAdmin(false);
+            deleteModal.setIsAdmin(false);
+
+        }
 
         if (profilePage && user.userRole === 'listener') {
             //get playList or albumId's
@@ -56,6 +78,18 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
                     if (response.data) {
                         setAlbums(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+            axios.get<Track[]>(`/api/singles?artist_id=${user.artistId}`)
+                .then(response => {
+
+
+                    if (response.data) {
+                        setTracks(response.data);
                     }
 
                 })
@@ -101,13 +135,29 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                     alert("error fetching data");
                 })
 
+            axios.get<Track[]>(`/api/singles?artist_id=${user.activeUser.artist_id}`)
+                .then(response => {
+
+
+                    if (response.data) {
+                        setTracks(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+
+
         }
 
-    }, [user.userId, user.listenerId, user.userRole, profilePage, user.activeUser.is_artist, user.activeUser.listener_id])
+    }, [user.userId, user.listenerId, user.userRole, profilePage, user.activeUser.is_artist, user.activeUser.listener_id, update])
 
 
     return (
         <div className="w-full flex-col">
+            <UpdateModal isHomePage={false} update={update} setUpdate={setUpdate} />
+            <DeleteModal isHomePage={false} update={update} setUpdate={setUpdate} />
             <div className="flex-col mb-10 w-3/4 bg-slate-800/40">
 
 
@@ -156,91 +206,135 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
             {(profilePage && user.userRole === 'listener') ?
                 <div>
-                    <h1 className="text-3xl font-bold">
+                    <h1 className="text-3xl font-bold mb-2">
                         Playlists
                     </h1>
+                    <div className="flex flex-row">
+                        {playlists?.map((playlist) =>
+                            <div key={playlist.playlist_id}>
 
-                    {playlists?.map((playlist) =>
-                        <div key={playlist.playlist_id}>
-                            <li>{playlist.playlist_name}</li>
-                            <PlaylistTracks playlist_id={playlist.playlist_id} />
-                        </div>
-                    )}
+                                <div className="p-3 border rounded w-fit cursor-pointer mr-2 hover:bg-red-500"
+                                    onClick={() => { user.setActivePlaylist(playlist); user.setActiveTracksType('playlist'); router.push('/tracks') }}
+                                >
+                                    {playlist.playlist_name}</div>
+
+                                {/* <PlaylistTracks playlist_id={playlist.playlist_id} /> */}
+                            </div>
+                        )}
+                    </div>
+
                 </div>
 
                 : (profilePage && user.userRole === 'artist') ?
 
                     <div>
-                        <h1 className="text-3xl font-bold">
-                            Albums
-                        </h1>
-                        {albums?.map((album) =>
-                            <div key={album.album_id}>
-
-                                <div
-                                    onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
-
-                                    className="
-                                 grid 
-                                 grid-cols-1 
-                                 sm:grid-cols-2 
-                                 md:grid-cols-3 
-                                 lg:grid-cols-3 
-                                 xl:grid-cols-4 
-                                 2xl:grid-cols-6 
-                                 gap-4 
-                                 mt-4
-                         "
-                                >
-                                    <AlbumItem data={album} />
-                                </div>
-                            </div>
-                        )}
-                    </div>
-
-                    : (!profilePage && user.activeUser.is_artist === 0) ?
                         <div>
-                            <h1 className="text-3xl font-bold">Playlists</h1>
+                            <h1 className="text-3xl font-bold">
+                                Singles
+                            </h1>
+                            {(tracks) ?
+                                <div>
 
-                            {playlists?.map((playlist) =>
-                                <div key={playlist.playlist_id}>
-                                    <li>{playlist.playlist_name}</li>
-                                    <PlaylistTracks playlist_id={playlist.playlist_id} />
-                                </div>
-                            )}
+                                    <Carousel tracks={tracks} albums={[]} />
+
+                                </div> : "No tracks avaialable."}
                         </div>
-
-                        :
-
                         <div>
                             <h1 className="text-3xl font-bold">
                                 Albums
                             </h1>
-                            {albums?.map((album) =>
-                                <div key={album.album_id}>
 
+                            <div className="
+                        grid 
+                        grid-cols-1 
+                        sm:grid-cols-2 
+                        md:grid-cols-3 
+                        lg:grid-cols-3 
+                        xl:grid-cols-4 
+                        2xl:grid-cols-6 
+                        gap-4 
+                        mt-4
+                ">
+                                {albums?.map((album) =>
                                     <div
-                                        onClick={() => { user.setActiveAlbum(album); router.push('/tracks') }}
+                                        onClick={() => { user.setActiveAlbum(album); user.setActiveTracksType('album'); router.push('/tracks') }}
+                                        key={album.album_id}
 
-                                        className="
-                                        grid 
-                                        grid-cols-1 
-                                        sm:grid-cols-2 
-                                        md:grid-cols-3 
-                                        lg:grid-cols-3 
-                                        xl:grid-cols-4 
-                                        2xl:grid-cols-6 
-                                        gap-4 
-                                        mt-4
-                                "
                                     >
                                         <AlbumItem data={album} />
                                     </div>
-                                </div>
-                            )}
+
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    : (!profilePage && user.activeUser.is_artist === 0) ?
+                        <div>
+                            <h1 className="text-3xl font-bold mb-2">
+                                Playlists
+                            </h1>
+                            <div className="flex flex-row">
+                                {playlists?.map((playlist) =>
+                                    <div key={playlist.playlist_id}>
+
+                                        <div className="p-3 border rounded w-fit cursor-pointer mr-2 hover:bg-red-500"
+                                            onClick={() => { user.setActivePlaylist(playlist); user.setActiveTracksType('playlist'); router.push('/tracks') }}
+                                        >
+                                            {playlist.playlist_name}</div>
+
+                                        {/* <PlaylistTracks playlist_id={playlist.playlist_id} /> */}
+                                    </div>
+                                )}
+                            </div>
+
                         </div>
 
+                        : (!profilePage && user.activeUser.is_artist === 1) ?
 
+                            <div>
+                                <div>
+                                    <h1 className="text-3xl font-bold">
+                                        Singles
+                                    </h1>
+                                    {(tracks) ?
+                                        <div>
+
+                                            <Carousel tracks={tracks} albums={[]} />
+
+                                        </div> : "No tracks avaialable."}
+                                </div>
+                                <div>
+                                    <h1 className="text-3xl font-bold">
+                                        Albums
+                                    </h1>
+
+                                    <div className="
+                        grid 
+                        grid-cols-1 
+                        sm:grid-cols-2 
+                        md:grid-cols-3 
+                        lg:grid-cols-3 
+                        xl:grid-cols-4 
+                        2xl:grid-cols-6 
+                        gap-4 
+                        mt-4
+                ">
+                                        {albums?.map((album) =>
+                                            <div
+                                                onClick={() => { user.setActiveAlbum(album); user.setActiveTracksType('album'); router.push('/tracks') }}
+                                                key={album.album_id}
+
+                                            >
+                                                <AlbumItem data={album} />
+                                            </div>
+
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            : null
 
 
 

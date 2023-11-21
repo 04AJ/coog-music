@@ -7,51 +7,80 @@ import { VscBell, VscBellDot } from "react-icons/vsc"
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 
 
-const NotificationDropdown = () => {
+interface props {
+    setUpdate: (i: number) => void;
+    update: number;
+}
+
+const NotificationDropdown: React.FC<props> = ({
+    setUpdate, update
+}) => {
     const user = useUser();
     const [notifications, setNotifications] = useState<Notification[]>();
+    const router = useRouter();
 
     useEffect(() => {
-        axios.get<Notification[]>(`/api/notifications?listener_id=${user.listenerId}`)
+
+        axios.get<Notification[]>(`/api/notifications?isAdmin=${(user.userRole === 'admin') ? 1 : 0}&isArtist=${(user.userRole === 'artist') ? 1 : 0}&listener_id=${user.listenerId}`)
             .then(response => {
                 if (response.data) {
-                    setNotifications(response.data); 
+                    setNotifications(response.data);
                 }
             })
             .catch(error => {
                 alert("error fetching data");
             })
-    }, [])
-
-    
-
-    const handleSubmit = async () => {
+    }, [update])
 
 
-        // axios.post(`/api/playlist?track_id=${track_id}&playlist_id=${playlist_id}`)
-        //     .then(() => {
 
-        //         toast.success("Added to playlist!");
 
-        //     })
-        //     .catch(error => toast.error("Track already exists in playlist"))
+
+    const handleSubmit = async (id: number) => {
+
+        if (user.userRole === 'admin') {
+            //remove track from album
+            axios.delete(`/api/notifications?NotificationID=${id}`)
+                .then(() => {
+
+                    router.refresh();
+                    toast.success('Deleted notification')
+                    // window.location.href = "/";
+                    setUpdate(update + 1);
+
+
+                })
+                .catch(Error => console.error(Error))
+        }
+
     }
 
     return (
         <div className="z-500 ">
             <header className=" border-gray-100">
                 <Dropdown>
-                    <Dropdown.Button>{(notifications) ? <VscBellDot /> : <VscBell />}</Dropdown.Button>
+                    {(user.userRole !== 'na') ?
 
+
+                        <Dropdown.Button> {(notifications) ? <VscBellDot color='red' /> : <VscBell />}</Dropdown.Button>
+                        :
+
+                        null
+                    }
                     <Dropdown.Menu >
                         <p className="text-red-900">Notifications:</p>
                         {(notifications) ?
                             notifications.map((notification) =>
-                                <Dropdown.MenuItem key={notification.n_id} onSelect={() => handleSubmit()}>
-                                    {notification.Message}
+                                <Dropdown.MenuItem key={notification.NotificationID} onSelect={() => handleSubmit(notification.NotificationID)}
+                                >
+                                    <div className={(notification.Message.substring(0, 5) === "Track") ? "text-black" : "text-black bg-red-200/100"}>
+                                        {notification.Message}
+
+                                    </div>
                                 </Dropdown.MenuItem>
                             ) : null}
 
@@ -64,4 +93,4 @@ const NotificationDropdown = () => {
     );
 }
 
-export default NotificationDropdown;
+export default NotificationDropdown

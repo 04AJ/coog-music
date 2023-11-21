@@ -1,5 +1,7 @@
 "use client"
+import DeleteModal from "@/components/DeleteModal";
 import Header from "@/components/Header";
+import UpdateModal from "@/components/UpdateModal";
 import UploadProfileButton from "@/components/UpdateProfileButton";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
 import UserDetails from "@/components/UserDetails";
@@ -18,6 +20,8 @@ import { twMerge } from "tailwind-merge";
 export default function ProfilePage() {
     const user = useUser();
     const player = usePlayer();
+    const [update, setUpdate] = useState(0);
+
     //call api to get user details  
     const [userDetails, setUserDetails] = useState<User[]>();
     const router = useRouter();
@@ -36,7 +40,7 @@ export default function ProfilePage() {
                 alert("error fetching data");
             })
 
-    }, [user.userId]);
+    }, [user.userId, update]);
 
 
     const { register,
@@ -63,8 +67,10 @@ export default function ProfilePage() {
                 player.activeId && 'h-[calc(100%-80px)]'
             )}
         >
+            <UpdateModal isHomePage={true} update={update} setUpdate={setUpdate} />
+            <DeleteModal isHomePage={true} update={update} setUpdate={setUpdate} />
 
-            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} /> : null}
+            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={true} setUpdate={setUpdate} setUserDetails={setUserDetails} update={update} /> : null}
 
             <div className="w-full h-full mb-4 flex-col items-center">
 
@@ -77,7 +83,7 @@ export default function ProfilePage() {
 
 
             </div >
-            {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={true} /> : null}
+            {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={true} update={update} setUpdate={setUpdate} /> : null}
 
 
 

@@ -1,14 +1,19 @@
 
 import prisma from '@/client'
-import { Playlist } from '@/types';
+import { Album } from '@/types';
 import { NextRequest } from "next/server";
+import { Interface } from 'readline';
 
+interface updateFormat {
+    album_id: number;
+    archive: number;
+};
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const artist_id = searchParams.get('artist_id');
-    const tracks = await prisma.$queryRaw<Playlist[]>`
-    SELECT album_id, album_name, album_created_at, album_release_date, album_cover_path
+    const tracks = await prisma.$queryRaw<Album[]>`
+    SELECT album_id, artist_id, album_name, album_created_at, album_release_date, album_cover_path
     FROM album
     WHERE artist_id = ${artist_id} AND archive != 1;`
     // console.log(tracks);
@@ -29,3 +34,15 @@ export async function POST(req: NextRequest) {
 
     return new Response(JSON.stringify(affected));
 }
+
+
+export async function PATCH(req: Request) {
+    const data: updateFormat = await req.json();
+
+    const result = await prisma.$executeRaw`
+    UPDATE album
+    SET archive = ${data.archive}
+    WHERE album_id = ${data.album_id};
+    `;
+    return new Response(JSON.stringify(result));
+};

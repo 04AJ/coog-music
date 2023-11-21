@@ -14,12 +14,13 @@ import useCreatePlaylistModal from '@/hooks/useCreatePlaylistModal';
 import { useUser } from '@/hooks/useUser';
 
 interface playlistRequest {
-    playlistName: string,
-    listenerId: number
-
+    setUpdate: (i: number) => void;
+    update: number;
 }
 
-const CreatePlaylistModal = () => {
+const CreatePlaylistModal: React.FC<playlistRequest> = ({
+    setUpdate, update
+}) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const user = useUser();
@@ -43,6 +44,8 @@ const CreatePlaylistModal = () => {
             //reset form
             reset();
             playlistModal.onClose();
+            // window.location.href = "/";
+
         }
     }
 
@@ -62,9 +65,9 @@ const CreatePlaylistModal = () => {
 
 
             // POST REQUEST
-            axios.post('/api/playlist', {
-                playlistName: values.name,
-                listenerId: user.listenerId
+            axios.post('/api/uploadPlaylist', {
+                title: values.name,
+                listener_id: user.listenerId
 
             }
             ).then(() => {
@@ -73,7 +76,7 @@ const CreatePlaylistModal = () => {
                 toast.success('Playlist Created!')
                 reset();
                 playlistModal.onClose();
-
+                setUpdate(update + 1);
 
             })
 

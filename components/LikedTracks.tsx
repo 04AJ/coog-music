@@ -15,19 +15,28 @@ const LikedTracks = () => {
   const [likedTracks, setLikedTracks] = useState<Track[]>();
   //CAREFUL: setting state inside useEffect = infinite loop. Need to use dependency array[]
 
+
   //consume likedTracks api endpoint
   useEffect(() => {
-    axios
-      .get<Track[]>(`/api/likedTracks?user_id=${user.userId}`)
-      .then((response) => {
-        if (response.data) {
-          setLikedTracks(response.data);
-        }
-      })
-      .catch((error) => {
-        alert("error fetching data");
-      });
+
+    if (user.userRole !== 'admin') {
+      axios
+        .get<Track[]>(`/api/likedTracks?user_id=${user.userId}`)
+        .then((response) => {
+          if (response.data) {
+            setLikedTracks(response.data);
+          }
+        })
+        .catch((error) => {
+          alert("error fetching data");
+        });
+    }
+
   }, [user.userId]);
+
+  if (user.userRole === 'admin') {
+    return null;
+  }
 
   return (
     <div>
