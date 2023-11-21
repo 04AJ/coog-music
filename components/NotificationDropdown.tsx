@@ -75,8 +75,12 @@ const NotificationDropdown: React.FC<props> = ({
                         <p className="text-red-900">Notifications:</p>
                         {(notifications) ?
                             notifications.map((notification) =>
-                                <Dropdown.MenuItem key={notification.NotificationID} onSelect={() => handleSubmit(notification.NotificationID)}>
-                                    {notification.Message}
+                                <Dropdown.MenuItem key={notification.NotificationID} onSelect={() => handleSubmit(notification.NotificationID)}
+                                >
+                                    <div className={(notification.Message.substring(0, 5) === "Track") ? "text-black" : "text-black bg-red-200/100"}>
+                                        {notification.Message}
+
+                                    </div>
                                 </Dropdown.MenuItem>
                             ) : null}
 
@@ -89,4 +93,4 @@ const NotificationDropdown: React.FC<props> = ({
     );
 }
 
-export default NotificationDropdown;
+export default NotificationDropdown

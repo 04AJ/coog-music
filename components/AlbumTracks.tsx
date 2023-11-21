@@ -18,9 +18,13 @@ import RemoveButton from "./RemoveButton";
 
 interface AlbumTracksProps {
     album_id: number;
+    setUpdate: (i: number) => void;
+    update: number;
 }
 const AlbumTracks: React.FC<AlbumTracksProps> = ({
-    album_id
+    album_id,
+    setUpdate,
+    update
 }) => {
 
 
@@ -46,7 +50,7 @@ const AlbumTracks: React.FC<AlbumTracksProps> = ({
                 alert("error fetching data");
             })
 
-    }, [album_id]);
+    }, [album_id, update]);
     if (albumTracks?.length === 0) {
         return (
             <p className="mt-4 text-neutral-400">No tracks available. <br />

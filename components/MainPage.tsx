@@ -33,7 +33,6 @@ const MainPage: React.FC<MainPageProps> = ({
             <CreateAlbumModal update={update} setUpdate={setUpdate} />
             <UploadTrackModal update={update} setUpdate={setUpdate} />
 
-            State: {update}
             <Logout update={update} setUpdate={setUpdate} />
 
 

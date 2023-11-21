@@ -248,7 +248,7 @@ export default function UserProfilePage() {
 
                 {(user.userRole === 'admin') ? <UpdateProfileButton /> : null}
                 <p className="text-3xl font-bold">User Info</p>
-                {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={false} /> : null}
+                {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={false} update={update} setUpdate={setUpdate} /> : null}
 
 
             </div >

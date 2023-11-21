@@ -78,7 +78,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
             let genre = values.genre;
 
             if (updateModal.type !== 'track') {
-                genre = '';
+                genre = 'temp';
             }
 
             if (!title) {

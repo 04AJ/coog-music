@@ -70,7 +70,6 @@ export default function ProfilePage() {
             <UpdateModal isHomePage={true} update={update} setUpdate={setUpdate} />
             <DeleteModal isHomePage={true} update={update} setUpdate={setUpdate} />
 
-            State: {update}
             {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={true} setUpdate={setUpdate} setUserDetails={setUserDetails} update={update} /> : null}
 
             <div className="w-full h-full mb-4 flex-col items-center">

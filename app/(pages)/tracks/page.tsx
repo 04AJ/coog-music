@@ -116,9 +116,9 @@ export default function TracksPage() {
                 </div>
 
                 {(user.activeTracksType === 'album') ?
-                    <AlbumTracks album_id={user.activeAlbum.album_id} />
+                    <AlbumTracks album_id={user.activeAlbum.album_id} update={update} setUpdate={setUpdate} />
                     :
-                    <PlaylistTracks playlist={user.activePlaylist} />
+                    <PlaylistTracks playlist={user.activePlaylist} update={update} setUpdate={setUpdate} />
 
                 }
 

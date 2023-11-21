@@ -118,11 +118,14 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                     reset();
                     deleteModal.onClose();
                     if (deleteModal.isAdmin) {
-                        window.location.href = "/userProfile";
+                        // window.location.href = "/userProfile";
+                        router.push("/userProfile");
 
                     }
                     else {
-                        window.location.href = "/profile";
+                        // window.location.href = "/profile";
+                        router.push("/profile");
+
 
                     }
 
@@ -145,11 +148,14 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                     reset();
                     deleteModal.onClose();
                     if (deleteModal.isAdmin) {
-                        window.location.href = "/userProfile";
+                        // window.location.href = "/userProfile";
+                        router.push("/userProfile");
+
 
                     }
                     else {
-                        window.location.href = "/profile";
+                        // window.location.href = "/profile";
+                        router.push("/profile");
 
                     }
 
@@ -169,7 +175,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                         reset();
                         deleteModal.onClose();
 
-                        window.location.href = "/tracks";
+                        // window.location.href = "/tracks";
+                        setUpdate(update + 1);
+
 
 
                     })
@@ -187,7 +195,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                         reset();
                         deleteModal.onClose();
 
-                        window.location.href = "/tracks";
+                        // window.location.href = "/tracks";
+                        setUpdate(update + 1);
+
 
 
                     })
