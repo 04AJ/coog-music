@@ -81,7 +81,6 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                 axios.patch('/api/createdTracks', {
                     track_id: deleteModal.id,
                     archive: 1
-
                 }
                 ).then(() => {
                     router.refresh();
@@ -96,7 +95,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
 
                     }
                     else {
-                        window.location.href = "/search";
+                        // window.location.href = "/search";
+                        setUpdate(update + 1);
+
 
                     }
 
@@ -206,7 +207,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                     toast.success('Deleted User')
                     reset();
                     deleteModal.onClose();
-                    window.location.href = "/explore";
+                    // window.location.href = "/explore";
+                    setUpdate(update + 1);
+
 
 
 

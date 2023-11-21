@@ -24,10 +24,8 @@ export default function TracksPage() {
     const player = usePlayer();
     const router = useRouter();
 
-    const [isFollowing, setIsFollowing] = useState(false);
-    const [streamCount, setStreamCount] = useState(0);
-    const [followers, setFollowers] = useState<SuperUser[]>();
 
+    const [update, setUpdate] = useState(0);
 
     //test if track has been liked already
     //get request
@@ -50,8 +48,8 @@ export default function TracksPage() {
                 player.activeId && 'h-[calc(100%-80px)]'
             )}
         >
-            <UpdateModal isHomePage={false} />
-            <DeleteModal isHomePage={false} />
+            <UpdateModal isHomePage={false} update={update} setUpdate={setUpdate} />
+            <DeleteModal isHomePage={false} update={update} setUpdate={setUpdate} />
             <div className="w-full h-full mb-4 flex-col items-center">
 
                 <button
