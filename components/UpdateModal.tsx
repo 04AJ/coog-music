@@ -105,7 +105,8 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
 
                         }
                         else {
-                            window.location.href = "/search";
+                            // window.location.href = "/search";
+                            setUpdate(update + 1);
 
                         }
 

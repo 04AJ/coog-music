@@ -8,7 +8,17 @@ import useDebounce from "@/hooks/useDebounce";
 
 import Input from "./Input";
 
-const SearchInput = () => {
+interface props {
+    setUpdate: (i: number) => void,
+    update: number
+
+}
+
+const SearchInput: React.FC<props> = ({
+    setUpdate,
+    update
+
+}) => {
     const router = useRouter();
     const [value, setValue] = useState<string>('');
     const debouncedValue = useDebounce<string>(value, 500);
@@ -24,7 +34,7 @@ const SearchInput = () => {
         });
 
         router.push(url);
-    }, [debouncedValue, router]);
+    }, [debouncedValue, router, update]);
 
     return (
 

@@ -14,11 +14,15 @@ import Carousel from "./Carousel";
 
 interface UserDetailsProps {
     userDetails: User | SuperUser,
-    profilePage: boolean
+    profilePage: boolean,
+    setUpdate: (i: number) => void,
+    update: number
 }
 const UserDetails: React.FC<UserDetailsProps> = ({
     userDetails,
-    profilePage
+    profilePage,
+    setUpdate,
+    update
 }) => {
 
     const user = useUser();
@@ -131,7 +135,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
         }
 
-    }, [user.userId, user.listenerId, user.userRole, profilePage, user.activeUser.is_artist, user.activeUser.listener_id])
+    }, [user.userId, user.listenerId, user.userRole, profilePage, user.activeUser.is_artist, user.activeUser.listener_id, update])
 
 
     return (
