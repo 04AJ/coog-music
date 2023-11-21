@@ -38,17 +38,17 @@ class PopularTracks extends Component{
     render(){
         return(
             <div>
-                <h1>popular</h1>
-                <div className="flex-1 items-center text-center border rounded w-auto py-2 px-2">
+                <h1>Popular Tracks Based On Artist</h1>
+                <div className="flex-1 items-center text-center border border-slate-600 bg-neutral-900 rounded w-auto p-3">
                     <form onSubmit={this.handleSubmit} className="flex-1 items-center">
-                        <label className="form-label">Gender:</label>
+                        <label className="form-label">Artist Gender:</label>
                         <select className="ml-2 mr-4" name="gender" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
                             <option value="1">Male</option>
                             <option value="2">Female</option>
                         </select>
 
-                        <label className="form-label">Ethnicity:</label>
+                        <label className="form-label">Artist Ethnicity:</label>
                         <select className="ml-2 mr-4" name="ethnicity" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
                             <option value="1">Asian</option>
@@ -57,7 +57,7 @@ class PopularTracks extends Component{
                             <option value="4">White</option>
                         </select>
 
-                        <label className="form-label">Genre:</label>
+                        <label className="form-label">Track Genre:</label>
                         <select className="ml-2 mr-4" name="genre" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
                             <option value="1">Hip Hop</option>
@@ -77,7 +77,9 @@ class PopularTracks extends Component{
                         </div>
                     </form>
                 </div>
-                {(this.state.data.length) ? <PopularTracksTable data ={this.state.data}/> : <div></div>}
+                <div className='flex justify-center space-x-8 mt-6'>
+                    {(this.state.data.length) ? <PopularTracksTable data ={this.state.data}/> : <div></div>}
+                </div>
             </div>
         );
     }

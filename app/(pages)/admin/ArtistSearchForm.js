@@ -58,7 +58,7 @@ class ArtistSearchForm extends React.Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit} className="w-96">
-                    <h1>Artist ID Search</h1>
+                    <h1 className='text-center'>Search for Artist</h1>
                     <div className="flex-1 items-center text-center border rounded py-2">
                         {/* <select onChange={this.handleChange} className="bg-white text-black mr-1 py-1 px-2" name="passedName">
                             {this.state.artists.map((artist) => (
