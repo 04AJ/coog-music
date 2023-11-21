@@ -6,6 +6,9 @@ import { Album, Track } from "@/types";
 import PlayButton from "./PlayButton";
 import AlbumDropdown from "./AlbumDropdown";
 import { useUser } from "@/hooks/useUser";
+import UpdateModal from "./UpdateModal";
+import UpdateButton from "./UpdateButton";
+import DeleteButton from "./DeleteButton";
 
 
 interface TrackItemProps {
@@ -23,7 +26,6 @@ const TrackItem: React.FC<TrackItemProps> = ({
     const user = useUser();
     return (
         <div
-            onClick={() => onClick(data.track_id)}
             className="
         relative 
         group 
@@ -42,6 +44,8 @@ const TrackItem: React.FC<TrackItemProps> = ({
       "
         >
             <div
+                onClick={() => onClick(data.track_id)}
+
                 className="
           relative 
           aspect-square 
@@ -85,6 +89,8 @@ const TrackItem: React.FC<TrackItemProps> = ({
                 </div>
             </div>
             <div
+                onClick={() => onClick(data.track_id)}
+
                 className="
           absolute 
           bottom-24 
@@ -99,7 +105,7 @@ const TrackItem: React.FC<TrackItemProps> = ({
                 < div
                     className="
             absolute
-            bottom-1
+            bottom-0
             right-1
             "
                 >
@@ -107,6 +113,36 @@ const TrackItem: React.FC<TrackItemProps> = ({
 
                 </div> : null
             }
+
+            {(user.userRole === 'admin' || (user.userRole === 'artist' && data.artist_id === user.artistId)) ?
+
+                < div
+                    className="
+absolute
+bottom-0
+right-8
+"
+                >
+
+                    <UpdateButton id={data.track_id} name={data.track_name} type={"track"} genre={data.genre_id} />
+
+                </div> : null
+            }
+            {(user.userRole === 'admin' || (user.userRole === 'artist' && data.artist_id === user.artistId)) ?
+
+                < div
+                    className="
+absolute
+bottom-0
+right-15
+"
+                >
+
+                    <DeleteButton id={data.track_id} type={"track"} name={data.track_name} />
+
+                </div> : null
+            }
+
 
         </div >
     );

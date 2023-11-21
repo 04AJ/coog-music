@@ -6,6 +6,8 @@ import useOnPlay from "@/hooks/useOnPlay";
 import usePlayer from "@/hooks/usePlayer";
 import Image from "next/image";
 import axios from 'axios';
+import UpdateModal from "./UpdateModal";
+import { useState } from "react";
 
 
 interface CarouselProps {
@@ -25,7 +27,9 @@ const Carousel: React.FC<CarouselProps> = ({
         return (
             <div className="mt-4 text-neutral-400">No tracks available.</div>
         )
-    }
+    };
+
+
     return (
         <div
             className="
@@ -40,6 +44,7 @@ const Carousel: React.FC<CarouselProps> = ({
                 mt-4
               "
         >
+
             {tracks.map((item) => (
 
 

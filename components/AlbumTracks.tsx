@@ -12,14 +12,19 @@ import PlaylistDropdown from "./PlaylistDropdown";
 import LikeButton from "./LikeButton";
 import useOnPlay from "@/hooks/useOnPlay";
 import usePlayer from "@/hooks/usePlayer";
+import RemoveButton from "./RemoveButton";
 
 
 
 interface AlbumTracksProps {
     album_id: number;
+    setUpdate: (i: number) => void;
+    update: number;
 }
 const AlbumTracks: React.FC<AlbumTracksProps> = ({
-    album_id
+    album_id,
+    setUpdate,
+    update
 }) => {
 
 
@@ -45,7 +50,13 @@ const AlbumTracks: React.FC<AlbumTracksProps> = ({
                 alert("error fetching data");
             })
 
-    }, [album_id]);
+    }, [album_id, update]);
+    if (albumTracks?.length === 0) {
+        return (
+            <p className="mt-4 text-neutral-400">No tracks available. <br />
+                To add tracks to your album, go the Home page and click the + button next to tracks you want to add to this album.</p >
+        )
+    };
 
 
     return (
@@ -64,7 +75,14 @@ const AlbumTracks: React.FC<AlbumTracksProps> = ({
                                 data={track}
                             />
                         </div>
-                        <LikeButton trackId={track.track_id} />
+                        {(user.userRole === 'admin' || (user.artistId === track.artist_id)) ?
+                            <RemoveButton id={track.track_id} id2={album_id} type={'track from album'} name={track.track_name} />
+                            :
+
+                            <LikeButton trackId={track.track_id} />
+
+
+                        }
 
                     </div>
                 ))

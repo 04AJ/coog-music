@@ -112,10 +112,10 @@ export default function LoginPage() {
 
     try {
       const sigupResponse = await axios.post("/api/signup", formData);
-      console.log(sigupResponse);
+      //console.log(sigupResponse);
 
       const userResponse = await axios.get(`/api/signup?email=${formData.email}`);
-      console.log("userresponse: ", userResponse);
+      //console.log("userresponse: ", userResponse);
       const userID: number = userResponse.data[0].user_id;
       if (userID) {
         user.setUserId(userID);
@@ -145,7 +145,7 @@ export default function LoginPage() {
 
     try {
       const userResponse = await axios.get(`/api/signup?email=${formData.email}`);
-      console.log(userResponse);
+      //console.log(userResponse);
       const user_id = userResponse.data[0].user_id;
       const is_artist = userResponse.data[0].is_artist;
       const is_admin = userResponse.data[0].is_admin;
@@ -159,7 +159,7 @@ export default function LoginPage() {
       }
       else if (is_admin === 1) {
         user.setUserRole("admin");
-        console.log('admin!')
+        //console.log('admin!')
 
         //admin logic
       }
@@ -173,6 +173,7 @@ export default function LoginPage() {
       router.push('/');
     } catch (err) {
       console.error("Error logging in USER", err);
+      alert("USER DOES NOT EXIST");
       user.setUserRole("na");
 
     }

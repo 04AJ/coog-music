@@ -28,7 +28,7 @@ const UploadTrackButton: React.FC = () => {
     }
 
 
-    if (user.userRole === 'listener') {
+    if (user.userRole === 'listener' || user.userRole === 'admin') {
         return null;
 
     }

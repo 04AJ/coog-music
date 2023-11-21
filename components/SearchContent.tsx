@@ -8,6 +8,8 @@ import PlaylistDropdown from "./PlaylistDropdown";
 import { useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
 import axios from "axios";
+import DeleteButton from "./DeleteButton";
+import UpdateButton from "./UpdateButton";
 
 
 
@@ -62,13 +64,13 @@ const SearchContent: React.FC<SearchContentProps> = ({
           text-neutral-400
         "
             >
-                No songs found.
+                No tracks found.
             </div>
         )
     }
 
     return (
-        <div className="flex flex-col gap-y-2 w-full px-6">
+        <div className="flex flex-col gap-y-2 w-full px-6 z-0">
             {tracks.map((track: Track) => (
                 <div
                     key={track.track_id}
@@ -81,7 +83,14 @@ const SearchContent: React.FC<SearchContentProps> = ({
                         />
                     </div>
                     {(user.userRole === "listener" && playlists) ? <PlaylistDropdown playlists={playlists} track_id={track.track_id} /> : null}
-                    <LikeButton trackId={track.track_id} />
+                    {(user.userRole === 'admin') ?
+                        <div className="flex flex-row">
+                            <UpdateButton id={track.track_id} name={track.track_name} type={"track"} genre={track.genre_id} />
+
+                            <DeleteButton type={"track"} id={track.track_id} name={track.track_name} />
+
+                        </div>
+                        : <LikeButton trackId={track.track_id} />}
 
                 </div>
             ))}

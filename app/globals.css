@@ -20,6 +20,6 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-* {
+div {
   color: #b6b6b6
 }
