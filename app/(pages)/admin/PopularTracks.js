@@ -38,17 +38,17 @@ class PopularTracks extends Component{
     render(){
         return(
             <div>
-                <h1>popular</h1>
+                <h1>Popular Tracks Based On Artist</h1>
                 <div className="flex-1 items-center text-center border rounded w-auto py-2 px-2">
                     <form onSubmit={this.handleSubmit} className="flex-1 items-center">
-                        <label className="form-label">Gender:</label>
+                        <label className="form-label">Artist Gender:</label>
                         <select className="ml-2 mr-4" name="gender" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
                             <option value="1">Male</option>
                             <option value="2">Female</option>
                         </select>
 
-                        <label className="form-label">Ethnicity:</label>
+                        <label className="form-label">Artist Ethnicity:</label>
                         <select className="ml-2 mr-4" name="ethnicity" onChange={this.handleChange} defaultValue="0">
                             <option value="0">All</option>
                             <option value="1">Asian</option>

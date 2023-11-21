@@ -79,7 +79,7 @@ class ListenerHabits extends Component{
     render(){
         return(
             <div>
-                <h1>listener habits</h1>
+                <h1>Top Genres/Artists Based On User</h1>
                 <div className="flex-1 items-center text-center border rounded w-auto py-2 px-2">
                     <form onSubmit={this.handleSubmit} className="flex-1 items-center">
                         <label className="form-label">Gender:</label>
