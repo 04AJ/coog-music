@@ -86,7 +86,7 @@ class UserDemographics extends Component{
                         <input onChange={this.handleChange} name="passedID" className="relative bg-white text-black mr-1 py-1 px-2 w-80" type="text" placeholder="Artist Email"></input>
                         <div className="flex flex-row space-x-4 justify-center">
                             <div>
-                                <label htmlFor='showRace'>Race </label>
+                                <label htmlFor='showRace'>Ethnicity </label>
                                 <input id="showRace" type="checkbox" onChange={this.handleToggle} name="showRace" checked={this.state.showRace}/>
                             </div>
                             <div>

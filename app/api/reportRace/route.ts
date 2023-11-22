@@ -11,12 +11,12 @@ export async function GET(req: NextRequest) {
     const artist_id = searchParams.get('artist_id');
     const query = `${artist_id}`;
     const race = await prisma.$queryRaw<User[]>`
-        SELECT race_name, COUNT(*) AS Total , ((COUNT(*) / (SELECT COUNT(*)
-                                                            FROM artist as A, race as R, user as U, listener_follows_artists as LFA, listener as L
-                                                            WHERE A.artist_email = ${query} AND LFA.artist_id = A.artist_id AND U.user_id = L.user_id AND LFA.listener_id = L.listener_id AND U.race_id = R.race_id)) * 100) AS PERCENT
-        FROM artist as A, race as R, user as U, listener_follows_artists as LFA, listener as L
-        WHERE A.artist_email = ${query} AND LFA.artist_id = A.artist_id AND U.user_id = L.user_id AND LFA.listener_id = L.listener_id AND U.race_id = R.race_id
-        GROUP BY race_name;`;
+        SELECT ethnicity_name, COUNT(*) AS Total , ((COUNT(*) / (SELECT COUNT(*)
+                                                            FROM artist as A, ethnicity as E, user as U, listener_follows_artists as LFA, listener as L
+                                                            WHERE A.artist_email = ${query} AND LFA.artist_id = A.artist_id AND U.user_id = L.user_id AND LFA.listener_id = L.listener_id AND U.ethnicity_id = E.ethnicity_id)) * 100) AS PERCENT
+        FROM artist as A, ethnicity as E, user as U, listener_follows_artists as LFA, listener as L
+        WHERE A.artist_email = ${query} AND LFA.artist_id = A.artist_id AND U.user_id = L.user_id AND LFA.listener_id = L.listener_id AND U.ethnicity_id = E.ethnicity_id
+        GROUP BY ethnicity_name;`;
     const result = JSON.parse(JSON.stringify(race, (key, value) =>
         typeof value === 'bigint'
             ? value.toString()
