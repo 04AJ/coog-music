@@ -9,12 +9,13 @@ class ListenerHabits extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleHide = this.handleHide.bind(this);
+        this.Gend = React.createRef();
     }
 
     async handleSubmit(e){
         e.preventDefault(); 
         const state = this.state;
-
+        this.Gend.current = state.gender;
         let ageOne, ageTwo;
         switch(state.ageGroup){
             case '0':
@@ -115,7 +116,7 @@ class ListenerHabits extends Component{
                 </div>
                 <div className="flex mb-4 justify-center space-x-8 mt-6 w-auto">
                     <div className='w-1/4'>{(this.state.genreData.length) ? <ListenerHabitsGenreTable data ={this.state.genreData}/> : <div></div>}</div>
-                    <div className='w-3/4'>{(this.state.artistData.length) ? <ListenerHabitsArtistTable className='w-3/4' data ={this.state.artistData}/> : <div></div>}</div>
+                    <div className='w-3/4'>{(this.state.artistData.length) ? <ListenerHabitsArtistTable className='w-3/4' data={this.state.artistData}/> : <div></div>}</div>
                 </div>
             </div>
         );

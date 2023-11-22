@@ -32,19 +32,19 @@ export async function GET(req: NextRequest) {
     let users;
     if(artistsOnly){
         users = await prisma.$queryRaw<User[]>`
-            Select user_name, user_id, join_date, is_artist
+            Select user_name, user_id, email, join_date, is_artist
             FROM user 
             WHERE join_date >= ${From} AND join_date <= ${To} AND is_artist = 1
             group by user_name, user_id, join_date;`;
     }else if(listenersOnly){ //wow this is so shit, but idc
         users = await prisma.$queryRaw<User[]>`
-            Select user_name, user_id, join_date, is_artist
+            Select user_name, email, user_id, join_date, is_artist
             FROM user 
             WHERE join_date >= ${From} AND join_date <= ${To} AND (is_artist = 0 OR is_artist IS NULL)
             group by user_name, user_id, join_date;`;
     } else {
         users = await prisma.$queryRaw<User[]>`
-        Select user_name, user_id, join_date, is_artist
+        Select user_name, email, user_id, join_date, is_artist
         FROM user 
         WHERE join_date >= ${From} AND join_date <= ${To}
         group by user_name, user_id, join_date;`;

@@ -29,7 +29,9 @@ export async function GET(req: NextRequest) {
       and uu.ethnicity_id in (${ethnicity}) and YEAR(uu.birth_date) between (YEAR(CURDATE())-${ageTwo}) and (YEAR(CURDATE())-${ageOne})
       and ua.ethnicity_id = e.ethnicity_id and ua.gender_id = g.gender_id
       and uu.gender_id in (${gender})
-  group by artist_name, age, ethn, gender;`
+      and uu.archive = 0
+  group by artist_name, age, ethn, gender
+  order by likes desc;`
     const result = 
         JSON.parse(JSON.stringify(trackRankings, (key, value) =>
             typeof value === 'bigint'

@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
                                                             FROM artist as A, ethnicity as E, user as U, listener_follows_artists as LFA, listener as L
                                                             WHERE A.artist_email = ${query} AND LFA.artist_id = A.artist_id AND U.user_id = L.user_id AND LFA.listener_id = L.listener_id AND U.ethnicity_id = E.ethnicity_id)) * 100) AS PERCENT
         FROM artist as A, ethnicity as E, user as U, listener_follows_artists as LFA, listener as L
-        WHERE A.artist_email = ${query} AND LFA.artist_id = A.artist_id AND U.user_id = L.user_id AND LFA.listener_id = L.listener_id AND U.ethnicity_id = E.ethnicity_id
+        WHERE A.artist_email = ${query} AND LFA.artist_id = A.artist_id AND U.user_id = L.user_id AND LFA.listener_id = L.listener_id AND U.ethnicity_id = E.ethnicity_id AND U.archive = 0
         GROUP BY ethnicity_name;`;
     const result = JSON.parse(JSON.stringify(race, (key, value) =>
         typeof value === 'bigint'
