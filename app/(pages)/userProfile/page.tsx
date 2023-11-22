@@ -116,7 +116,7 @@ export default function UserProfilePage() {
         }
 
 
-    }, [user.userId, user.activeUser, user.activeUser.is_artist, user.activeUser.listener_id, user.listenerId, user.userRole])
+    }, [user.userId, user.activeUser, user.activeUser.is_artist, user.activeUser.listener_id, user.listenerId, user.userRole, update])
 
 
 
@@ -127,7 +127,7 @@ export default function UserProfilePage() {
             if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
                 axios.post(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
                     .then(() => {
-
+                        setUpdate(update + 1);
                         toast.success("Following!");
 
                         setIsFollowing(true);
@@ -138,7 +138,7 @@ export default function UserProfilePage() {
             else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
                 axios.post(`/api/follow?listener_id=${user.listenerId}&artist_id=${user.activeUser.artist_id}`)
                     .then(() => {
-
+                        setUpdate(update + 1)
                         toast.success("Following!");
 
                         setIsFollowing(true);
@@ -153,7 +153,7 @@ export default function UserProfilePage() {
             if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
                 axios.delete(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
                     .then(() => {
-
+                        setUpdate(update + 1);
                         toast.success("Unfollowed");
 
                         setIsFollowing(false);
@@ -164,7 +164,7 @@ export default function UserProfilePage() {
             else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
                 axios.delete(`/api/follow?listener_id=${user.listenerId}&artist_id=${user.activeUser.artist_id}`)
                     .then(() => {
-
+                        setUpdate(update + 1);
                         toast.success("Unfollowed");
 
                         setIsFollowing(false);
@@ -184,8 +184,7 @@ export default function UserProfilePage() {
         bg-gradient-to-b 
         from-purple-800 to-30%
         p-6
-          `,
-                player.activeId && 'h-[calc(100%-80px)]'
+          `
             )}
         >
             {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={false} setUserDetails={setUserDetails} update={update} setUpdate={setUpdate} /> : null}
@@ -252,6 +251,7 @@ export default function UserProfilePage() {
 
 
             </div >
+            <div className='h-[80px]'></div>
 
         </div >
     )
