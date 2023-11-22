@@ -53,6 +53,8 @@ const MainExplorePage: React.FC<MainPageProps> = ({
                 </div>
 
             </div>
+            <div className='h-[80px]'></div>
+
         </div>
     )
 }

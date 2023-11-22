@@ -63,8 +63,7 @@ export default function ProfilePage() {
             bg-gradient-to-b 
             from-red-800 to-30%
             p-6
-          `,
-                player.activeId && 'h-[calc(100%-80px)]'
+          `
             )}
         >
             <UpdateModal isHomePage={true} update={update} setUpdate={setUpdate} />
@@ -90,6 +89,7 @@ export default function ProfilePage() {
 
 
 
+            <div className='h-[80px]'></div>
 
 
         </div >

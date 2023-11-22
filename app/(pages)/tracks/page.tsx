@@ -44,8 +44,7 @@ export default function TracksPage() {
         bg-gradient-to-b 
         from-indigo-800 to-30%
         p-6
-          `,
-                player.activeId && 'h-[calc(100%-80px)]'
+          `
             )}
         >
             <UpdateModal isHomePage={false} update={update} setUpdate={setUpdate} />
@@ -123,6 +122,8 @@ export default function TracksPage() {
                 }
 
             </div >
+            <div className='h-[80px]'></div>
+
 
         </div >
     )

@@ -124,12 +124,26 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         updateModal.onClose();
                         if (updateModal.isAdmin) {
                             // window.location.href = "/userProfile";
-                            router.push("/userProfile");
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/userProfile");
+
+                            }
 
                         }
                         else {
-                            router.push("/profile");
                             // window.location.href = "/profile";
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/profile");
+
+                            }
 
                         }
 
@@ -148,12 +162,26 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         updateModal.onClose();
                         if (updateModal.isAdmin) {
                             // window.location.href = "/userProfile";
-                            router.push("/userProfile");
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/userProfile");
+
+                            }
 
                         }
                         else {
-                            router.push("/profile");
                             // window.location.href = "/profile";
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/profile");
+
+                            }
 
                         }
 
