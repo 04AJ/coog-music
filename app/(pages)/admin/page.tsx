@@ -51,7 +51,7 @@ export default function AdminPage() {
     }
     
     return (
-        <div>
+        <div  className=" h-screen bg-neutral-900/80">
             <Header title="Admin Center" description=""></Header>
             {/* <div className="my-11">
                 <ArtistSearchForm/>
