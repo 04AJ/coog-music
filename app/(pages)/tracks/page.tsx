@@ -24,10 +24,10 @@ export default function TracksPage() {
     const player = usePlayer();
     const router = useRouter();
 
-    const [isFollowing, setIsFollowing] = useState(false);
-    const [streamCount, setStreamCount] = useState(0);
-    const [followers, setFollowers] = useState<SuperUser[]>();
-
+    if (!user.userId) {
+        router.push("/login");
+    }
+    const [update, setUpdate] = useState(0);
 
     //test if track has been liked already
     //get request
@@ -46,12 +46,11 @@ export default function TracksPage() {
         bg-gradient-to-b 
         from-indigo-800 to-30%
         p-6
-          `,
-                player.activeId && 'h-[calc(100%-80px)]'
+          `
             )}
         >
-            <UpdateModal isHomePage={false} />
-            <DeleteModal isHomePage={false} />
+            <UpdateModal isHomePage={false} update={update} setUpdate={setUpdate} />
+            <DeleteModal isHomePage={false} update={update} setUpdate={setUpdate} />
             <div className="w-full h-full mb-4 flex-col items-center">
 
                 <button
@@ -92,7 +91,11 @@ export default function TracksPage() {
                             <div className="flex flex-row">
                                 {user.activePlaylist.playlist_name}
                                 {(user.userRole === 'admin' || (user.activePlaylist.listener_id === user.listenerId)) ?
-                                    <UpdateButton name={user.activePlaylist.playlist_name} type={"playlist"} genre={undefined} id={user.activePlaylist.playlist_id} />
+                                    <div className="flex flex-row">
+                                        <UpdateButton name={user.activePlaylist.playlist_name} type={"playlist"} genre={undefined} id={user.activePlaylist.playlist_id} />
+                                        <DeleteButton type={"playlist"} id={user.activePlaylist.playlist_id} name={user.activePlaylist.playlist_name} />
+
+                                    </div>
                                     : null
                                 }
 
@@ -114,13 +117,15 @@ export default function TracksPage() {
                 </div>
 
                 {(user.activeTracksType === 'album') ?
-                    <AlbumTracks album_id={user.activeAlbum.album_id} />
+                    <AlbumTracks album_id={user.activeAlbum.album_id} update={update} setUpdate={setUpdate} />
                     :
-                    <PlaylistTracks playlist={user.activePlaylist} />
+                    <PlaylistTracks playlist={user.activePlaylist} update={update} setUpdate={setUpdate} />
 
                 }
 
             </div >
+            <div className='h-[80px]'></div>
+
 
         </div >
     )

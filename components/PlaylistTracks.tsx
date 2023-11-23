@@ -15,9 +15,13 @@ import RemoveButton from "./RemoveButton";
 
 interface PlaylistTrackProps {
     playlist: Playlist;
+    setUpdate: (i: number) => void;
+    update: number;
 }
 const PlaylistTracks: React.FC<PlaylistTrackProps> = ({
-    playlist
+    playlist,
+    setUpdate,
+    update
 }) => {
 
 
@@ -44,7 +48,7 @@ const PlaylistTracks: React.FC<PlaylistTrackProps> = ({
                 alert("error fetching data");
             })
 
-    }, [playlist.playlist_id]);
+    }, [playlist.playlist_id, update]);
 
     if (playlistTracks?.length === 0) {
         return (

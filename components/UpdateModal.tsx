@@ -22,10 +22,12 @@ import { useUpdateModal } from '@/hooks/useUpdateModal.tsx';
 
 interface UpdateModalProps {
     isHomePage: Boolean
+    setUpdate: (i: number) => void;
+    update: number;
 }
 
 const UpdateModal: React.FC<UpdateModalProps> = ({
-    isHomePage
+    isHomePage, setUpdate, update
 }) => {
 
 
@@ -34,7 +36,18 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
     const updateModal = useUpdateModal();
 
 
-
+    const genreMap = new Map([
+        [1, "hiphop"],
+        [2, "pop"],
+        [3, "country"],
+        [4, "rock"],
+        [5, "indie"],
+        [6, "r&b"],
+        [7, "jazz"],
+        [8, "metal"],
+        [9, "classical"],
+        [10, "funk"],
+    ])
 
 
     //custom hook to change modal visibility  state
@@ -45,11 +58,11 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
         handleSubmit,
         control,
         reset } = useForm<FieldValues>({
-            // defaultValues: {
-            //     title: '',
-            //     genre: '',
+            defaultValues: {
+                // title: updateModal.name,
+                genre: 11,
 
-            // }
+            }
         })
 
 
@@ -75,12 +88,17 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
             const title = values.title;
             let genre = values.genre;
 
+
             if (updateModal.type !== 'track') {
-                genre = '';
+                genre = 'temp';
             }
 
             if (!title) {
-                toast.error('Missing fields');
+                toast.error('Missing updated title');
+                return;
+            }
+            if (!genre || genre == 11) {
+                toast.error('Missing updated genre');
                 return;
             }
 
@@ -94,11 +112,13 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         reset();
                         updateModal.onClose();
                         if (isHomePage) {
-                            window.location.href = "/";
+                            // window.location.href = "/";
+                            setUpdate(update + 1);
 
                         }
                         else {
-                            window.location.href = "/search";
+                            // window.location.href = "/search";
+                            setUpdate(update + 1);
 
                         }
 
@@ -115,11 +135,27 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         reset();
                         updateModal.onClose();
                         if (updateModal.isAdmin) {
-                            window.location.href = "/userProfile";
+                            // window.location.href = "/userProfile";
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/userProfile");
+
+                            }
 
                         }
                         else {
-                            window.location.href = "/profile";
+                            // window.location.href = "/profile";
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/profile");
+
+                            }
 
                         }
 
@@ -137,11 +173,27 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         reset();
                         updateModal.onClose();
                         if (updateModal.isAdmin) {
-                            window.location.href = "/userProfile";
+                            // window.location.href = "/userProfile";
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/userProfile");
+
+                            }
 
                         }
                         else {
-                            window.location.href = "/profile";
+                            // window.location.href = "/profile";
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/profile");
+
+                            }
 
                         }
 
@@ -175,6 +227,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
 
                 >
                     <div>
+                        {(updateModal.genre) ? <div className='mb-2'>Current Genre: {genreMap.get(updateModal.genre)}</div> : null}
                         <Input
                             className='mb-1'
                             id="title"
@@ -190,13 +243,13 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
 
                                     render={({ field }) => (
                                         <NativeSelect {...field}
-                                            defaultValue={updateModal.genre}
                                             sx={{ color: 'grey' }}
                                             inputProps={{
                                                 name: 'genre',
                                                 id: 'uncontrolled-native',
                                             }}
                                         >
+                                            <option value={11} style={{ color: 'black' }}>Select genre</option>
                                             <option value={1} style={{ color: 'black' }}>hiphop</option>
                                             <option value={2} style={{ color: 'black' }}>pop</option>
                                             <option value={3} style={{ color: 'black' }}>country</option>

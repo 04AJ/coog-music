@@ -8,7 +8,14 @@ import { useEffect, useState } from "react";
 import { Track } from "@/types";
 import Carousel from "./Carousel";
 
-const LikedTracks = () => {
+interface props {
+  setUpdate: (i: number) => void;
+  update: number;
+}
+
+const LikedTracks: React.FC<props> = ({
+  setUpdate, update
+}) => {
   const user = useUser();
   const router = useRouter();
 
@@ -32,7 +39,7 @@ const LikedTracks = () => {
         });
     }
 
-  }, [user.userId]);
+  }, [user.userId, update]);
 
   if (user.userRole === 'admin') {
     return null;

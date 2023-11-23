@@ -7,9 +7,8 @@ const prisma = new PrismaClient();
 
 
 export async function getTracks(): Promise<Track[]> {
-
   const tracks = await prisma.$queryRaw`
-  SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
+  SELECT track_id, genre_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
   FROM track, artist 
   WHERE track.artist_id = artist.artist_id AND (track.archive != 1);`
   // console.log(tracks);
@@ -33,7 +32,7 @@ export async function createUser() {
 export async function getTrackById(id?: number): Promise<Track[]> {
 
   const tracks = await prisma.$queryRaw`
-  SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
+  SELECT track_id, genre_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
   FROM track, artist 
   WHERE track.artist_id = artist.artist_id AND track_id = ${id};`
   // console.log(tracks);
@@ -48,7 +47,7 @@ export async function getTracksByTitle(title: string): Promise<Track[]> {
 
   const query = `%${title}%`;
   const tracks = await prisma.$queryRaw`
-  SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
+  SELECT track_id, genre_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
   FROM track, artist 
   WHERE track.artist_id = artist.artist_id AND (track_name LIKE ${query} OR artist_name LIKE ${query}) AND track.archive = 0;`
   // console.log(tracks);
@@ -68,7 +67,7 @@ export async function getListenerByName(name: string): Promise<SuperUser[]> {
   SELECT user.user_id, user_name, password, birth_date, join_date, email, race_name, ethnicity_name, gender_name, listener_id, is_artist
   FROM user, listener, race, ethnicity, gender
   WHERE user_name LIKE ${query} AND (user.user_id = listener.user_id )
-  AND user.gender_id = gender.gender_id AND user.ethnicity_id = ethnicity.ethnicity_id AND user.race_id = race.race_id AND  user.is_artist = 0 AND user.is_admin = 0`
+  AND user.gender_id = gender.gender_id AND user.ethnicity_id = ethnicity.ethnicity_id AND user.race_id = race.race_id AND  user.is_artist = 0 AND user.is_admin = 0 AND user.archive = 0`
   // console.log(users);
   // return new Response(JSON.stringify(tracks)) 
 
@@ -82,7 +81,7 @@ export async function getArtistByName(name: string): Promise<SuperUser[]> {
   SELECT user.user_id, user_name, password, birth_date, join_date, email, race_name, ethnicity_name, gender_name, artist_id, is_artist
   FROM user, artist, race, ethnicity, gender
   WHERE user_name LIKE ${query} AND (user.user_id = artist.user_id )
-  AND user.gender_id = gender.gender_id AND user.ethnicity_id = ethnicity.ethnicity_id AND user.race_id = race.race_id AND user.is_admin = 0`
+  AND user.gender_id = gender.gender_id AND user.ethnicity_id = ethnicity.ethnicity_id AND user.race_id = race.race_id AND user.is_admin = 0 AND user.archive = 0`
   // console.log(users);
   // return new Response(JSON.stringify(tracks)) 
 
@@ -95,7 +94,7 @@ export async function getUserId(email: string, password: string): Promise<number
 
 export async function getLikedTracks(user_id: string): Promise<Track[]> {
   const tracks = await prisma.$queryRaw`
-  SELECT track_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
+  SELECT track_id, genre_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
   FROM liked_tracks, track, artist 
   WHERE track.artist_id = artist.user_id AND liked_tracks.user_id = ${user_id} AND track.archive != 1;`
   return (tracks as any) || [];

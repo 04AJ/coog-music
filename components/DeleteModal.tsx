@@ -22,11 +22,13 @@ import UpdateModal from './UpdateModal';
 
 
 interface DeleteModalProps {
-    isHomePage: Boolean
+    isHomePage: Boolean;
+    setUpdate: (i: number) => void;
+    update: number;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
-    isHomePage
+    isHomePage, update, setUpdate
 }) => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +81,6 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                 axios.patch('/api/createdTracks', {
                     track_id: deleteModal.id,
                     archive: 1
-
                 }
                 ).then(() => {
                     router.refresh();
@@ -88,11 +89,15 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                     reset();
                     deleteModal.onClose();
                     if (isHomePage) {
-                        window.location.href = "/";
+                        // window.location.href = "/";
+                        setUpdate(update + 1);
+
 
                     }
                     else {
-                        window.location.href = "/search";
+                        // window.location.href = "/search";
+                        setUpdate(update + 1);
+
 
                     }
 
@@ -113,11 +118,14 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                     reset();
                     deleteModal.onClose();
                     if (deleteModal.isAdmin) {
-                        window.location.href = "/userProfile";
+                        // window.location.href = "/userProfile";
+                        router.push("/userProfile");
 
                     }
                     else {
-                        window.location.href = "/profile";
+                        // window.location.href = "/profile";
+                        router.push("/profile");
+
 
                     }
 
@@ -127,6 +135,32 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
 
             }
             else if (deleteModal.type === 'playlist') {
+                // archive album
+                axios.patch('/api/playlistTracks', {
+                    playlist_id: deleteModal.id,
+                    archive: 1
+
+                }
+                ).then(() => {
+                    router.refresh();
+                    setIsLoading(false);
+                    toast.success('Deleted Playlist')
+                    reset();
+                    deleteModal.onClose();
+                    if (deleteModal.isAdmin) {
+                        // window.location.href = "/userProfile";
+                        router.push("/userProfile");
+
+
+                    }
+                    else {
+                        // window.location.href = "/profile";
+                        router.push("/profile");
+
+                    }
+
+
+                })
 
             }
             else if (deleteModal.type === 'track from album') {
@@ -141,7 +175,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                         reset();
                         deleteModal.onClose();
 
-                        window.location.href = "/tracks";
+                        // window.location.href = "/tracks";
+                        setUpdate(update + 1);
+
 
 
                     })
@@ -159,11 +195,37 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                         reset();
                         deleteModal.onClose();
 
-                        window.location.href = "/tracks";
+                        // window.location.href = "/tracks";
+                        setUpdate(update + 1);
+
 
 
                     })
                     .catch(Error => console.error(Error))
+
+            }
+            else if (deleteModal.type === 'user') {
+                // archive album
+                axios.patch('/api/user', {
+                    user_id: deleteModal.id,
+                    archive: 1
+
+                }
+                ).then(() => {
+                    router.refresh();
+                    setIsLoading(false);
+                    toast.success('Deleted User')
+                    reset();
+                    deleteModal.onClose();
+                    // window.location.href = "/explore";
+                    setUpdate(update + 1);
+
+
+
+
+
+
+                })
 
             }
         }

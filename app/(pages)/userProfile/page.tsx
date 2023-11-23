@@ -13,6 +13,7 @@ import { MdVerified } from "react-icons/md";
 import toast from "react-hot-toast";
 import UpdateProfileButton from "@/components/UpdateProfileButton";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
+import { setuid } from "process";
 
 interface response {
     streams: number
@@ -23,11 +24,15 @@ export default function UserProfilePage() {
     const player = usePlayer();
     const router = useRouter();
 
+    const [update, setUpdate] = useState(0);
     const [userDetails, setUserDetails] = useState<User[]>();
     const [isFollowing, setIsFollowing] = useState(false);
     const [streamCount, setStreamCount] = useState(0);
     const [followers, setFollowers] = useState<SuperUser[]>();
 
+    if (!user.userId) {
+        router.push("/login");
+    }
 
     //test if track has been liked already
     //get request
@@ -114,7 +119,7 @@ export default function UserProfilePage() {
         }
 
 
-    }, [user.userId, user.activeUser, user.activeUser.is_artist, user.activeUser.listener_id, user.listenerId, user.userRole])
+    }, [user.userId, user.activeUser, user.activeUser.is_artist, user.activeUser.listener_id, user.listenerId, user.userRole, update])
 
 
 
@@ -125,7 +130,7 @@ export default function UserProfilePage() {
             if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
                 axios.post(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
                     .then(() => {
-
+                        setUpdate(update + 1);
                         toast.success("Following!");
 
                         setIsFollowing(true);
@@ -136,7 +141,7 @@ export default function UserProfilePage() {
             else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
                 axios.post(`/api/follow?listener_id=${user.listenerId}&artist_id=${user.activeUser.artist_id}`)
                     .then(() => {
-
+                        setUpdate(update + 1)
                         toast.success("Following!");
 
                         setIsFollowing(true);
@@ -151,7 +156,7 @@ export default function UserProfilePage() {
             if (user.userRole === 'listener' && user.activeUser.is_artist === 0) {
                 axios.delete(`/api/followRecursive?listener_id1=${user.activeUser.listener_id}&listener_id2=${user.listenerId}`)
                     .then(() => {
-
+                        setUpdate(update + 1);
                         toast.success("Unfollowed");
 
                         setIsFollowing(false);
@@ -162,7 +167,7 @@ export default function UserProfilePage() {
             else if (user.userRole === 'listener' && user.activeUser.is_artist === 1) {
                 axios.delete(`/api/follow?listener_id=${user.listenerId}&artist_id=${user.activeUser.artist_id}`)
                     .then(() => {
-
+                        setUpdate(update + 1);
                         toast.success("Unfollowed");
 
                         setIsFollowing(false);
@@ -182,11 +187,10 @@ export default function UserProfilePage() {
         bg-gradient-to-b 
         from-purple-800 to-30%
         p-6
-          `,
-                player.activeId && 'h-[calc(100%-80px)]'
+          `
             )}
         >
-            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={false} /> : null}
+            {userDetails ? <UpdateProfileModal user_info={userDetails[0]} isProfile={false} setUserDetails={setUserDetails} update={update} setUpdate={setUpdate} /> : null}
 
             <div className="w-full h-full mb-4 flex-col items-center">
 
@@ -246,10 +250,11 @@ export default function UserProfilePage() {
 
                 {(user.userRole === 'admin') ? <UpdateProfileButton /> : null}
                 <p className="text-3xl font-bold">User Info</p>
-                {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={false} /> : null}
+                {userDetails ? <UserDetails userDetails={userDetails[0]} profilePage={false} update={update} setUpdate={setUpdate} /> : null}
 
 
             </div >
+            <div className='h-[80px]'></div>
 
         </div >
     )

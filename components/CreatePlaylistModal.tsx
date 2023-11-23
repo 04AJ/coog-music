@@ -14,12 +14,13 @@ import useCreatePlaylistModal from '@/hooks/useCreatePlaylistModal';
 import { useUser } from '@/hooks/useUser';
 
 interface playlistRequest {
-    playlistName: string,
-    listenerId: number
-
+    setUpdate: (i: number) => void;
+    update: number;
 }
 
-const CreatePlaylistModal = () => {
+const CreatePlaylistModal: React.FC<playlistRequest> = ({
+    setUpdate, update
+}) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const user = useUser();
@@ -43,7 +44,7 @@ const CreatePlaylistModal = () => {
             //reset form
             reset();
             playlistModal.onClose();
-            window.location.href = "/";
+            // window.location.href = "/";
 
         }
     }
@@ -75,7 +76,7 @@ const CreatePlaylistModal = () => {
                 toast.success('Playlist Created!')
                 reset();
                 playlistModal.onClose();
-
+                setUpdate(update + 1);
 
             })
 

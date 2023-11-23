@@ -71,8 +71,8 @@ const Library: React.FC = () => {
                 {(user.userRole === 'listener' || user.userRole === 'artist') ?
                     <div className="text-neutral-200">
                         {(followers) ?
-                            <div>
-                                {followers.map((follower) => <ul key={follower.user_id} className="cursor-pointer" onClick={() => { user.setActiveUser(follower); router.push('/userProfile') }}>{follower.user_name}</ul>)}
+                            <div >
+                                {followers.map((follower) => <ul key={follower.user_id} className="cursor-pointer hover:text-red-500" onClick={() => { user.setActiveUser(follower); router.push('/userProfile') }}>{follower.user_name}</ul>)}
                             </div> : null}
                     </div>
                     : null

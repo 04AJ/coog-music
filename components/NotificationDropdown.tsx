@@ -11,13 +11,21 @@ import { useRouter } from "next/navigation";
 
 
 
-const NotificationDropdown = () => {
+interface props {
+    setUpdate: (i: number) => void;
+    update: number;
+}
+
+const NotificationDropdown: React.FC<props> = ({
+    setUpdate, update
+}) => {
     const user = useUser();
     const [notifications, setNotifications] = useState<Notification[]>();
     const router = useRouter();
 
     useEffect(() => {
-        axios.get<Notification[]>(`/api/notifications?listener_id=${user.listenerId}`)
+
+        axios.get<Notification[]>(`/api/notifications?isAdmin=${(user.userRole === 'admin') ? 1 : 0}&isArtist=${(user.userRole === 'artist') ? 1 : 0}&listener_id=${user.listenerId}`)
             .then(response => {
                 if (response.data) {
                     setNotifications(response.data);
@@ -26,18 +34,7 @@ const NotificationDropdown = () => {
             .catch(error => {
                 alert("error fetching data");
             })
-    }, [])
-    const query = async () => {
-        await axios.get<Notification[]>(`/api/notifications?listener_id=${user.listenerId}`)
-            .then(response => {
-                if (response.data) {
-                    setNotifications(response.data);
-                }
-            })
-            .catch(error => {
-                alert("error fetching data");
-            })
-    }
+    }, [update])
 
 
 
@@ -52,7 +49,8 @@ const NotificationDropdown = () => {
 
                     router.refresh();
                     toast.success('Deleted notification')
-                    window.location.href = "/";
+                    // window.location.href = "/";
+                    setUpdate(update + 1);
 
 
                 })
@@ -77,8 +75,12 @@ const NotificationDropdown = () => {
                         <p className="text-red-900">Notifications:</p>
                         {(notifications) ?
                             notifications.map((notification) =>
-                                <Dropdown.MenuItem key={notification.NotificationID} onSelect={() => handleSubmit(notification.NotificationID)}>
-                                    {notification.Message}
+                                <Dropdown.MenuItem key={notification.NotificationID} onSelect={() => handleSubmit(notification.NotificationID)}
+                                >
+                                    <div className={(notification.Message.substring(0, 5) === "Track") ? "text-black" : "text-black bg-red-200/100"}>
+                                        {notification.Message}
+
+                                    </div>
                                 </Dropdown.MenuItem>
                             ) : null}
 
@@ -91,4 +93,4 @@ const NotificationDropdown = () => {
     );
 }
 
-export default NotificationDropdown;
+export default NotificationDropdown

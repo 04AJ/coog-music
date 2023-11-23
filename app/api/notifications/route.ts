@@ -6,13 +6,33 @@ import { Notification } from "@/types";
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
-    const listener_id = searchParams.get('listener_id');
-    const notifications = await prisma.$queryRaw<Notification[]>`
-    SELECT DISTINCT n.*
-    FROM notifications n
-    LEFT JOIN listener_follows_artists f ON n.artist_id = f.artist_id
-    WHERE n.sendAll = 1 OR (n.sendAll = 0 AND f.listener_id = ${listener_id});
-    `
+    const listener_id = Number(searchParams.get('listener_id'));
+    const isAdmin = Number(searchParams.get('isAdmin'));
+    const isArtist = Number(searchParams.get('isArtist'));
+    let notifications;
+    if (isAdmin) {
+        notifications = await prisma.$queryRaw<Notification[]>`
+        SELECT DISTINCT n.*
+        FROM notifications n
+        LEFT JOIN listener_follows_artists f ON n.artist_id = f.artist_id;
+        `
+    }
+    else if (isArtist) {
+        notifications = await prisma.$queryRaw<Notification[]>`
+        SELECT DISTINCT n.*
+        FROM notifications n
+        LEFT JOIN listener_follows_artists f ON n.artist_id = f.artist_id
+        WHERE n.sendAll=1;
+        `
+    }
+    else {
+        notifications = await prisma.$queryRaw<Notification[]>`
+        SELECT DISTINCT n.*
+        FROM notifications n
+        LEFT JOIN listener_follows_artists f ON n.artist_id = f.artist_id
+        WHERE n.sendAll = 1 OR (n.sendAll = 0 AND f.listener_id = ${listener_id});
+        `
+    }
 
 
     //returns all notifications for all users

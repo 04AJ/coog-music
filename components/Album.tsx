@@ -12,9 +12,14 @@ import LikeButton from "./LikeButton";
 import MediaItem from "./MediaItem";
 import RemoveButton from "./RemoveButton";
 
+interface albumRequest {
+    setUpdate: (i: number) => void;
+    update: number;
+}
 
-
-const Album = () => {
+const Album: React.FC<albumRequest> = ({
+    setUpdate, update
+}) => {
 
 
     const [albums, setAlbums] = useState<Album[]>();
@@ -42,7 +47,7 @@ const Album = () => {
             })
 
 
-    }, [user.artistId]);
+    }, [user.artistId, update]);
 
     if (user.userRole !== 'artist') {
         return null;
@@ -50,8 +55,16 @@ const Album = () => {
 
     if (albums?.length === 0) {
         return (
-            <div className="mt-4 text-neutral-400">No albums available.</div>
+            <div>
+                <h1 className="text-2xl mb-2">
+                    Your Albums
+                </h1>
+                <div className="mt-4 text-neutral-400">No albums available.</div>
+            </div>
+
         )
+
+
     };
 
 

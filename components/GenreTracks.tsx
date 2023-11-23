@@ -55,17 +55,38 @@ const genres = [
     }
 ];
 interface GenreTracksProps {
-    complete_tracks: Track[]
+    complete_tracks: Track[],
+    setUpdate: (i: number) => void;
+    update: number;
+
 }
 const GenreTracks: React.FC<GenreTracksProps> = ({
-    complete_tracks
+    complete_tracks,
+    setUpdate,
+    update
 }) => {
 
     const player = usePlayer();
+    const [tracks, setTracks] = useState<Track[]>(complete_tracks);
     const [genreTracks, setgenreTracks] = useState<Track[]>();
     const [genreName, setGenreName] = useState("Complete List of tracks");
     const [all, setAll] = useState(true);
     //CAREFUL: setting state inside useEffect = infinite loop. Need to use dependency array[]
+
+    useEffect(() => {
+        axios.get<Track[]>(`/api/tracks`)
+            .then(response => {
+
+                if (response.data) {
+                    setTracks(response.data);
+                }
+
+            })
+            .catch(error => {
+                alert("error fetching data");
+            })
+    }
+        , [update]);
 
     const handleClick = (genreId: number) => {
         axios.get<Track[]>(`/api/genreTracks?genre_id=${genreId}`)
@@ -81,7 +102,7 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
             })
     }
     return (
-        <div className={(player.activeId) ? 'h-[calc(100%-80px)] mt-5' : 'h-full mt-5'}
+        <div className="h-full mt-5"
         >
 
             <h1 className="text-2xl mb-2">{genreName}</h1>
@@ -89,10 +110,10 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
                 {genres.map((genre) => (
                     <div key={genre.label} className="p-2 hover:bg-red-500/90" onClick={() => { setAll(false); setGenreName("All " + genre.label + " tracks"); handleClick(genre.value) }}>{genre.label}</div>
                 ))}
-                <div className="p-2 hover:bg-red-500/90 " onClick={() => { setAll(true); setGenreName("Complete List of tracks") }}>all</div>
+                <div className="p-2 hover:bg-red-500/90 " onClick={() => { setAll(true); setGenreName("Complete List of tracks"); setUpdate(update + 1) }}>all</div>
             </div>
 
-            {(genreTracks && !all) ? <Carousel tracks={genreTracks} albums={[]} /> : <Carousel tracks={complete_tracks} albums={[]} />}
+            {(genreTracks && !all) ? <Carousel tracks={genreTracks} albums={[]} /> : <Carousel tracks={tracks} albums={[]} />}
         </div >
     )
 }

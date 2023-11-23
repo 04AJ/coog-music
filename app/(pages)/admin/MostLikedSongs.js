@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import MostLikedSongsTable from './MostLikedSongsTable';
+import MostLikedSongsTable from './tables/MostLikedSongsTable';
 
 
 class MostLikedSongs extends Component{
