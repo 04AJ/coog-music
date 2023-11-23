@@ -30,6 +30,9 @@ export default function UserProfilePage() {
     const [streamCount, setStreamCount] = useState(0);
     const [followers, setFollowers] = useState<SuperUser[]>();
 
+    if (!user.userId) {
+        router.push("/login");
+    }
 
     //test if track has been liked already
     //get request
