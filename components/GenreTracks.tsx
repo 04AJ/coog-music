@@ -110,7 +110,7 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
                 {genres.map((genre) => (
                     <div key={genre.label} className="p-2 hover:bg-red-500/90" onClick={() => { setAll(false); setGenreName("All " + genre.label + " tracks"); handleClick(genre.value) }}>{genre.label}</div>
                 ))}
-                <div className="p-2 hover:bg-red-500/90 " onClick={() => { setAll(true); setGenreName("Complete List of tracks") }}>all</div>
+                <div className="p-2 hover:bg-red-500/90 " onClick={() => { setAll(true); setGenreName("Complete List of tracks"); setUpdate(update + 1) }}>all</div>
             </div>
 
             {(genreTracks && !all) ? <Carousel tracks={genreTracks} albums={[]} /> : <Carousel tracks={tracks} albums={[]} />}
