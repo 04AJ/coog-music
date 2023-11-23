@@ -212,14 +212,14 @@ export default function LoginPage() {
                 name="email"
                 value={formData.email}
                 placeholder="your email"
-                onChange={handleChange} />
+                onChange={handleChange} required/>
 
               <label className="form-label">Password</label>
               <input type="password"
                 name="password"
                 value={formData.password}
                 placeholder="password"
-                onChange={handleChange} />
+                onChange={handleChange} required/>
 
               <input className="login-button" type="submit" value="Log In" />
             </form>
@@ -253,6 +253,7 @@ export default function LoginPage() {
                     id="username"
                     placeholder="your username"
                     onChange={handleChange}
+                    required
                   />
                 </label>
               )}
@@ -264,6 +265,7 @@ export default function LoginPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                required
               />
 
               <label className="form-label">Password</label>
@@ -273,21 +275,23 @@ export default function LoginPage() {
                 placeholder="password"
                 value={formData.password}
                 onChange={handleChange}
+                required
               />
               <label className="form-label">Birth Date</label>
               <input
                 type="date"
                 name="birthdate"
-                defaultValue={formData.birthdate}
                 onChange={handleChange}
+                required
               />
 
               <label className="form-label">Race</label>
               <select
                 name="race"
-                defaultValue={formData.race}
                 onChange={handleChange}
+                required
               >
+                <option value="" disabled>Please Select</option>
                 <option value="1">White</option>
                 <option value="2">Black</option>
                 <option value="3">Asian</option>
@@ -297,9 +301,10 @@ export default function LoginPage() {
               <label className="form-label">Ethicity</label>
               <select
                 name="ethnicity"
-                defaultValue={formData.ethnicity}
                 onChange={handleChange}
+                required
               >
+                <option value="" disabled>Please Select</option>
                 <option value="1">Asian</option>
                 <option value="2">Hispanic</option>
                 <option value="3">African American</option>
