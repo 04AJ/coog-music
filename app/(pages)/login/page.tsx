@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import usePlayer from "@/hooks/usePlayer";
 import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
@@ -27,6 +28,7 @@ interface FormData {
 
 export default function LoginPage() {
   const user = useUser();
+  const player = usePlayer();
   const router = useRouter();
   const [switchToLogin, setSwitchToLogin] = useState(true);
   const [switchToSignUp, setSwitchToSignUp] = useState(false);
@@ -42,6 +44,11 @@ export default function LoginPage() {
     ethnicity: 0,
     gender: 0
   });
+
+  if(!user.userId && player.activeId){
+    player.setId(undefined);
+  }
+   
 
   const RadioInput = ({
     label,
@@ -180,6 +187,7 @@ export default function LoginPage() {
   }
 
   const handleLogout = () => {
+    player.setId(undefined);
     user.setUserId(undefined);
     user.setUserRole("na");
   }
