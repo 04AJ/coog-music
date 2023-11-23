@@ -8,8 +8,16 @@ import UserCreationActivity from './UserCreationActivity';
 import PopularTracks from './PopularTracks';
 import ListenerHabits from './ListenerHabits'
 import { useState } from "react";
+import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 export default function AdminPage() {
+
+    const user = useUser();
+    const router = useRouter();
+    if (!user.userId) {
+        router.push("/login");
+    }
 
     const [showingArtistSearch, setShowingArtistSearch] = useState(false);
 

@@ -24,7 +24,9 @@ export default function TracksPage() {
     const player = usePlayer();
     const router = useRouter();
 
-
+    if (!user.userId) {
+        router.push("/login");
+    }
     const [update, setUpdate] = useState(0);
 
     //test if track has been liked already
