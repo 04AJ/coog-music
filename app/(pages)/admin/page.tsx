@@ -7,21 +7,29 @@ import MostLikedSongs from './MostLikedSongs';
 import UserCreationActivity from './UserCreationActivity';
 import PopularTracks from './PopularTracks';
 import ListenerHabits from './ListenerHabits'
-import {useState} from "react";
+import { useState } from "react";
+import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 export default function AdminPage() {
-    
+
+    const user = useUser();
+    const router = useRouter();
+    if (!user.userId) {
+        router.push("/login");
+    }
+
     const [showingArtistSearch, setShowingArtistSearch] = useState(false);
 
     const [showingDemographics, setShowingDemographics] = useState(false);
     const [showingPopularTracks, setShowingPopularTracks] = useState(false);
     const [showingListenerHabits, setShowingListenerHabits] = useState(false);
     const [showingUserCreation, setShowingUserCreation] = useState(false);
-//an embarrassing and shit solution, but im tired
+    //an embarrassing and shit solution, but im tired
     const showArtistSearch = () => {
-        setShowingArtistSearch(true);   
+        setShowingArtistSearch(true);
         setShowingDemographics(false);
-        
+
     }
     const showDemographics = () => {
         setShowingDemographics(true);
@@ -35,7 +43,7 @@ export default function AdminPage() {
         setShowingPopularTracks(true);
         setShowingListenerHabits(false);
         setShowingUserCreation(false);
-        
+
     }
     const showListenerHabits = () => {
         setShowingDemographics(false);
@@ -49,14 +57,14 @@ export default function AdminPage() {
         setShowingListenerHabits(false);
         setShowingUserCreation(true);
     }
-    
+
     return (
-        <div  className=" h-screen bg-neutral-900/80">
+        <div className=" h-screen bg-neutral-900/80">
             <Header title="Admin Center" description=""></Header>
             {/* <div className="my-11">
                 <ArtistSearchForm/>
             </div> */}
-            
+
             <h1 className="flex mt-11 justify-center text-white text-3xl font-semibold">Data Reports</h1>
 
             <div className="flex my-6 justify-center">
@@ -67,11 +75,13 @@ export default function AdminPage() {
             </div>
 
             <div>
-                {showingDemographics && <UserDemographics/>}
-                {showingPopularTracks && <PopularTracks/>}
-                {showingListenerHabits && <ListenerHabits/>}
-                {showingUserCreation && <UserCreationActivity/>}
+                {showingDemographics && <UserDemographics />}
+                {showingPopularTracks && <PopularTracks />}
+                {showingListenerHabits && <ListenerHabits />}
+                {showingUserCreation && <UserCreationActivity />}
             </div>
+            <div className='h-[80px]'></div>
+
         </div>
     );
 }

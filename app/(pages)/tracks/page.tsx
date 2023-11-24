@@ -24,7 +24,9 @@ export default function TracksPage() {
     const player = usePlayer();
     const router = useRouter();
 
-
+    if (!user.userId) {
+        router.push("/login");
+    }
     const [update, setUpdate] = useState(0);
 
     //test if track has been liked already
@@ -44,8 +46,7 @@ export default function TracksPage() {
         bg-gradient-to-b 
         from-indigo-800 to-30%
         p-6
-          `,
-                player.activeId && 'h-[calc(100%-80px)]'
+          `
             )}
         >
             <UpdateModal isHomePage={false} update={update} setUpdate={setUpdate} />
@@ -123,6 +124,8 @@ export default function TracksPage() {
                 }
 
             </div >
+            <div className='h-[80px]'></div>
+
 
         </div >
     )

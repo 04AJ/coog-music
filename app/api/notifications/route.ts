@@ -6,9 +6,9 @@ import { Notification } from "@/types";
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
-    const listener_id = searchParams.get('listener_id');
-    const isAdmin = searchParams.get('isAdmin');
-    const isArtist = searchParams.get('isArtist');
+    const listener_id = Number(searchParams.get('listener_id'));
+    const isAdmin = Number(searchParams.get('isAdmin'));
+    const isArtist = Number(searchParams.get('isArtist'));
     let notifications;
     if (isAdmin) {
         notifications = await prisma.$queryRaw<Notification[]>`

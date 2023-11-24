@@ -36,7 +36,18 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
     const updateModal = useUpdateModal();
 
 
-
+    const genreMap = new Map([
+        [1, "hiphop"],
+        [2, "pop"],
+        [3, "country"],
+        [4, "rock"],
+        [5, "indie"],
+        [6, "r&b"],
+        [7, "jazz"],
+        [8, "metal"],
+        [9, "classical"],
+        [10, "funk"],
+    ])
 
 
     //custom hook to change modal visibility  state
@@ -49,7 +60,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
         reset } = useForm<FieldValues>({
             defaultValues: {
                 // title: updateModal.name,
-                // genre: updateModal.genre,
+                genre: 11,
 
             }
         })
@@ -77,6 +88,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
             const title = values.title;
             let genre = values.genre;
 
+
             if (updateModal.type !== 'track') {
                 genre = 'temp';
             }
@@ -85,7 +97,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                 toast.error('Missing updated title');
                 return;
             }
-            if (!genre) {
+            if (!genre || genre == 11) {
                 toast.error('Missing updated genre');
                 return;
             }
@@ -124,12 +136,26 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         updateModal.onClose();
                         if (updateModal.isAdmin) {
                             // window.location.href = "/userProfile";
-                            router.push("/userProfile");
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/userProfile");
+
+                            }
 
                         }
                         else {
-                            router.push("/profile");
                             // window.location.href = "/profile";
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/profile");
+
+                            }
 
                         }
 
@@ -148,12 +174,26 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         updateModal.onClose();
                         if (updateModal.isAdmin) {
                             // window.location.href = "/userProfile";
-                            router.push("/userProfile");
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/userProfile");
+
+                            }
 
                         }
                         else {
-                            router.push("/profile");
                             // window.location.href = "/profile";
+                            if (isHomePage) {
+                                router.push("/");
+
+                            }
+                            else {
+                                router.push("/profile");
+
+                            }
 
                         }
 
@@ -187,6 +227,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
 
                 >
                     <div>
+                        {(updateModal.genre) ? <div className='mb-2'>Current Genre: {genreMap.get(updateModal.genre)}</div> : null}
                         <Input
                             className='mb-1'
                             id="title"
@@ -202,13 +243,13 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
 
                                     render={({ field }) => (
                                         <NativeSelect {...field}
-                                            defaultValue={updateModal.genre}
                                             sx={{ color: 'grey' }}
                                             inputProps={{
                                                 name: 'genre',
                                                 id: 'uncontrolled-native',
                                             }}
                                         >
+                                            <option value={11} style={{ color: 'black' }}>Select genre</option>
                                             <option value={1} style={{ color: 'black' }}>hiphop</option>
                                             <option value={2} style={{ color: 'black' }}>pop</option>
                                             <option value={3} style={{ color: 'black' }}>country</option>

@@ -80,7 +80,7 @@ const NavBar: React.FC<NavBarProps> = ({
 
     return (
         <div
-            className={(player.activeId) ? 'flex h-[calc(100%-80px)]' : 'flex h-full'}
+            className="flex h-full"
         >
             <div
                 className="

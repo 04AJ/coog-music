@@ -26,6 +26,9 @@ export default function ProfilePage() {
     const [userDetails, setUserDetails] = useState<User[]>();
     const router = useRouter();
 
+    if (!user.userId) {
+        router.push("/login");
+    }
 
     useEffect(() => {
         axios.get<User[]>(`/api/user?user_id=${user.userId}`)
@@ -63,8 +66,7 @@ export default function ProfilePage() {
             bg-gradient-to-b 
             from-red-800 to-30%
             p-6
-          `,
-                player.activeId && 'h-[calc(100%-80px)]'
+          `
             )}
         >
             <UpdateModal isHomePage={true} update={update} setUpdate={setUpdate} />
@@ -90,6 +92,7 @@ export default function ProfilePage() {
 
 
 
+            <div className='h-[80px]'></div>
 
 
         </div >
