@@ -25,7 +25,9 @@ const ListenerHabitsGenreTable = ({ data }) => {
     };
 
     
-const ListenerHabitsArtistTable = ({ data }) => {
+const ListenerHabitsArtistTable = ({ data, gender, eth }) => {
+  
+  const gends = {"0":"all", "1":"male", "2":"female"};
     
         return (
         <div>
