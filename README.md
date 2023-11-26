@@ -17,7 +17,7 @@ If you don't have these installed, you can download them from the following link
 - Import the provided database schema from the SQL dump file provided with the web application.
 
 # Configuring the Application
-- After opening the repository in your IDE you need to add the following files to store the environment variables in your local machine    
+- Open the repository on your IDE 
 - Create a new File named: .env , this file will contain the connection string of your database:
 - Create another file named .env.local, this file will contain an environment variable for the application to be able to upload tracks.
 
