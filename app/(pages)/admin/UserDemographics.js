@@ -64,7 +64,7 @@ class UserDemographics extends Component{
             .get(`/api/reportAge?artist_id=${passedID}`)
             .then((res) => {
                 console.log(res.data);
-                if(res.data[0].one === null){
+                if(res.data[0].one === null && this.state.genderData.length + this.state.raceData.length === 0){
                     this.setState({noData:true});
                 } else {
                     this.setState({noData:false});
