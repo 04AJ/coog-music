@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
         FROM (
             SELECT TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) AS age 
             FROM user, listener_follows_artists as lfa, listener as l, artist as a
-            WHERE lfa.listener_id = l.listener_id AND l.user_id = user.user_id AND lfa.artist_id = a.artist_id AND a.artist_email = ${query} and u.archive = 0
+            WHERE lfa.listener_id = l.listener_id AND l.user_id = user.user_id AND lfa.artist_id = a.artist_id AND a.artist_email = ${query} and user.archive = 0
             ) as derived;`;
     const result = JSON.parse(JSON.stringify(gender, (key, value) =>
         typeof value === 'bigint'
