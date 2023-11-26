@@ -7,17 +7,26 @@ import MostLikedSongs from './MostLikedSongs';
 import UserCreationActivity from './UserCreationActivity';
 import PopularTracks from './PopularTracks';
 import ListenerHabits from './ListenerHabits'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
+import usePlayer from "@/hooks/usePlayer";
 
 export default function AdminPage() {
 
     const user = useUser();
+    const player = usePlayer();
     const router = useRouter();
     if (!user.userId) {
         router.push("/login");
     }
+
+    // player.setId(undefined);
+    useEffect(() => {
+        //get streams
+        player.setId(undefined);
+
+    }, [player.activeId])
 
     const [showingArtistSearch, setShowingArtistSearch] = useState(false);
 

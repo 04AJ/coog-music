@@ -6,12 +6,14 @@ import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import useUploadTrackModal from '@/hooks/useUploadTrackModal'
+import { FaCheck } from "react-icons/fa";
 
 import Modal from './Modal';
 import Input from './Input';
 import Button from './Button';
 import useCreatePlaylistModal from '@/hooks/useCreatePlaylistModal';
 import { useUser } from '@/hooks/useUser';
+import { Icon } from '@mui/material';
 
 interface playlistRequest {
     setUpdate: (i: number) => void;
@@ -49,6 +51,7 @@ const CreatePlaylistModal: React.FC<playlistRequest> = ({
         }
     }
 
+
     //ASYNC onSubmit
     const onSubmit: SubmitHandler<FieldValues> = async (values) => {
         //upload to MySQL
@@ -73,7 +76,33 @@ const CreatePlaylistModal: React.FC<playlistRequest> = ({
             ).then(() => {
                 router.refresh();
                 setIsLoading(false);
-                toast.success('Playlist Created!')
+                toast('Playlist Created! \nGo to Search page and click the + button next to tracks you want added to your playlist',
+                    {
+                        duration: 10000,
+                        position: 'top-center',
+
+                        // Styling
+                        style: {
+                            background: 'white'
+                        },
+                        className: '',
+
+                        // Custom Icon
+                        icon: <FaCheck color='green' size='3rem' />,
+
+                        // Change colors of success/error/loading icon
+                        iconTheme: {
+                            primary: 'green',
+                            secondary: 'green',
+                        },
+
+                        // Aria
+                        ariaProps: {
+                            role: 'status',
+                            'aria-live': 'polite',
+                        },
+                    }
+                );
                 reset();
                 playlistModal.onClose();
                 setUpdate(update + 1);

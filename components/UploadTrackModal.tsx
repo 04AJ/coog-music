@@ -198,7 +198,8 @@ const UploadTrackModal: React.FC<props> = ({
                             if (res) {
                                 setImage(res);
                                 const json = JSON.stringify(res);
-                                console.log(json);
+                                toast.success('Image Successfully uploaded!')
+
 
                             }
                         }}
@@ -218,7 +219,9 @@ const UploadTrackModal: React.FC<props> = ({
                             if (res) {
                                 setAudio(res);
                                 const json = JSON.stringify(res);
-                                console.log(json);
+                                toast.success('Audio Successfully uploaded!')
+
+
 
                             }
                         }}

@@ -78,16 +78,16 @@ const UserSearchContent: React.FC<UserSearchContentProps> = ({
             {listeners.length > 0 ? <h1 className="text-2xl font-bold">Listeners</h1> : null}
             {listeners.map((listener: SuperUser) => (
 
-                <div key={listener.listener_id}>
+                <div key={listener.listener_id} >
 
 
 
                     <div
                         key={listener.listener_id}
-                        className="flex items-center gap-x-4 w-full cursor-poniter hover:bg-neutral-800/50 
+                        className="flex items-center gap-x-4 w-full cursor-pointer hover:bg-neutral-800/50 
                             "
                     >
-                        <div className="flex-1 cursor-poniter" onClick={() => { user.setActiveUser(listener); router.push('/userProfile') }}>
+                        <div className="flex-1 cursor-pointer" onClick={() => { user.setActiveUser(listener); router.push('/userProfile') }}>
                             {listener.user_name}
 
                         </div>

@@ -54,7 +54,8 @@ const AlbumTracks: React.FC<AlbumTracksProps> = ({
     if (albumTracks?.length === 0) {
         return (
             <p className="mt-4 text-neutral-400">No tracks available. <br />
-                To add tracks to your album, go the Home page and click the + button next to tracks you want to add to this album.</p >
+                First, upload a track.<br />
+                To add tracks to your album, go the Home page and click the + button next to your created tracks that you want to add to this album.</p >
         )
     };
 
