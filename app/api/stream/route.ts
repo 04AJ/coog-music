@@ -18,7 +18,7 @@ export async function PATCH(req: NextRequest) {
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const artist_id = searchParams.get('artist_id');
-    const track: [{}] = await prisma.$queryRaw`SELECT SUM(streams) as streams FROM track WHERE artist_id = ${artist_id}`
+    const track: [{}] = await prisma.$queryRaw`SELECT SUM(streams) as streams FROM track WHERE artist_id = ${artist_id} AND archive = 0`
 
     return new Response(JSON.stringify(track[0]));
 
