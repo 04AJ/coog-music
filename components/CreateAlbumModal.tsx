@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 import useUploadTrackModal from '@/hooks/useUploadTrackModal'
+import { FaCheck } from "react-icons/fa";
+
 
 import Modal from './Modal';
 import Input from './Input';
@@ -86,7 +88,33 @@ const CreateAlbumModal: React.FC<albumRequest> = ({
             ).then(() => {
                 router.refresh();
                 setIsLoading(false);
-                toast.success('Album Successfully created!')
+                toast('Album Created! \nUpload a track and click the + button next to the track you want to add to your album in the Home page.',
+                    {
+                        duration: 10000,
+                        position: 'top-center',
+
+                        // Styling
+                        style: {
+                            background: 'white'
+                        },
+                        className: '',
+
+                        // Custom Icon
+                        icon: <FaCheck color='green' size='3rem' />,
+
+                        // Change colors of success/error/loading icon
+                        iconTheme: {
+                            primary: 'green',
+                            secondary: 'green',
+                        },
+
+                        // Aria
+                        ariaProps: {
+                            role: 'status',
+                            'aria-live': 'polite',
+                        },
+                    }
+                );
                 reset();
                 albumModal.onClose();
                 // window.location.href = "/";
@@ -147,7 +175,8 @@ const CreateAlbumModal: React.FC<albumRequest> = ({
                             if (res) {
                                 setImage(res);
                                 const json = JSON.stringify(res);
-                                console.log(json);
+                                toast.success('Image Successfully uploaded!')
+
 
                             }
                         }}
