@@ -12,7 +12,7 @@ If you don't have these installed, you can download them from the following link
 - MySql Workbench:  https://dev.mysql.com/downloads/workbench/
 - NodeJS: https://nodejs.org/en/download/
 
-# Setting up the Database Locally (Recommended) 
+# Setting up the Database Locally
 - Open MySQL Workbench and create a new database schema for the web application.
 - Import the provided database schema from the SQL dump file provided with the web application.
 
