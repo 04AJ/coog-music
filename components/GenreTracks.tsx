@@ -78,6 +78,7 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
             .then(response => {
 
                 if (response.data) {
+                    console.log(response.data);
                     setTracks(response.data);
                 }
 
