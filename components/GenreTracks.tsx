@@ -67,40 +67,59 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
 }) => {
 
     const player = usePlayer();
-    const [tracks, setTracks] = useState<Track[]>();
+    // const [tracks, setTracks] = useState<Track[]>();
     const [genreTracks, setgenreTracks] = useState<Track[]>();
     const [genreName, setGenreName] = useState("Complete List of tracks");
     const [all, setAll] = useState(true);
     //CAREFUL: setting state inside useEffect = infinite loop. Need to use dependency array[]
 
-    useEffect(() => {
-        axios.get<Track[]>(`/api/tracks`)
-            .then(response => {
+    // useEffect(() => {
+    //     axios.get<Track[]>(`/api/genreTracks?genre_id=0&all=1`)
+    //         .then(response => {
 
-                if (response.data) {
-                    console.log(response.data);
-                    setTracks(response.data);
-                }
+    //             if (response.data) {
+    //                 console.log(response.data);
+    //                 setgenreTracks(response.data);
+    //             }
 
-            })
-            .catch(error => {
-                alert("error fetching data");
-            })
-    }
-        , [update, all]);
+    //         })
+    //         .catch(error => {
+    //             alert("error fetching data");
+    //         })
+    // }
+    //     , [update, all]);
 
-    const handleClick = (genreId: number) => {
-        axios.get<Track[]>(`/api/genreTracks?genre_id=${genreId}`)
-            .then(response => {
+    const handleClick = (genreId: number, showAll: boolean) => {
 
-                if (response.data) {
-                    setgenreTracks(response.data);
-                }
+        if (showAll) {
+            axios.get<Track[]>(`/api/genreTracks?genre_id=0&all=1`)
+                .then(response => {
 
-            })
-            .catch(error => {
-                alert("error fetching data");
-            })
+                    if (response.data) {
+                        console.log(response.data);
+                        setgenreTracks(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+        }
+        else {
+            axios.get<Track[]>(`/api/genreTracks?genre_id=${genreId}&all=0`)
+                .then(response => {
+
+                    if (response.data) {
+                        setgenreTracks(response.data);
+                    }
+
+                })
+                .catch(error => {
+                    alert("error fetching data");
+                })
+        }
+
+
     }
     return (
         <div className="h-full mt-5"
@@ -109,12 +128,12 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
             <h1 className="text-2xl mb-2">{genreName}</h1>
             <div className="flex flex-row justify-around cursor-pointer">
                 {genres.map((genre) => (
-                    <div key={genre.label} className="p-2 hover:bg-red-500/90" onClick={() => { setAll(false); setGenreName("All " + genre.label + " tracks"); handleClick(genre.value) }}>{genre.label}</div>
+                    <div key={genre.label} className="p-2 hover:bg-red-500/90" onClick={() => { setAll(false); setGenreName("All " + genre.label + " tracks"); handleClick(genre.value, false) }}>{genre.label}</div>
                 ))}
-                <div className="p-2 hover:bg-red-500/90 " onClick={() => { setAll(true); setGenreName("Complete List of tracks"); setUpdate(update + 1) }}>all</div>
+                <div className="p-2 hover:bg-red-500/90 " onClick={() => { setAll(true); setGenreName("Complete List of tracks"); handleClick(0, true); setUpdate(update + 1) }}>all</div>
             </div>
 
-            {(genreTracks && !all) ? <Carousel tracks={genreTracks} albums={[]} /> : (tracks) ? <Carousel tracks={tracks} albums={[]} /> : null}
+            {(genreTracks && !all) ? <Carousel tracks={genreTracks} albums={[]} /> : (genreTracks) ? <Carousel tracks={genreTracks} albums={[]} /> : null}
         </div >
     )
 }
