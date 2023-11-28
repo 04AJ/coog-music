@@ -10,6 +10,8 @@ export async function GET(req: NextRequest) {
     SELECT track_id, genre_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
     FROM track, artist 
     WHERE track.artist_id = artist.artist_id AND (track.archive != 1);`
+
+    // console.log("track api");
     return new Response(JSON.stringify(tracks));
 
 

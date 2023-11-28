@@ -26,22 +26,22 @@ const MainPage = () => {
     const [update, setUpdate] = useState(0);
     const [tracks, setTracks] = useState<Track[]>();
 
-    useEffect(() => {
+    // useEffect(() => {
 
 
-        axios
-            .get<Track[]>(`/api/tracks`)
-            .then((response) => {
-                if (response.data) {
-                    setTracks(response.data);
-                }
-            })
-            .catch((error) => {
-                alert("error fetching data");
-            });
+    //     axios
+    //         .get<Track[]>(`/api/tracks`)
+    //         .then((response) => {
+    //             if (response.data) {
+    //                 setTracks(response.data);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             alert("error fetching data");
+    //         });
 
 
-    }, [update]);
+    // }, [update]);
 
     return (
         <div>
@@ -76,8 +76,8 @@ const MainPage = () => {
             <CreatedTracks update={update} setUpdate={setUpdate} />
 
             <LikedTracks update={update} setUpdate={setUpdate} />
-            {(tracks) ? <GenreTracks complete_tracks={tracks} update={update} setUpdate={setUpdate} />
-                : null}
+            <GenreTracks update={update} setUpdate={setUpdate} />
+
             <UpdateModal isHomePage={true} update={update} setUpdate={setUpdate} />
             <DeleteModal isHomePage={true} update={update} setUpdate={setUpdate} />
 

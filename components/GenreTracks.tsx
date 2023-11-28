@@ -55,19 +55,19 @@ const genres = [
     }
 ];
 interface GenreTracksProps {
-    complete_tracks: Track[],
+
     setUpdate: (i: number) => void;
     update: number;
 
 }
 const GenreTracks: React.FC<GenreTracksProps> = ({
-    complete_tracks,
+
     setUpdate,
     update
 }) => {
 
     const player = usePlayer();
-    const [tracks, setTracks] = useState<Track[]>(complete_tracks);
+    const [tracks, setTracks] = useState<Track[]>();
     const [genreTracks, setgenreTracks] = useState<Track[]>();
     const [genreName, setGenreName] = useState("Complete List of tracks");
     const [all, setAll] = useState(true);
@@ -113,7 +113,7 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
                 <div className="p-2 hover:bg-red-500/90 " onClick={() => { setAll(true); setGenreName("Complete List of tracks"); setUpdate(update + 1) }}>all</div>
             </div>
 
-            {(genreTracks && !all) ? <Carousel tracks={genreTracks} albums={[]} /> : <Carousel tracks={tracks} albums={[]} />}
+            {(genreTracks && !all) ? <Carousel tracks={genreTracks} albums={[]} /> : (tracks) ? <Carousel tracks={tracks} albums={[]} /> : null}
         </div >
     )
 }
