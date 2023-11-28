@@ -112,7 +112,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                         reset();
                         updateModal.onClose();
                         if (isHomePage) {
-                            // window.location.href = "/";
+                            window.location.href = "/";
                             setUpdate(update + 1);
 
                         }
