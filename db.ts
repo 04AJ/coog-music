@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from '@/client'
 import { SuperUser, Track } from "@/types";
 import { cookies } from "next/headers";
 
-const prisma = new PrismaClient();
 
 
 
