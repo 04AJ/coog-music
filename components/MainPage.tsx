@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Album from './Album'
 import CreateAlbumButton from './CreateAlbumButton'
 import CreatePlaylistButton from './CreatePlaylistButton'
@@ -17,16 +17,31 @@ import CreateAlbumModal from './CreateAlbumModal'
 import CreatePlaylistModal from './CreatePlaylistModal'
 import UploadTrackModal from './UploadTrackModal'
 import usePlayer from '@/hooks/usePlayer'
+import axios from 'axios'
 
-interface MainPageProps {
-    tracks: Track[]
-}
 
-const MainPage: React.FC<MainPageProps> = ({
-    tracks
-}) => {
+
+const MainPage = () => {
     const player = usePlayer();
     const [update, setUpdate] = useState(0);
+    const [tracks, setTracks] = useState<Track[]>();
+
+    useEffect(() => {
+
+
+        axios
+            .get<Track[]>(`/api/tracks`)
+            .then((response) => {
+                if (response.data) {
+                    setTracks(response.data);
+                }
+            })
+            .catch((error) => {
+                alert("error fetching data");
+            });
+
+
+    }, [update]);
 
     return (
         <div>
@@ -61,7 +76,8 @@ const MainPage: React.FC<MainPageProps> = ({
             <CreatedTracks update={update} setUpdate={setUpdate} />
 
             <LikedTracks update={update} setUpdate={setUpdate} />
-            <GenreTracks complete_tracks={tracks} update={update} setUpdate={setUpdate} />
+            {(tracks) ? <GenreTracks complete_tracks={tracks} update={update} setUpdate={setUpdate} />
+                : null}
             <UpdateModal isHomePage={true} update={update} setUpdate={setUpdate} />
             <DeleteModal isHomePage={true} update={update} setUpdate={setUpdate} />
 
