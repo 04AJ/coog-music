@@ -1,11 +1,13 @@
 
-import prisma from '@/client'
+// import prisma from '@/client'
 import { Track } from '@/types';
+import { PrismaClient } from '@prisma/client';
 import { NextRequest } from "next/server";
 
 
 
 export async function GET(req: NextRequest) {
+    const prisma = new PrismaClient();
     const tracks = await prisma.$queryRaw<Track[]>`
     SELECT track_id, genre_id, track_name, track_path, track_img_path, artist.artist_id, artist_name 
     FROM track, artist 
