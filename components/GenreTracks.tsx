@@ -73,21 +73,21 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
     const [all, setAll] = useState(true);
     //CAREFUL: setting state inside useEffect = infinite loop. Need to use dependency array[]
 
-    // useEffect(() => {
-    //     axios.get<Track[]>(`/api/genreTracks?genre_id=0&all=1`)
-    //         .then(response => {
+    useEffect(() => {
+        axios.get<Track[]>(`/api/genreTracks?genre_id=0&all=1`)
+            .then(response => {
 
-    //             if (response.data) {
-    //                 console.log(response.data);
-    //                 setgenreTracks(response.data);
-    //             }
+                if (response.data) {
+                    console.log(response.data);
+                    setgenreTracks(response.data);
+                }
 
-    //         })
-    //         .catch(error => {
-    //             alert("error fetching data");
-    //         })
-    // }
-    //     , [update, all]);
+            })
+            .catch(error => {
+                alert("error fetching data");
+            })
+    }
+        , []);
 
     const handleClick = (genreId: number, showAll: boolean) => {
 
