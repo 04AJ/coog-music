@@ -87,7 +87,7 @@ const GenreTracks: React.FC<GenreTracksProps> = ({
                 alert("error fetching data");
             })
     }
-        , [update]);
+        , [update, all]);
 
     const handleClick = (genreId: number) => {
         axios.get<Track[]>(`/api/genreTracks?genre_id=${genreId}`)
